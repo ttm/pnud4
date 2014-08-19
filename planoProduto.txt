@@ -1,0 +1,84 @@
+Rascunho da proposta para quarto produto.
+
+Há 4 componentes principais:
+
+1) Endpoint SparQL, acessando os diretamente os dados triplificados pelo plugin desenvolvido pela Dani (e que usa o roteiro de triplificação que entreguei como parte do segundo produto). Ok, mas precisa de um host mais apropriado ou formalizar com a USP o acolhimento.
+
+2) (Algoritmos para) priorização de conteúdo e auto-regulação. Mais info abaixo.
+
+3) Interfaces para os algoritmos em 2). Por enquanto, somente IPython Notebook. "Meteor+d3" é pertinente.
+
+4) Acréscimos à interface do Participa.br. Links, iframes, plugins ou acréscimos ao código do Participa.br. Serão apontadas páginas e partes pertinentes para os acréscimos.
+========================
+Priorização de conteúdo:
+
+*) Entidades passíveis de categorização:
+Artigos
+Comentários
+Palavras
+Usuários
+Redes
+Comunidades
+Trilhas
+Etapas
+Portal
+Etiquetas
+
+Critérios:
+*) Atividade
+mais/menos comentários
+mais/menos ocorrências (de palavras)
+mais/menos acessos
+mais/menos amigos
+mais/menos artigos
+mais/menos comunidades
+mais/menos respostas
+mais/menos interações
+mais/menos etiquetas
+
+*) Datas:
+de início, de fim, de milestones.
+
+*) Associação a alguma outra entidade rankeada:
+comentários/comunidades/amigos dos mais/menos ativos
+
+*) Características de rede:
+Comunidades detectadas e mais conectados de cada comunidade.
+Triangulaçõeas/usuários e palavras relacionadas a um usuário de interesse.
+Medidas relacionadas a um usuário de interesse.
+(tudo traduzido para linguagem natural e intuitiva, de forma que haja aproveitamento, certo?)
+
+*) Características de PLN:
+Palavras que co-ocorrem com outras, palavras de contextos, etc.
+Palavras típicas do usuário.
+Classes morfossintáticas (adj, adv, etc) mais usadas na/pela entidade.
+Construções linguísticas mais usadas na/pela entidade.
+
+====================
+Autorregulação:
+
+Não se pode remover atividade (certo?),
+então a autorregulação é no sentido de incentivar
+atividade em alguns setores.
+
+Pode-se incentivar atividade em:
+Grupos/perfis/trilhas/etapas pouco movimentadas
+
+Pode-se incentivar que membros de grupos super movimentados
+atuem em grupos pouco movimentados.
+
+Pode-se incentivar a liderança em grupos sem hubs.
+
+Pode-se incentivar atividades de periféricos em grupos
+com alta atividade de hubs ou com dificuldades de criatividade ou outras.
+
+Pode-se incentivar a etiquetação de mensagens e outros conteúdos pelos usuários.
+
+Pode-se caracterizar quantitativamente as comunidades (ou trilhas)
+consideradas mais bem sucedidas e ter estes perfis como modelos.
+
+Pode-se propor furos/rasgos/conexões improváveis para membros do Participa.br,
+de forma que interajam e possam reportar se os entendimentos dos setores confluem ou constrastam.
+
+Pode-se incentivar uso de palavras/termos mais usados para facilitar a compreensão com um linguajar mais comum, ou incentivar uso de termos pouco ou nada usados para facilitar críticas e criatividade.
+
