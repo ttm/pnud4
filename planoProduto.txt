@@ -44,7 +44,7 @@ comentários/comunidades/amigos dos mais/menos ativos
 
 *) Características de rede:
 Comunidades detectadas e mais conectados de cada comunidade.
-Triangulaçõeas/usuários e palavras relacionadas a um usuário de interesse.
+Triangulações/usuários e palavras relacionadas a um usuário de interesse.
 Medidas relacionadas a um usuário de interesse.
 (tudo traduzido para linguagem natural e intuitiva, de forma que haja aproveitamento, certo?)
 
