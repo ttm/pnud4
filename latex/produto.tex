@@ -73,120 +73,57 @@ Este documento descreve rotinas de priorização de conteúdo e de autorregulaç
 
 \section{Introdução}
 \subsection{Contexto e importância da consultoria}
-Em confluência com o portal federal de participação social (Participa.br) e o Plano Nacinal de Participação Social (PNPS), esta consultoria propõe métodos de classificação e priorização de conteúdo e formas de autorregulação para o portal. O presente produto apresenta uma seleção de métodos para classificação de conteúdo. Dadas a pertinência para o contexto participativo e a simplicidade, são apresentadas a classificação via 1) conectividade dos autores e 2) características dos documentos.
-\subsection{Contexto e importância do Produto}
-\begin{itemize}
-    \item Este Produto, através da classificação de conteúdos, visa 1) explicitar propriedades do sistema considerado; 2) permitir observação de conteúdos produzidos por nichos ou características em comum; 3) facilitar a assimilação das informações produzidas pelos participantes.
-    \item Estão planejadas a incorporação destes métodos no funcionamento do Participa.br.
-    \item Os participantes, através da vivência em suas redes, tendem a apropriar-se delas e buscarem processamentos para categorizar os conteúdos e os resumir, como ocorreu com os dashboards de IRC, como acontece com os apps do Facebook e os artigos sobre o Twitter.
-    \item A especialização conectiva dos agentes sociais, e do texto produzido por indivíduos e grupos, é um fenômeno reconhecido. Há aproveitamento destas diferenciações. A entrega deste ferramental ao poder federal e à sociedade, via iniciativa conjunta (Participa.br), capacita a democracia participativa.
-\begin{itemize}
-        \item Permite análise dos dados dos processos, fortalecendo a transparência e desafiando falcatruas. Chega a legitimar o processo democrático online, através da entrega dos dados e dos métodos para analisá-los.
-        \item Permite a escolha, via critérios públicos e pré-estabelecidos, de articuladores de processos participativos. Esta seleção pode ser acompanhável online e ter como base os rastros digitais de dedicação, como respostas e horas despreendidas.
-        \item Permite a remuneração de horas de dedicação de participantes escolhidos.
-        \item Permite aproveitamento aberto e conjunto de previsões estatísticas e leis naturais. Por exemplo, para dinâmicas (trilhas) participativas para elaboração conjunta de documentos, mídia, deliberações, coleta de informação (e bens), difusão de informação (e bens).
-\end{itemize}
-\end{itemize}
+Em confluência com o portal federal de participação social (Participa.br) e o Plano Nacinal de Participação Social (PNPS), esta consultoria propõe métodos de classificação e priorização de conteúdo e formas de autorregulação para o portal. O presente produto apresenta ``formas de priorização de conteúdo e de autorregulação'' implementadas na forma de um sistema de recomendação de recursos para usuários.
 
+\subsection{Contexto e importância do Produto}
+\subsubsection{Objetivos}
+Este produto tem por objetivo principal a disponibilização de um sistema de recomendação de recursos do participa.br para usuários, tanto via critérios personalizados quanto considerando comunidades e linha editorial. Através deste sistema de recomendação, ficam facilitados, até mesmo prontamente disponíveis, diversos processos de autorregulação, de geração de resumos, de geração de relatórios e análises informativas. Objetivos secundários são:
+\begin{itemize}
+    \item Disponibilização de uma API HTTP, para uso no participa.br, conforme requisitado pela equipe do Participa.br em diversos itens dos produtos~\cite{prodExtra}.
+    \item A exposição destes algoritmos de recomendação aos visitantes em páginas HTML comuns, para edição execução dos trechos de código utilizados pela plataforma federal de participação social. Feito no IPython Notebook levantado para este trabalho~\cite{iNotebook}.
+    \item Aproveitamento do endpoint SparQL com os dados do participa.br, fortalecendo as tecnologias de dados linkados e web 3.0.
+    \item Em reunião com a consultora Daniela Feitosa, foi delineada a pertinência de um sistema de recomendação de perfis para um ActionIntem em andamento para o participa.br~\cite{AIFeitosa}. Este produto visa suprir esta necessidade através da API disponibilizada.
+    \item A entrega das tecnologias livres com simplicidade e boa documentação, favorecendo ao máximo o aproveitamento deste trabalho para melhoras, geração de derivados e novas e independentes tecnologias. Isso pode ser observado no repositório git público deste produto~\cite{pnud4}.
+    \item Compatibilizar ao máximo a entrega deste produto às demandas da equipe do participa.br.
+    \item Cumprir de forma precisa e pertinente a descrição deste quarto produto no Termo de Referência.
+\end{itemize}
+\subsubsection{Resultados esperados}
+Em um aspecto mais amplo, o resultado do produto é iniciar um processo aberto de apropriação das análises e mecanismos de autorregulação para o portal federal de participação social.
+
+Como resultados diretos destes resultados, constam:
+\begin{itemize}
+    \item a habilitação para uso da API HTTP para recomendação de recursos do participa.br.
+    \item A interface para apreensão e inovação dos algoritmos, não somente exemplificada ou projetada, mas operante e disponível.
+    \item Um plano de implementação para o participa.br, que utiliza a API de recomendação para priorização de conteúdo e autorregulação.
+    \item Transparência absoluta no trabalho, com toda a documentação e código computacional online em um repositório git que contem o histórico de implementação.
+    \item Algoritmos implementados em código de fácil leitura, para facilitar a implementação em Ruby ou Javascript, quando houverem recursos maduros para estas linguagens. (No momento, Python possui mais recursos e mais maduros tanto para redes complexas quanto para processamento de linguagem natural, o que justifica o servidor.)
+    \item Habilitação de implementações em andamento, como o plugin de recomendação de perfis~\cite{AIFeitosa}, para recomendar amigos para visitantes ou participantes. 
+\end{itemize}
+\subsubsection{Caráter inovador}
+Centralmente, este trabalho é inovador na aplicação de recursos de análise de redes sociais de forma comunitária, entregando as tecnologias e priorizando a reutilização. Este recurso é de vital interesse para a democracia participativa no contexto atual, com as revoluções da internet e redes sociais. Permite, em última instância, que haja uma inteligência para aproveitamento das estruturas sociais, e que esta inteligência seja pública, transparente, minimizando vetores vigilantistas ou turvos.
+
+Há a inovação na arquitetura em software, apresentando traços de web 3.0 como os dados linkados como base de conhecimento e os múltiplos recursos online acessados no funcionamento usual (ao menos endpoint sparql para acesso aos dados, API HTTP Flask para tratar os dados e gerar estatísticas e estruturas de interesse, participa.br para interface e contexto pertinente).
+
+Há inovação na difusão científica. Dados Linkados, Processamento de Linguagem Natural (PLN) e Redes Complexas (RC) são três termos empregados em textos científicos, consistindo de áreas que recebem pesquisas, revistas dedicadas e até carreiras científicas inteiras. Neste trabalho este conteúdo está em português e se presta a orientar contribuições de outras partes interessadas e de curiosos.
+
+Os métodos de recomendação em si não foram confrontados exaustivamente com a literatura, mas possivelmente possui também inovações nos procedimentos e certamente no contexto de implementação, tanto de relevância social quanto de aparato tecnológico.
+
+\subsubsection{Aparato em hardware}
+
+como este trabalho poderá contribuir suprir uma lacuna de conhecimento e/ou para desenvolver determinada a capacidade institucional da SG/PR
 
 \section{Desenvolvimento}
 \subsection{Etapas de desenvolvimento}
-\subsubsection{Estudo ontológico e triplificação dos dados para API de acesso}
-Para viabilizar a classificação de conteúdos do portal participativo, em confluência com as propostas de web semântica desta consultoria e do Participa.br, foi necessária uma abordagem ontológica dos aspectos envolvidos no Participa.br, assim como a triplificação dos dados. Para isso, a OPS (Ontologia de Participação Social) foi revisada, com melhoras substanciais e compatibilização com a BFO, também a OPa (Ontologia do Participa.br) foi criada~\cite{OPS,OPA}. Já a representação dos dados do Participa.br em triplas RDF envolveu o uso destas e diversas outras ontologias (e.g. FOAF, Dublin Core, SKOS)~\cite{triplifica}.
-\subsubsection{Instanciação de um Fuseki/Jena e um IPython Notebook}
-
-Os dados triplificados podem ser usados diretamente em algum aplicativo ou programa. A forma padrão de disponibilizar dados em RDF, porém, é através de um endpoint, que prepara os dados na RAM para buscas especificadas via SparQL. Está online um endpoint Jena para consultas SparQL via HTTP. Também uma seleção de scripts em Python, que acessam o endpoint e realizam procedimentos de interesse com os dados, está disponível através de navegadores comuns, como o Firefox ou o Chrom(e,um). {\bf Veja os Anexos~\ref{subsec:etp}-\ref{subsec:online}}.
-\subsubsection{Classificação dos textos (mineração de texto / processamento de linguagem natural)}
-As possibilidades de classificação de conteúdo com base nos textos são inúmeras. Nesta subsubseção, são apontados alguns dos caminhos considerados.
-\begin{itemize}
-    \item Com textos previamente classificados, pode-se treinar classificadores automatizados. Este é o “aprendizado supervisionado” de máquina, o tipo de classificação usual para etiquetação de mensagens e personas. As técnicas em uso são inúmeras (redes neurais, algorítmos genéticos, etc). Para  exemplificação, foi implementada uma aprendizagem Bayesiana. No Anexo~\ref{subsec:etp} consta uma implementação e é o método recomendado para o caso, até mesmo para comparação com outros classificadores que vierem a ser usados.
-    \item A classificação de objetos sem classes previamente definidas, com base somente nas propriedades dos objetos, é conhecido como ``aprendizado não supervisionado''. Pode-se impor a existencia de 2 classes (com base no balanço estrutural~\cite{easley}), ou mais classes, de forma a maximizar a dispersão inter-classe e diminuir a dispersão intra-classe. Este processo pode ser útil para observar nichos nas atividades, mesmo sem um conjunto de mensagens classificadas de antemão.
-    \item Classificação de mensagens por similaridade às escolhidas. Esta distância pode ser euclidiana no espaço de contagem de palavras, ou calculada via redes semânticas (e.g. wordnet).
-    \item Classificação via contexto similar da palavra ou via simples incidência da palavra. Assemelha-se aos buscadores usuais, com capacidades para lidar com contexto (outras palavras, tipo de autor, classificação da mensagem).
-    \item Ranqueamentos para mensagens, autores e palavras:
-
-\begin{itemize}
-        \item Mais adjetivos, mais substantivos, mais pontuações, etc. Estes podem ser indicativos de especialização dos agentes, como apontado em~\cite{fabbri1, fabbri2}.
-        \item Maior tamanho médio das palavras ou variedade de tamahos (desvio padrão). O Anexo~\ref{subsec:srl} apresenta uma implementação.
-        \item Frases mais longas em caracteres ou em palavras, variedade de tamanhos (desvio padrão).
-        \item Uso de limiares para o rankeamento, p.ex.: os participantes que mais usam adjetivos (ou escrevem mensagens de mobilização) dentre os que possuem mais de 10 mensagens. O Anexo~\ref{subsec:srl} apresenta uma implementação.
-\end{itemize}
-\end{itemize}
-\subsubsection{Classificação dos agentes pela conectividade (Redes Complexas)}
-\begin{itemize}
-    \item Em geral, as redes formadas com os rastros de atividade digital são: redes de interação ou redes de relações. No participa, há, em especial, a rede de amizades entre os usuários (relações) e as redes de interação: quem responde quem, etc. O Anexo~\ref{subsec:intAm} exibe a formação destas redes.
-    \item Pode-se classificar os usuários por comunidades detectadas nas redes. Veja o Anexo~\ref{subsec:com}.
-    \item Ranqueamento por centralidade é um dos recursos mais comuns. Há medidas com base na conectividade (grau), na intermediação (betweenness), na proximidade (closeness) e ainda outras medidas de centralidade. O Anexo~\ref{subsec:rkRd} exibe rankeamentos dos participantes por estas medidas.
-    \item As redes sociais, por serem em geral “livres de escala”, possuem especialização dos agentes, canonicamente pensados em “hubs”, “intermediários” e “periféricos”. Estes setores podem ser obtidos com mais propriedade comparando-se o histograma de conectividade da rede real com uma Erdös-Renyi com o mesmo número de vértices e arestas~\cite{fabbri1,fabbri2}. No Anexo~\ref{subsec:setCon} está uma implementação em Python para obtenção dos integrantes destes setores com os dados do Participa.br.
-\end{itemize}
-\subsubsection{Combinação de medidas de RC, PLN e outras}
-\begin{itemize}
-    \item As medidas de redes e de texto podem ser combinadas para melhorar a qualidade dos classificadores de mensagem e personas. As estabilidades nestas medidas sugerem que haja outliers e uma tipologia pertinente para os agentes~\cite{fabbri1, fabbri2}.
-    \item Medidas de uso do sítio e do perfil do participante podem enriquecer os classificadores.
-    \item Um exemplo de classificação de conteúdo (trecho de texto), com base na classificação conectiva do autor (rede), está no Anexo~\ref{subsec:misto}.
-\end{itemize}
-\subsubsection{Aquisição de dados classificados}
-Para o aprendizado supervisionado (e.g. etiquetação automática de personas e mensagens), é utilizado um conjunto de dados etiquetados de antemão, para “treinar” o classificador.
-Nas áreas de comunicação e monitoramento, são etiquetadas à mão as mensagens como positivas, negativas e neutras e em outras classes de interesse (e.g. geolocalizações, assuntos). Os autores são classificados em personas (autor masculino, feminino, ativista, militante, curioso, etc). Esta classificação manual pode servir para treinar um classificador público, talvez do Participa.br mesmo, especialmente se revisada por uma ou mais pessoas.
-
-Com alguma frequência, estes classificadores chegam a 80\% de acerto, enquanto podem alcançar 95\% ou mais com bons dados e investimento em pesquisa e comunidade.
 \subsection{Justificativa do método}
-\begin{itemize}
-    \item Classificações mais fundamentais: os métodos utilizados (bag-of-words, aprendizado bayesiano, medidas de grau e betweenness) são as mais usuais, além de facilitar a comparação e estabelecimento de benchmarks, possuem eficiência conhecida e significados mais facilmente compartilhados.
-    \item Amadurecimento com equipe do Participa.br: há outros consultores e integrantes da SG/PR, e da sociedade civil, que compõem ou se comunicam com a equipe do Participa.br. Neste contexto, foram propostas e amadurecidas diversas possibilidades de classificação de conteúdos, na qual foi decantada esta seleção de métodos, apresentada neste Produto.
-\end{itemize}
 \subsection{Justificativa das fontes}
-\begin{itemize}
-    \item Pesquisa científica: o autor é pesquisador nas áreas relacionadas com produção bibliográfica em revistas internacionais e em circulação nacional.
-    \item Os frameworks computacionais utilizados (nltk, networkx, rdflib, jena, etc) são amadurecidos no mundo todo, em desenvolvimento aberto, com comunidades dedicadas e pública discussão.
-    \item A equipe do Participa.br é uma equipe da SG/PR voltada para a participação social. Desta equipe provém boa parte dos avanços na participação social.
-\end{itemize}
 \subsection{Confronto entre os resultados esperados e os alcançados}
-Este Produto preve “propostas de especificações e códigos” de classificação de conteúdo do Participa.br. Este Produto compreende estas propostas. Há, além disso, alguns resultados alcançados a mais:
-\begin{itemize}
-    \item Propostas operantes em códigos online, já integrado aos dados semânticos e disponibilização via endpoint SparQL. Veja IPython e Jena no Anexo~\ref{subsec:online}.
-    \item Interfaces/frontends já estudadas para gráficos, reatividade e streaming (meteor+d3). Veja MMISSA, MM, Telões e MyNSA no Anexo~\ref{subsec:online}.
-    \item Entrega, através dos resultados dos scripts, de uma breve análise do Participa.br em termos dos rastros digitais, dos conteúdos e dos usuários. Veja os Anexos~\ref{subsec:etp}-\ref{subsec:csparql}.
-\end{itemize}
-
-Este documento e os scripts foram reunidos em um repositório git público usual~\cite{repoProd3}.
-
 \section{Usos dos resultados}
-O próximo Produto desta mesma consultoria possui foco na utilização destas classificações. Exemplos de usos estão topificados abaixo.
-\begin{itemize}
-    \item Navegação dos conteúdos do portal: facilitar a aquisição das informações de interesse; permite observar o conteúdo com base em características dos participantes (e.g. hub, periférico, intermediário) ou dos conteúdos (e.g. fração de adjetivos ou classificada com rótulos X ou Y).
-    \item Enriquecimento do legado semântico do Participa.br e outros portais: boa parte dos cálculos, necessários para obtenção das estatísticas e classificações, requerem recursos computacionais poderosos e técnicas nada triviais. Assim, os resultados podem ser disponibilizados junto aos dados, em RDF para acesso via consultas SparQL.
-    \item Atribuição de função: através das estatísticas dos grupos, pode-se recompensar atores  ou convidá-los para atividades ou funções especiais.
-    \item Resumos: usualmente dashboards, redes ou relações de palavras, visões gerais da entidade de interesse. A entidade pode ser um portal, uma comunidade, um usuário, uma trilha ou uma etapa participativa. Estes resumos são bastante úteis para valorizar as instâncias e orientar os participantes.
-    \item Coleta destas informações para usos/ações: difusão de mídia, consultas, propostas, estudos, deliberações, etc.
-\end{itemize}
-
 \section{Conclusão}
-A categorização de conteúdo do Participa.br pode ser feita de forma distribuída. Os dados, servidos por um endpoint SparQL, podem ser analisados por frontends, como um IPython Notebook, um ScrapperWiki ou um Meteor+d3 para visualizações interativas. Foi testado um intermediário em Flask para servir os dados já formatados para o frontend. Funcionou com serviços gratuitos do Heroku, Meteor e Mongo Labs, embora com limitações e alguns impasses para desenvolvimento em nuvem. Mesmo assim, as consultas podem envolver muitos dados e os processamentos são por vezes intensos, de forma que frontends de análise e aproveitamento devem ser disponibilizados junto aos dados (e.g. IPython Notebook, Meteor+d3 juntos ao endpoint Fuseki/Jena). Os Anexos~\ref{subsec:etp}-\ref{subsec:online} ao final deste documento, e o repositório git~\cite{repoProd3}, são os resumos principais do Produto.
 \subsection{Comentários, sugestões, recomendações}
-\begin{itemize}
-    \item Para boas aplicações de classificadores de conteúdo, é necessária uma quantidade grande de conteúdo classificado previamente, geralmente à mão. Assim, é pertinente a etiquetação das mensagens com os parceiros da comunicação, para liberação junto aos dados semânticos e treino de classificadores.
-    \item Como pode-se notar no Anexo~\ref{subsec:srl}, há bastante mensagem repetida. Embora este problema tenha sido tratado na utilização dos dados, é recomendado que seja corrigido o problema nos dados do Participa.br. Uma boa solução, embora não ideal, é a correção destes dados na triplificação.
-\end{itemize}
 \subsection{Impacto do Produto para a elaboração, gestão e/ou avaliação de políticas públicas de participação social}
-\begin{itemize}
-    \item Este produto facilita a apropriação dos processos participativos através da categorização de conteúdos e observação de suas características. 
-    \item Este produto explicita a entrega das informações para a população, para observação distribuída.
-    \item Este produto introduz na participação social brasileira tecnologias livres de redes sociais, redes complexas, processamento de linguagem naturali e web semântica.
-    \item Este produto disponibiliza estes algoritmos de forma executável em navegadores HTTP comuns, como Firefox ou Chrome(um).
-    \item Este produto entrega uma instância operante de acesso aos dados do Participa.br, em formato RDF e enriquecidos semanticamente.
-\end{itemize}
 \subsection{Como o Produto deverá impactar o público-alvo das políticas públicas a que se refere}
-\begin{itemize}
-    \item Permitindo navegação seletiva pelos conteúdos disponíveis.
-    \item Valorizando as instâncias e as tornando mais informativas, com resumos estatísticos e visuais.
-    \item Explicitando propriedades dos processos participativos e usos destas propriedades.
-    \item Integrando o portal federal de participação social (Participa.br) ao legado humano de dados linkados (via critérios semânticos).
-    \item Permitindo critérios funcionais para atribuição de papéis para participantes. Por exemplo, a construção de um manifesto ou resumo final pode ser feito requisitando: de periféricos, os substantivos; de hubs, os adjetivos; e de intermediários, que formem o texto com aquelas palavras. Outra possibilidade é a remuneração de hubs pela participação efetuada ou a convocação de periféricos para oxigenar o processo participativo.
-    \item Aproximando perfis técnicos pela qualidade das tecnologias utilizadas, pela da relevância dos dados sobre participação social e pela pertinência dos métodos.
-\end{itemize}
-
-
+\section{Agradecimentos}
+O consultor Renato Fabbri agradece ao Joenio Costa pelo template em \LaTeX para os produtos. Agradece à Daniela Feitosa pela reunião para demanda de recomendação de perfis. Agradece aos supervisores do trabalho realizado em torno do participa.br: Ricardo Poppi e Ronald Costa. Agradece ao labMacambira.sf.net e todas as comunidades de software e cultura livre que compõe esta contribuição.
 \newpage
 \bibliography{bibliografia}
 \newpage
