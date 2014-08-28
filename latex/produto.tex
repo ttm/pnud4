@@ -110,14 +110,48 @@ Os métodos de recomendação em si não foram confrontados exaustivamente com a
 
 \subsubsection{Aparato em hardware}
 
-como este trabalho poderá contribuir suprir uma lacuna de conhecimento e/ou para desenvolver determinada a capacidade institucional da SG/PR
+O sistema de recomendações precisa ser mantido online, e isso implica na manutenção de uma estrutura em hardware e software que extrapola o objeto deste produto. As especificações desta arquitetura de software e hardware estão em um documento escrito pelo consultor a pedido da PR para a SNAS e DITEC~\cite{smDITEC}. Para fins de pesquisa e de entrega deste produto, o esquema da figura~\ref{fig:sm} é realizado em máquinas de pesquisa da USP, concedidas para a pesquisa de doutorado do consultor. Tal configuração é razoável pois a pesquisa conflui e é potencializada por esta consultoria, mas está prevista uma infraestrutura própria da PR para estes serviços. Além disso, os usos atuais ainda são moderados, sem causar sobrecarga ao serviços de computação em nuvem da USP.
+
+[Figura/Diagrama do endpoint+serv flask+frontEnd noosfero]
 
 \section{Desenvolvimento}
-\subsection{Etapas de desenvolvimento}
+O produto é descrito no Termo de Referência desta consultoria assim: ``Documento com proposta de adaptações e incrementos para a interface do portal e suas ferramentas que inclua elementos visuais e de usabilidade para mecanismos de priorização de conteúdos e auto-regulação com base nos metadados gerados nativamente pela plataforma do portal e nas análises de PLN e RC produzidas pelas ferramentas assistidas''.
+
+Dada a dimensão do participa.br, tanto da estrutura em software e das práticas participativas, quanto de mobilização humana, as propostas de adaptações para o portal são muitas e estão em diversos produtos deste e de outros consultores. Uma forma especialmente pertinente de realizar este produto, confluente com o Termo de Referência desta consultoria, com o trabalho dos gestores e comunidade e com os produtos deste e de outros consultores~\cite{prodExtra}, é a entrega de um sistema de recomendação de recursos para o participa.br.
+
+Conforme discutido em reunião com gestores e comunidade do participa.br~\cite{padProd4}, em termos de priorização de conteúdo, quase todos os casos de interesse para o atual participa.br podem ser considerados sistemas de recomendação. Além disso, os mecanismos de autorregulação são convenientemente calcados na adição de conteúdo e na espontaneidade dos participantes, o que pode novamente ser considerado através de sistemas de recomendação.
+
+Desta forma, foi idealizada a entrega de um sistema de recomendação de recursos do participa.br para seus usuários, comunidades e linha editorial. A subseção a seguir detalha componentes da versão operante deste sistema de recomendação de recursos. A seção~\ref{sec:uso} compreende previsões e propostas de integração com o participa.br.
+
+\subsection{Etapas de desenvolvimento anteriores a este produto}
+\subsubsection{Sistematização ontológica da participação online}
+Através de estudos e reuniões presenciais e online, Ontologia de Participação Social (OPS) foi revisada~\cite{OPS} e a Ontologia do Participa.br (OPA) foi feita~\cite{OPA}.
+\subsubsection{Triplificação dos dados do participa.br}
+Feito um script para triplificar os dados do Participa.br, ou seja, enriquecimento semântico e escrita em RDF dos dados em Postgresql da instância Noosfero do Participa.br~\cite{triplifica}.
+\subsubsection{Levantamento do endpoint SparQL}
+Para uso dos dados triplificados, pode-se recorrer a diversos métodos de leitura e disponibilização. Um método-chave é a disponibilização dos dados rdf (\emph{triple store}) em um \emph{endpoint sparql}. Para os fins de testes e usos leves (avisar consultor), está disponibilizado um endpoint SparQL em servidores da USP para pesquisa do consultor~\cite{endpoint}.
+\subsubsection{Análises iniciais, modelos}
+Análises dos dados do participa.br foram abertas no IPython Notebook, com ênfase no texto produzido e nas redes formadas~\cite{repoProd3}.
+\subsection{Etapas de desenvolvimento deste produto}
+\subsubsection{Reuniões com equipe do participa.br}
+Especial agradecimentos ao Ricardo Poppi, Ronald Costa, Enaile Ladanza, Joênio Costa, Daniela Feitosa e Fernando Cruz.
+\subsubsection{Estudos de aprofundamento e amadurecimento}
+Em especial, foram lidos todos os produtos entregues pelos consultores, visitados cursos no coursera e literatura científica~\cite{pnudExtra}.
+\subsubsection{Escrita deste documento}
+Através da escrita deste documento, várias informações foram organizadas e sistematizadas, facilitando compreensão do contexto para especificação da API e entrega do produto.
+\subsubsection{Especificação da API de recomendação}
+Basicamente: quais URLs para recomendar quais recursos para quem, conforme explicitado no Apêndice~\ref{sec:api}.
+\subsubsection{Implementação do serviço para arquisição dos dados, processamento e entrega em JSON}
+Para a API da etapa acima, foi necessário desenvolver um servidor Flask cujas rotinas estão expostas conforme a etapa abaixo.
+\subsubsection{Disponibilização das rotinas no IPython Notebook}
+Para expor os critérios de recomendação, e auxilizar análises e versões diferentes, as rotinas estão em um IPython Notebook. Veja o Apêndice~\ref{sec:algs} para uma exposição e detalhamento destas rotinas.
 \subsection{Justificativa do método}
+São usados diversos métodos neste produto. As justificativas se concentram nas tecnologias de web 3.0, de dados linkados, e nas demandas da equipe do participa.br, detectadas em reuniões e documentações produzidas~\cite{pnudExtra}.
 \subsection{Justificativa das fontes}
+A equipe do participa.br é a equipe da Presidência da República voltada para participação social. As fontes externas utilizadas, como artigos, livros e videos, são parte da pesquisa acadêmica do consultor, que possui produção bibliográfica própria.
+
 \subsection{Confronto entre os resultados esperados e os alcançados}
-\section{Usos dos resultados}
+\section{Usos dos resultados}\label{sec:uso}
 \section{Conclusão}
 \subsection{Comentários, sugestões, recomendações}
 \subsection{Impacto do Produto para a elaboração, gestão e/ou avaliação de políticas públicas de participação social}
@@ -134,5 +168,8 @@ O consultor Renato Fabbri agradece ao Joenio Costa pelo template em \LaTeX para 
 \newpage
 %\input{listadeanexos.tex}
 \appendix
-\section{Anexos}
+\section{Especificação da API de recomendação de recursos do participa.br}\label{sec:api}
+\section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
+\section{Infraestrutura do sistema de recomendações}
+\section{Instalação e modificação do sistema de recomendações}
 \end{document}
