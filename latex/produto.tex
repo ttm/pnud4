@@ -145,15 +145,26 @@ Basicamente: quais URLs para recomendar quais recursos para quem, conforme expli
 Para a API da etapa acima, foi necessário desenvolver um servidor Flask cujas rotinas estão expostas conforme a etapa abaixo.
 \subsubsection{Disponibilização das rotinas no IPython Notebook}
 Para expor os critérios de recomendação, e auxilizar análises e versões diferentes, as rotinas estão em um IPython Notebook. Veja o Apêndice~\ref{sec:algs} para uma exposição e detalhamento destas rotinas.
+\subsubsection{Proposta de implementações no portal federal de participação social}
+Com base no sistema de recomendações, nas demandas levantadas em reuniões e nos produtos já feitos por este e outros consultores, foi sistematizado um conjunto de propostas de acréscimos para o portal federal, detalhado no Apêndice~\ref{sec:acr}.
 \subsection{Justificativa do método}
 São usados diversos métodos neste produto. As justificativas se concentram nas tecnologias de web 3.0, de dados linkados, e nas demandas da equipe do participa.br, detectadas em reuniões e documentações produzidas~\cite{pnudExtra}.
 \subsection{Justificativa das fontes}
 A equipe do participa.br é a equipe da Presidência da República voltada para participação social. As fontes externas utilizadas, como artigos, livros e videos, são parte da pesquisa acadêmica do consultor, que possui produção bibliográfica própria.
-
 \subsection{Confronto entre os resultados esperados e os alcançados}
+No Termo de Referência desta consultoria, este produto é descrito como ``Documento com proposta de adaptações e incrementos para a interface do portal''. Este produto entrega estas propostas na forma de modificações a serem implementadas no portal federal de participação social. Além disso, para facilitar estas implementações e fazer a conexão com os desenvolvimentos ontológicos e de dados linkados, foi implementado e disponibilizado um sistema de recomendação de recursos para o participa.br. Um terceiro expoente deste terceiro produto é a visita aos produtos dos outros consultores que, aliada às reuniões e pesquisas do consultor, fortalece a integração e pertinência do produto.
 \section{Usos dos resultados}\label{sec:uso}
+Há usos previstos do sistema de recomendação, pois são demandas da equipe. Em especial, há o uso para habilitar o plugin de recomendação de perfis em desenvolvimento (ActionItem~\cite{actionItem}).
+
+Há usos próprios dos participantes, como consultas aos recursos recomendados para si e para outros, e usos para a linha editorial do portal. Estes usos podem ser feitos no próprio servidor que disponibiliza o serviço de recomendação. Podem ser adaptados para a interface do participa.br, com plugins ou temas apropriados. Algumas sugestões de implementações estão no Apêndice~\ref{sec:acr}.
+
+Outro uso previsto, e que idealmente contará com incentivos da comunidade, é a evolução destes métodos de recomendação de perfis para melhor atender aos usos do portal e das comunidades. O consultor sugere que as comunidades sejam convidadas a apresentar uma ou mais pessoas com conhecimentos ou diposição para algoritmos e sistematizações. Esta pessoa passaria por uma reunião para apreensão dos métodos de recomendação e análise, com vistas a proposição de melhoras e ampliação das funcionalidades.
+
+As rotinas de recomendação estarão disponíveis online, e editáveis e executáveis no browser no IPython Notebook, o que deve facilitar dinâmicas de compartilhamento e amadurecumento destes processos. Este uso dos resultados deste produto é ainda mais precioso do que a API em si ou o uso dela dentro do participa.br. Mesmo assim, dada a complexidade das técnicas usadas, das tecnologias envolvidas e dos propósitos, o uso da API dentro do participa.br trará menos desafios que a apreensão, aproveitamento e melhora destes métodos pela comunidade de democracia participativa.
+
 \section{Conclusão}
 \subsection{Comentários, sugestões, recomendações}
+
 \subsection{Impacto do Produto para a elaboração, gestão e/ou avaliação de políticas públicas de participação social}
 \subsection{Como o Produto deverá impactar o público-alvo das políticas públicas a que se refere}
 \section{Agradecimentos}
@@ -172,4 +183,5 @@ O consultor Renato Fabbri agradece ao Joenio Costa pelo template em \LaTeX para 
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
 \section{Infraestrutura do sistema de recomendações}
 \section{Instalação e modificação do sistema de recomendações}
+\section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
 \end{document}
