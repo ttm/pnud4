@@ -1,0 +1,2 @@
+URL_ENDPOINT="http://200.144.255.210:8082/"
+URL_ENDPOINT_=URL_ENDPOINT+"participabr/query"

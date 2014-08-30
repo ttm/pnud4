@@ -4,7 +4,8 @@ import __builtin__, datetime
 from dateutil import parser
 import time as T, networkx as x, json # json.dumps
 import cPickle
-
+from SPARQLWrapper import SPARQLWrapper, JSON
+from rotinasRecomendacao import recomendaParticipante
 app = Flask(__name__)
 atime=T.time()
 
@@ -27,6 +28,16 @@ def recomenda():
     Exemplo:
     =======
     http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=top&polaridade=mis"""
+    # recomendar perfil para perfil
+    recurso=request.args["recurso"]
+    destinatario=request.args["destinatario"]
+    if destinatario=="participante":
+        idd=request.args["idd"]
+        rec=recomendaParticipante(destinatario,idd)
+        return json.dumps(rec)
+
+    
+    
     return "tudo"+request.args.get("coisa")+request.args["aquela"]
 if __name__ == "__main__":
     app.debug = True
