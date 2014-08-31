@@ -3,7 +3,7 @@ from flask import Flask, render_template, make_response, session, redirect, url_
 import __builtin__, datetime
 from dateutil import parser
 import time as T, networkx as x, json # json.dumps
-import cPickle
+import cPickle, string
 from SPARQLWrapper import SPARQLWrapper, JSON
 from rotinasRecomendacao import recomendaParticipante
 app = Flask(__name__)
@@ -31,10 +31,20 @@ def recomenda():
     # recomendar perfil para perfil
     recurso=request.args["recurso"]
     destinatario=request.args["destinatario"]
-    if destinatario=="participante":
-        idd=request.args["idd"]
+    idd=request.args["idd"]
+    metodo=request.args["metodo"]
+    polaridade=request.args["polaridade"]
+    if recurso=="participante":
         rec=recomendaParticipante(destinatario,idd)
-        return json.dumps(rec)
+    if recurso=="comunidade":
+        rec=""
+    if recurso=="trilha":
+        rec=""
+    if recurso=="artigo":
+        rec=""
+    if recurso=="comentario":
+        rec=""
+    return json.dumps(rec)
 
     
     
