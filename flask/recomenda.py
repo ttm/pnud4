@@ -47,15 +47,15 @@ def recomenda():
     metodo=request.args["metodo"]
     polaridade=request.args["polaridade"]
     if recurso=="participante":
-        rec=recomendaParticipante(destinatario,idd)
+        rec=recomendaParticipante(destinatario,idd,metodo,polaridade)
     if recurso=="comunidade":
-        rec=""
+        rec=recomendaComunidade(destinatario,idd,metodo,polaridade)
     if recurso=="trilha":
-        rec=""
+        rec=recomendaTrilha(destinatario,idd,metodo,polaridade)
     if recurso=="artigo":
-        rec=""
+        rec=recomendaArtigo(destinatario,idd,metodo,polaridade)
     if recurso=="comentario":
-        rec=""
+        rec=recomendaComentario(destinatario,idd,metodo,polaridade)
     return json.dumps(rec)
 
     

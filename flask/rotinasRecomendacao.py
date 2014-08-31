@@ -1,6 +1,19 @@
 #-*- coding: utf8 -*-
-# as duas redes estão no builtin
 # incluir a montagem das redes e o bag of words jah na triplificação
+# TTM por enquanto está na inicialização que faz o __builtin__:
+# 1) fazer cpickle e tb 2) versão que triplifica e acrescenta no jena.
+# Por fim, 3) implementar no plugin de triplificação se do interesse do Noosfero ou do participa.br
+# puxa rede de amizades
+g=__builtin__.g
+# tb com rede direcionada, de interação
+d=__builtin__.d
+# histograma de palavras e as palavras mais usadas:
+h=__builtin__.fdist_
+palavras_escolhidas=__builtin__.palavras_escolhidas
+# histograma de cada participante:
+hs=__builtin__.bows
+
+
 def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
     u"""Sistema de recomendação de usuários para outros usuários e comunidades
 
@@ -12,13 +25,6 @@ def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
     Caso o métodos seja hib, usar os dois.
 
     A polaridade é de similaridade (amigos prováveis, recursos que possuem afinidade) ou de dissimilaridade (amigos improváveis ou até de meios antagônicos, recursos que destoam e podem incentivar reações dos usuários)"""
-    # TTM por enquanto está na inicialização que faz o __builtin__:
-    # 1) fazer cpickle e tb 2) versão que triplifica e acrescenta no jena.
-    # por fim, 3) implementar no plugin de triplificação se do interesse do Noosfero ou do participa.br
-    # puxa rede de amizades
-    g=__builtin__.g
-    # tb com rede direcionada, de interação
-    d=__builtin__.d
 
     if metodo=="top":
         # ve todos que interagiu, na ordem crescente de interação:
@@ -40,10 +46,6 @@ def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
         # inversao das ordenacoes anteriores
         # amigos sem amigos algum ou de componentes disconexas com a do destinatario
 
-    ############ TTM inicialização
-    h=__builtin__.fdist_
-    hs=__builtin__.bows
-    palavras_escolhidas=__builtin__.palavras_escolhidas
     if metodo=="tex":
         # listar pelos que tem vocabulário mais semelhante
         # segundo critério de menor distancia euclidiana
