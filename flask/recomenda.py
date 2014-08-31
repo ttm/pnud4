@@ -5,9 +5,21 @@ from dateutil import parser
 import time as T, networkx as x, json # json.dumps
 import cPickle, string
 from SPARQLWrapper import SPARQLWrapper, JSON
-from rotinasRecomendacao import recomendaParticipante
-app = Flask(__name__)
+
 atime=T.time()
+from configuracao import *
+from auxiliar import *
+fazRedeAmizades()
+print(T.time()-atime)
+fazRedeInteracao()
+print(T.time()-atime)
+fazBoW()
+print(T.time()-atime)
+fazBoWs()
+print(T.time()-atime)
+
+import rotinasRecomendacao
+app = Flask(__name__)
 
 @app.route("/hello/")
 def foo():
@@ -22,7 +34,7 @@ def recomenda():
     Parâmetros:
     ==========
     recurso: o recurso a ser recomendado: participantes, comunidades, trilhas, artigos ou comentários.
-    destinatário: para quem está sendo feita a recomendação: participante, comunidade ou linha editorial. Campo auxiliar ``idd'' para id do destinatário (comunidade ou participante).
+    destinatário: para quem está sendo feita a recomendação: participante, comunidade ou linha_editorial. Campo auxiliar ``idd'' para id do destinatário (comunidade ou participante). É identifier da tabela profiles.
     método: método para a recomendação: top(ológico), tex(tual) ou hib(rido). Campo auxiliar de polaridade sim(ilar), dis(similar) ou mis(ta).
 
     Exemplo:
@@ -51,4 +63,5 @@ def recomenda():
     return "tudo"+request.args.get("coisa")+request.args["aquela"]
 if __name__ == "__main__":
     app.debug = True
+    print T.time()-atime
     app.run(host='0.0.0.0')

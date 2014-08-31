@@ -1,3 +1,9 @@
+#-*- coding: utf8 -*-
+from SPARQLWrapper import SPARQLWrapper, JSON
+from configuracao import *
+import string, networkx as x, nltk as k
+import __builtin__
+
 PREFIX="""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ops: <http://purl.org/socialparticipation/ops#>
@@ -9,6 +15,7 @@ PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX schema: <http://schema.org/>"""
 
 def fazRedeAmizades():
+    global SPARQLWrapper
     q="""SELECT DISTINCT ?aname ?bname
        WHERE {
           ?a foaf:knows ?b .
@@ -90,7 +97,7 @@ def fazBoWs():
     participantes_=results["results"]["bindings"]
     participantes=[i["participante"]["value"] for i in participantes_]
     # inicia loop
-    if "palavras_escolhidas" not in __builtin__.keys():
+    if "palavras_escolhidas" not in dir(__builtin__):
         print(u"rode BoW antes, para saber do vocabulário geral do portal")
     else:
         palavras_escolhidas=__builtin__.palavras_escolhidas
@@ -98,9 +105,10 @@ def fazBoWs():
     for participante in participantes:
         # puxa todos os comentarios de cada usuario
         # e os article bodys
+        uri="http://participa.br/profile/"+participante
         q="""SELECT DISTINCT ?abody ?cbody
              WHERE {
-                 <%s> ops:performsParticipation ?participacao.
+               <%s> ops:performsParticipation ?participacao.
                  OPTIONAL { ?participacao schema:articleBody ?abody. }
                  OPTIONAL { ?participacao schema:text ?cbody. }
              }"""%(uri,)
@@ -112,6 +120,7 @@ def fazBoWs():
         textos1=[i["cbody"]["value"] for i in results_ if "cbody" in i.keys()]
         textos2=[i["abody"]["value"] for i in results_ if "abody" in i.keys()]
         textos=textos1+textos2
+        # faz BoW e guarda num dict
         texto=string.join(textos).lower()
         texto_= ''.join(ch for ch in texto if ch not in EXCLUDE)
         texto__=texto_.split()
@@ -119,5 +128,4 @@ def fazBoWs():
         fdist=k.FreqDist(texto___)
         ocorrencias=[fdist[i] for i in palavras_escolhidas]
         bows[participante]=(fdist,ocorrencias)
-
-        # faz BoW e guarda num dict
+    __builtin__.bows=bows
