@@ -1,4 +1,5 @@
 #-*- coding: utf8 -*-
+import __builtin__, networkx as x
 # incluir a montagem das redes e o bag of words jah na triplificação
 # TTM por enquanto está na inicialização que faz o __builtin__:
 # 1) fazer cpickle e tb 2) versão que triplifica e acrescenta no jena.
@@ -7,12 +8,23 @@
 g=__builtin__.g
 # tb com rede direcionada, de interação
 d=__builtin__.d
+d_=x.Graph()
+efoo=d.edges(data=True)
+for e in efoo:
+    if d_.has_edge(e[0],e[1]):
+        d_[e[0]][e[1]]["weight"]+=e[2]["weight"]
+    else:
+        d_.add_edge(e[0],e[1],weight=e[2]["weight"])
 # histograma de palavras e as palavras mais usadas:
 h=__builtin__.fdist_
 palavras_escolhidas=__builtin__.palavras_escolhidas
 # histograma de cada participante:
 hs=__builtin__.bows
 
+### derivados:
+eg=g.edges()
+ed=d.edges(data=True)
+ed_=d_.edges(data=True)
 
 def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
     u"""Sistema de recomendação de usuários para outros usuários e comunidades
@@ -27,9 +39,25 @@ def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
     A polaridade é de similaridade (amigos prováveis, recursos que possuem afinidade) ou de dissimilaridade (amigos improváveis ou até de meios antagônicos, recursos que destoam e podem incentivar reações dos usuários)"""
 
     if metodo=="top":
-        # ve todos que interagiu, na ordem crescente de interação:
-        # {x_n}_0^n, I(x_n)>=I(x_(n-1_))
-        # sugere os participantes que não são amigos, na ordem
+        ###
+        # todos os participantes x_n com que interagiu,
+        # na ordem decrescente de interação:
+        # {d_i}_0^n, I[x_n]>=I[x_(n-1)],
+        # com I a intensidade interacao, o número de mensagens trocadas
+        #x_ni=d.in_edges("http://participa.br/profiles/"+idd,data=True)
+        #x_no=d.out_edges("http://participa.br/profiles/"+idd,data=True)
+        uri="http://participa.br/profiles/"+idd
+        if uri in d_.nodes():
+            x_n=d_[uri]
+            x_n_=[(i,x_n[i]["weight"]) for i in in x_n.keys()]
+            x_n_.sort(key=lambda x: -x[1])
+    
+            # é feita sugestão dos participantes que não são amigos:
+            # x_n!=g_n, g_n um amigo
+            if uri in g.nodes():
+                viz=g.neighbors(uri)
+                x_n_=[i for i in x_n_ if i[0] not in viz]
+
 
         ###
         # avançado e talvez desnecessário: recomenda usuários
@@ -39,6 +67,16 @@ def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
 
         ###
         # achar amigo de amigo, excluir amigos e recomendar
+        if uri in g.nodes():
+            vizs=g.neighbors[uri]
+            vizs_=set(vizs)
+            vv=[]
+            for viz in vizs:
+                vv+=g.neighbors(viz)
+            vv_=list(set(vv))
+            candidatos=[(i,vv.count(i)) for i in vv_ if i not in vizs_]
+            candidatos.sort(key=lambda x: -x[1])
+
 
         ###
         # polaridade negativa: maiores geodesicas partido do destinatario
@@ -50,12 +88,14 @@ def recomendaParticipante(destinatario, idd, metodo="hib",polaridade="mis"):
         # listar pelos que tem vocabulário mais semelhante
         # segundo critério de menor distancia euclidiana
         # negativo: listar pelo criterio de maior distância euclidiana
+        pass
     if metodo=="hib":
         # fazer medida composta de vocabulario e proximidade na rede de interação
         # fazer medida composta de vocabulario e proximidade na rede de interação e de amizades
         # pega amigo de amigo, rankeia por media de amigos em comum e vocabulario em comum
 	## polaridade negativa:
         # pega amigo de amigo, rankeia por inverso da media de amigos em comum e vocabulario diferente
+        pass
     return "ba"
 def recomendaComunidade(destinatario, idd, metodo="hib",polaridade="mis"):
     # recomenda por vocabulario em comum do usado na comunidade com o participante
