@@ -16,11 +16,9 @@ PREFIX schema: <http://schema.org/>"""
 
 def fazRedeAmizades():
     global SPARQLWrapper
-    q="""SELECT DISTINCT ?aname ?bname
+    q="""SELECT ?a ?b ?aname ?bname
        WHERE {
           ?a foaf:knows ?b .
-          ?a foaf:name ?aname .
-          ?b foaf:name ?bname .
        }"""
     sparql=SPARQLWrapper(URL_ENDPOINT_)
     sparql.setQuery(PREFIX+q)
@@ -28,14 +26,14 @@ def fazRedeAmizades():
     results = sparql.query().convert()
     g=x.Graph()
     for amizade in results["results"]["bindings"]:
-        nome1=amizade["aname"]["value"]
-        nome2=amizade["bname"]["value"]
+        nome1=amizade["a"]["value"]
+        nome2=amizade["b"]["value"]
         g.add_edge(nome1,nome2)
     __builtin__.g=g
 
 
 def fazRedeInteracao():
-    q="""SELECT DISTINCT ?aname ?bname
+    q="""SELECT ?participante1 ?participante2 ?aname ?bname
        WHERE {
            ?comentario dc:type tsioc:Comment.
            ?participante1 ops:performsParticipation ?comentario.
@@ -50,8 +48,8 @@ def fazRedeInteracao():
     results = sparql.query().convert()
     d=x.DiGraph()
     for interacao in results["results"]["bindings"]:
-        nome_chegada=interacao["aname"]["value"]
-        nome_partida=interacao["bname"]["value"]
+        nome_chegada=interacao["participante1"]["value"]
+        nome_partida=interacao["participante2"]["value"]
         if (nome_partida,nome_chegada) in d.edges():
             d[nome_partida][nome_chegada]["weight"]+=1
         else:

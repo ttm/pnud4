@@ -21,7 +21,7 @@ print(T.time()-atime)
 import rotinasRecomendacao
 app = Flask(__name__)
 
-@app.route("/hello/")
+@app.route("/hello2/")
 def foo():
     return "bar"
 @app.route("/tudo")
@@ -41,21 +41,21 @@ def recomenda():
     =======
     http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=top&polaridade=mis"""
     # recomendar perfil para perfil
-    recurso=request.args["recurso"]
-    destinatario=request.args["destinatario"]
-    idd=request.args["idd"]
-    metodo=request.args["metodo"]
-    polaridade=request.args["polaridade"]
+    recurso=     request.args.get("recurso")
+    destinatario=request.args.get("destinatario")
+    idd=         request.args.get("idd")
+    metodo=      request.args.get("metodo")
+    polaridade=  request.args.get("polaridade")
     if recurso=="participante":
-        rec=recomendaParticipante(destinatario,idd)
+        rec=rotinasRecomendacao.recomendaParticipante(destinatario,idd,metodo,polaridade)
     if recurso=="comunidade":
-        rec=""
+        rec=rotinasRecomendacao.recomendaComunidade(destinatario,idd,metodo,polaridade)
     if recurso=="trilha":
-        rec=""
+        rec=rotinasRecomendacao.recomendaTrilha(destinatario,idd,metodo,polaridade)
     if recurso=="artigo":
-        rec=""
+        rec=rotinasRecomendacao.recomendaArtigo(destinatario,idd,metodo,polaridade)
     if recurso=="comentario":
-        rec=""
+        rec=rotinasRecomendacao.recomendaComentario(destinatario,idd,metodo,polaridade)
     return json.dumps(rec)
 
     
@@ -64,4 +64,7 @@ def recomenda():
 if __name__ == "__main__":
     app.debug = True
     print T.time()-atime
-    app.run(host='0.0.0.0')
+    #app.run(host='0.0.0.0.0')
+    #app.run(host='localhost',port=83)
+    #app.run(host='127.0.0.1',port=84)
+    app.run(host='127.0.0.1',port=884)
