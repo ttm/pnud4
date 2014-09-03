@@ -24,6 +24,10 @@ app = Flask(__name__)
 @app.route("/hello2/")
 def foo():
     return "bar"
+@app.route("/hello5/")
+def foo2():
+    return "bar"
+
 @app.route("/tudo")
 def tudo():
     return "tudo"+request.args.get("coisa")+request.args["aquela"]

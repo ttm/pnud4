@@ -72,7 +72,7 @@ def fazBoW():
           and ("comunidade de desenvolvedores e nesse caso, quanto mais"
                not in mm["texto"]["value"].lower()))]
     palavras=string.join([i["texto"]["value"].lower() for i in msgs])
-    palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE)
+    palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE).encode('utf-8')
     palavras_=palavras.split()
     palavras__=[pp for pp in palavras_ if pp not in STOPWORDS]
     fdist_=k.FreqDist(palavras__)
@@ -103,13 +103,12 @@ def fazBoWs():
     for participante in participantes:
         # puxa todos os comentarios de cada usuario
         # e os article bodys
-        uri="http://participa.br/profile/"+participante
         q="""SELECT DISTINCT ?abody ?cbody
              WHERE {
                <%s> ops:performsParticipation ?participacao.
                  OPTIONAL { ?participacao schema:articleBody ?abody. }
                  OPTIONAL { ?participacao schema:text ?cbody. }
-             }"""%(uri,)
+             }"""%(participante,)
         sparql = SPARQLWrapper("http://localhost:82/participabr/query")
         sparql.setQuery(PREFIX+q)
         sparql.setReturnFormat(JSON)
@@ -120,7 +119,7 @@ def fazBoWs():
         textos=textos1+textos2
         # faz BoW e guarda num dict
         texto=string.join(textos).lower()
-        texto_= ''.join(ch for ch in texto if ch not in EXCLUDE)
+        texto_= ''.join(ch for ch in texto if ch not in EXCLUDE).encode('utf-8')
         texto__=texto_.split()
         texto___=[pp for pp in texto__ if pp not in STOPWORDS]
         fdist=k.FreqDist(texto___)

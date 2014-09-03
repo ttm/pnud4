@@ -19,14 +19,14 @@ for e in efoo:
 h=__builtin__.fdist_
 palavras_escolhidas=__builtin__.palavras_escolhidas
 # histograma de cada participante:
-hs=__builtin__.bows
+bows=__builtin__.bows
 
 ### derivados:
 eg=g.edges()
 ed=d.edges(data=True)
 ed_=d_.edges(data=True)
 
-def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas",ordenacao="compartimentada"):
+def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="ambas",ordenacao="compartimentada"):
     u"""Sistema de recomendação de usuários para outros usuários e comunidades
 
     Parâmetros
@@ -54,7 +54,7 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
         #x_no=d.out_edges("http://participa.br/profiles/"+idd,data=True)
         if uri in d_.nodes():
             x_n=d_[uri]
-            x_n_=[(i,x_n[i]["weight"]) for i in in x_n.keys()]
+            x_n_=[(i,x_n[i]["weight"]) for i in x_n.keys()]
             x_n_.sort(key=lambda x: -x[1])
     
             # é feita sugestão dos participantes que não são amigos:
@@ -95,14 +95,7 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
         ###
         if polaridade in ("dissimilar","ambas"):
             recomendacoesD=[] # para recomendacoes com polaridade dissimilar
-            # inversao das ordenacoes anteriores
-            for i in xrange(len(recomendacoes)):
-                recomendacoesD.append({})
-                recomendacoesD[i]["recomendados"]=recomendacoes[i]["recomendados"][::-1]
-                recomendacoesD[i]["pontuacao"]=recomendacoes[i]["pontuacao"][::-1]
-                recomendacoesD[i]["criterio"]="INVERTIDO: "+recomendacoes[i]["criterio"]
-
-            ### maiores geodesicas partido do destinatario. 
+            ### maiores geodesicas partindo do destinatario. 
             if uri in g.nodes():
                 caminhos=x.shortest_paths.single_source_shortest_path(g,uri)
                 caminhos_=[caminhos[i] for i in caminhos.keys()]
@@ -111,7 +104,7 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
                 recomendados=[i[-1] for i in caminhos_ if len(i)>2]
                 pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
                 criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de amizades que os separam"
-                recomendacoes.append({"recomendados": recomendados,
+                recomendacoesD.append({"recomendados": recomendados,
                                 "pontuacao":pontuacao,
                                 "criterio":criterio})
             # feito para amigos, agora com a rede de interacao
@@ -122,7 +115,7 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
                 recomendados=[i[-1] for i in caminhos_ if len(i)>2]
                 pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
                 criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de interacoes que os separam"
-                recomendacoes.append({"recomendados":recomendados,
+                recomendacoesD.append({"recomendados":recomendados,
                                     "pontuacao":pontuacao,
                                     "criterio":criterio})
             # participantes de outras componentes conexas com relacao ao destinatario
@@ -143,26 +136,63 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
                         for comp in comps:
                             if uri not in comp:
                                 # escolhe participante da componente
-                                recomendados.append((random.sample(comp,1),len(comp))
+                                recomendados.append((random.sample(comp,1),len(comp)))
                                 criterio="participante de componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao eh o numero de participantes da componente"
                     recomendados_=[i[0] for i in recomendados]
                     pontuacao=[i[1] for i in recomendados]
-                    recomendacoes.append({"recomendados": recomendados_,
+                    recomendacoesD.append({"recomendados": recomendados_,
                                     "pontuacao":pontuacao,
                                     "criterio":criterio})
     if metodo=="tex":
+        # acha amigos
+        if uri in g.nodes():
+            amigos=g.neighbors(uri)
+        else:
+            amigos=[]
+        # verifica se bow eh vazia
         # listar pelos que tem vocabulário mais semelhante
         # segundo critério de menor distancia euclidiana
-        # negativo: listar pelo criterio de maior distância euclidiana
-        recomendacoes=0
-    if metodo=="hib":
+        bow=n.array(bows[uri])
+        uris=bows.keys()
+        rec=[]
+        for uri_ in uris:
+            if uri_ != uri and uri_ not in amigos:
+                bow_=n.array(bows[uri_])
+                distancia=n.sum((bow-bow_)**2)
+                rec.append((uri_,distancia))
+                rec.sort(key = lambda x: x[1])
+        if len(rec)>0:
+            recomendados=[i[0] for i in rec]
+            pontuacao=[1/(i[1]+1) for i in rec]
+            criterio="semelhanca dentre vocabularios E (0,1]. Calculo: semelhanca = 1/(1+distancia na bag of words do vocabulario escolhido)"
+            recomendacoes.append({"recomendados":recomendados,
+                      "pontuacao":pontuacao,
+                      "criterio":criterio})
+    if metodo=="hibrido":
         # fazer medida composta de vocabulario e proximidade na rede de interação
-        # fazer medida composta de vocabulario e proximidade na rede de interação e de amizades
+        # fazer medida composta de vocabulario e proximidade na rede de amizades
         # pega amigo de amigo, rankeia por media de amigos em comum e vocabulario em comum
 	## polaridade negativa:
         # pega amigo de amigo, rankeia por inverso da media de amigos em comum e vocabulario diferente
         recomendacoes=0
-    # a ordenacao eh por padrao compartimentada
+    #####
+    # a ordenacao eh por padrao compartimentada e por semelhança
+    # primeiro inverter se for dissemelhante ou ambas as polaridades
+    if polaridade in ("dissimilar","ambas"):
+        try:
+            recomendacoesD
+        except:
+            recomendacoesD=[]
+        # inversao das ordenacoes anteriores
+        for i in xrange(len(recomendacoes)):
+            recomendacoesD.append({})
+            recomendacoesD[i]["recomendados"]=recomendacoes[i]["recomendados"][::-1]
+            recomendacoesD[i]["pontuacao"]=recomendacoes[i]["pontuacao"][::-1]
+            recomendacoesD[i]["criterio"]="INVERTIDO: "+recomendacoes[i]["criterio"]
+        if polaridade == "ambas":
+            recomendacoes=recomendacoes+recomendacoesD
+        else:
+            recomendacoes=recomendacoesD
     # o embaralhamento e intercalação são cortezias da api
     if ordenacao=="embaralhada":
         recs=[]
