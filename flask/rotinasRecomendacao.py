@@ -102,26 +102,54 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
                 recomendacoesD[i]["pontuacao"]=recomendacoes[i]["pontuacao"][::-1]
                 recomendacoesD[i]["criterio"]="INVERTIDO: "+recomendacoes[i]["criterio"]
 
-            # maiores geodesicas partido do destinatario. 
-            caminhos=x.shortest_paths.single_source_shortest_path(g,uri)
-            caminhos_=[caminhos[i] for i in caminhos.keys()]
-            caminhos_.sort(key=lambda x : -len(x))
-            #distantes=[(i[-1],len(i)) for i in caminhos_]
-            recomendados=[i[-1] for i in caminhos_]
-            pontuacao=[len(i) for i in caminhos_]
-            criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de amizades que os separam"
-            
-            recomendacoes.append({"recomendados": recomendados,
+            ### maiores geodesicas partido do destinatario. 
+            if uri in g.nodes():
+                caminhos=x.shortest_paths.single_source_shortest_path(g,uri)
+                caminhos_=[caminhos[i] for i in caminhos.keys()]
+                caminhos_.sort(key=lambda x : -len(x))
+                #distantes=[(i[-1],len(i)) for i in caminhos_]
+                recomendados=[i[-1] for i in caminhos_ if len(i)>2]
+                pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
+                criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de amizades que os separam"
+                recomendacoes.append({"recomendados": recomendados,
                                 "pontuacao":pontuacao,
                                 "criterio":criterio})
-            # tanto para amigos quanto de interacao
-            recomendacoes.append({"recomendados": ,
-                                "pontuacao":,
-                                "criterio":})
-            # amigos sem amigos algum ou de componentes disconexas com a do destinatario
-            recomendacoes.append({"recomendados": ,
-                                "pontuacao":,
-                                "criterio":})
+            # feito para amigos, agora com a rede de interacao
+            if uri in d.nodes():
+                caminhos=x.shortest_paths.single_source_shortest_path(d,uri)
+                caminhos_=[caminhos[i] for i in caminhos.keys()]
+                caminhos_.sort(key=lambda x : -len(x))
+                recomendados=[i[-1] for i in caminhos_ if len(i)>2]
+                pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
+                criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de interacoes que os separam"
+                recomendacoes.append({"recomendados":recomendados,
+                                    "pontuacao":pontuacao,
+                                    "criterio":criterio})
+            # participantes de outras componentes conexas com relacao ao destinatario
+            if uri in g.nodes():
+                comps=x.connected_components(g)
+                # caso haja duas componentes conexas
+                if len(comps)>1:
+                    recomendados=[]
+                    # caso sejam exatamente duas componentes:
+                    if len(comps)==2:
+                       for comp in comps:
+                            if uri not in comp:
+                                # recomenda a componente toda
+                                recomendados+=[(i,1) for i in comp]
+                                criterio="participantes da unica componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao dummy"
+                    # caso sejam mais de duas componentes:
+                    else:
+                        for comp in comps:
+                            if uri not in comp:
+                                # escolhe participante da componente
+                                recomendados.append((random.sample(comp,1),len(comp))
+                                criterio="participante de componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao eh o numero de participantes da componente"
+                    recomendados_=[i[0] for i in recomendados]
+                    pontuacao=[i[1] for i in recomendados]
+                    recomendacoes.append({"recomendados": recomendados_,
+                                    "pontuacao":pontuacao,
+                                    "criterio":criterio})
     if metodo=="tex":
         # listar pelos que tem vocabulário mais semelhante
         # segundo critério de menor distancia euclidiana
