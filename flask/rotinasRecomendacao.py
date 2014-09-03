@@ -39,7 +39,7 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
         Caso o método seja "topológico", usar somente a rede. Usar relações de força e outras. Caso o método seja "textual", usar somente o texto produzido. Por hora, a medida de similaridade é a distância euclidiana e usar o inverso + alpha arbitrário. Caso o métodos seja "híbrido", usar os dois.
     polaridade : {"similar","dissimilar","ambas"}, string
         A polaridade é de "similar"idade (amigos prováveis, recursos que possuem afinidade) ou de "dissimilar"idade (amigos improváveis ou até de mesmo antagônicos, recursos que destoam e podem incentivar reações dos usuários). Pode-se escolher também "ambas".
-    ordenacao : {"compartimentada","embaralhada"}, string
+    ordenacao : {"compartimentada","embaralhada","intercalada"}, string
         A ordenação em que o cliente as recomendações. Se "compartimentada", o cliente recebe JSON com campos {recomendados, pontuacao, criterio} para cada criterio diferente, com uma pontuacao para cada recomendado. Se "embaralhada", o cliente recebe o JSON como uma sequência de tuplas (recomendado, pontuacao, criterios), para cada recomendacao diferente. Se "intercalada", recebe uma recomendacao de cada criterio, de forma intercalada.
     """
     recomendacoes=[]
@@ -154,15 +154,42 @@ def recomendaParticipante(destinatario, idd, metodo="hibrido",polaridade="ambas"
         # listar pelos que tem vocabulário mais semelhante
         # segundo critério de menor distancia euclidiana
         # negativo: listar pelo criterio de maior distância euclidiana
-        recomendacao=0
+        recomendacoes=0
     if metodo=="hib":
         # fazer medida composta de vocabulario e proximidade na rede de interação
         # fazer medida composta de vocabulario e proximidade na rede de interação e de amizades
         # pega amigo de amigo, rankeia por media de amigos em comum e vocabulario em comum
 	## polaridade negativa:
         # pega amigo de amigo, rankeia por inverso da media de amigos em comum e vocabulario diferente
-        recomendacao=0
-    return recomendacao
+        recomendacoes=0
+    # a ordenacao eh por padrao compartimentada
+    # o embaralhamento e intercalação são cortezias da api
+    if ordenacao=="embaralhada":
+        recs=[]
+        for i in xrange(len(recomendacoes)):
+            for j in xrange(len(recomendacoes[i]["recomendados"])):
+                recomendado=recomendacoes[i]["recomendados"][j]
+                pontuacao=recomendacoes[i]["pontuacao"][j]
+                criterio=recomendacoes[i]["criterio"]
+                recs.append((recomendado, pontuacao, criterio))
+        random.shuffle(recs)
+        recomendacoes=recs
+    if ordenacao=="intercalada":
+        recs=[]
+        cond=1
+        cont=0
+        while cond:
+            for i in xrange(len(recomendacoes)):
+                if cont<len(recomendacoes[i]["recomendados"]):
+                    recomendado=recomendacoes[i]["recomendados"][cont]
+                    pontuacao=recomendacoes[i]["pontuacao"][cont]
+                    criterio=recomendacoes[i]["criterio"]
+                    recs.append((recomendado, pontuacao, criterio))
+            cont+=1
+            if cont>=7:
+                cond=0
+        recomendacoes=recs
+    return recomendacoes
 def recomendaComunidade(destinatario, idd, metodo="hib",polaridade="mis"):
     # recomenda por vocabulario em comum do usado na comunidade com o participante
     # por possuir membros amigos ou que interagiram muito
