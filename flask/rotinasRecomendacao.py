@@ -44,7 +44,7 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
     """
     recomendacoes=[]
     uri="http://participa.br/profiles/"+idd
-    if metodo=="top":
+    if metodo in ("topologico","hibrido"):
         ###
         # todos os participantes x_n com que interagiu,
         # na ordem decrescente de interação:
@@ -143,7 +143,7 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
                     recomendacoesD.append({"recomendados": recomendados_,
                                     "pontuacao":pontuacao,
                                     "criterio":criterio})
-    if metodo=="tex":
+    if metodo in ("textual","hibrido"):
         # acha amigos
         if uri in g.nodes():
             amigos=g.neighbors(uri)
@@ -164,7 +164,7 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
         if len(rec)>0:
             recomendados=[i[0] for i in rec]
             pontuacao=[1/(i[1]+1) for i in rec]
-            criterio="semelhanca dentre vocabularios E (0,1]. Calculo: semelhanca = 1/(1+distancia na bag of words do vocabulario escolhido)"
+            criterio="semelhanca dentre vocabularios E (0,1]. Calculo: semelhanca = 1/(1+distancia^2 das bags of words dos participantes, do vocabulario selecionado)"
             recomendacoes.append({"recomendados":recomendados,
                       "pontuacao":pontuacao,
                       "criterio":criterio})
@@ -174,7 +174,7 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
         # pega amigo de amigo, rankeia por media de amigos em comum e vocabulario em comum
 	## polaridade negativa:
         # pega amigo de amigo, rankeia por inverso da media de amigos em comum e vocabulario diferente
-        recomendacoes=0
+        pass
     #####
     # a ordenacao eh por padrao compartimentada e por semelhança
     # primeiro inverter se for dissemelhante ou ambas as polaridades

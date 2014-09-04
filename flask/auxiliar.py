@@ -72,7 +72,8 @@ def fazBoW():
           and ("comunidade de desenvolvedores e nesse caso, quanto mais"
                not in mm["texto"]["value"].lower()))]
     palavras=string.join([i["texto"]["value"].lower() for i in msgs])
-    palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE).encode('utf-8')
+    palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE)
+    #palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE).encode('utf-8')
     palavras_=palavras.split()
     palavras__=[pp for pp in palavras_ if pp not in STOPWORDS]
     fdist_=k.FreqDist(palavras__)
