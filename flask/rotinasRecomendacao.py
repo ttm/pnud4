@@ -80,10 +80,28 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
                                   "criterio":criterio})
 
 
-        ###
-        # textual
-        # usa BoW para comparar os usuarios com a media geral,
-        # retorna dos mais típicos e os outliers
+        if metodo in ("topologico","hibrido"):
+            ###
+            # textual
+            # usa BoW para comparar os usuarios com a media geral,
+            # retorna dos mais típicos e os outliers
+            ocorrencias=[h[i] for i in palavras_escolhidas]
+            bow=n.array(ocorrencias,dtype=float)
+            bowNL=NL(bow)
+            rec=[]
+            for uri_ in bows.keys():
+                bow_=n.array(bows[uri_][1],dtype=n.float)
+                if bow_.sum():
+                    distancia=n.sum(bowNL-NL(bow_))**2
+                    rec.append((uri_,distancia))
+            rec.sort(key = lambda x: x[1])
+            recomendados=[i[0] for i in rec]
+            pontuacao=[1/(i[1]+1) for i in rec]
+            criterio="semelhanca com o vocabulario do participa.br como um todo"
+            recomendacoes.append({"recomendados":recomendados,
+                      "pontuacao":pontuacao,
+                      "criterio":criterio})
+
     
         ###
         # hibrido
@@ -199,7 +217,6 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
             if bow[0].N() == 0:
                 # bow do destinatario vazia, usando media geral:
                 ocorrencias=[h[i] for i in palavras_escolhidas]
-                bow=ocorrencias)
                 bow=n.array(ocorrencias,dtype=float)
             else:
                 bow=n.array(bow[1],dtype=float)
@@ -208,9 +225,9 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
             for uri_ in uris:
                 if uri_ != uri and uri_ not in amigos:
                     bow_=n.array(bows[uri_][1],dtype=n.float)
-                    distancia=n.sum((NL(bow)-NL(bow_))**2)
+                    distancia=n.sum((NL(bow)-NL(bow_))**2
                     rec.append((uri_,distancia))
-                    rec.sort(key = lambda x: x[1])
+            rec.sort(key = lambda x: x[1])
             if len(rec)>0:
                 recomendados=[i[0] for i in rec]
                 pontuacao=[1/(i[1]+1) for i in rec]
