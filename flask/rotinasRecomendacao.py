@@ -39,7 +39,7 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
     idd : string
         O idd (id do destinatário) deve ser o identifier do profile: slug do usuario ou da comunidade. É identifier da tabela profiles.
     metodo : {"topologico","textual","hibrido"}, string
-        Caso o método seja "topológico", usar somente a rede. Usar relações de força e outras. Caso o método seja "textual", usar somente o texto produzido. Por hora, a medida de similaridade é a distância euclidiana e usar o inverso + alpha arbitrário. Caso o métodos seja "híbrido", usar os dois.
+        Caso o método seja "topológico", usar somente a rede. Usar relações de força e outras. Caso o método seja "textual", usar somente o texto produzido. Por hora, a medida de similaridade é a distância euclidiana e usar o inverso + alpha arbitrário. Caso o métodos seja "híbrido", usar os dois. O plano é implementar métodos que utilizam ambos recursos linguísticos e de relacionamento (topológicos).
     polaridade : {"similar","dissimilar","ambas"}, string
         A polaridade é de "similar"idade (amigos prováveis, recursos que possuem afinidade) ou de "dissimilar"idade (amigos improváveis ou até de mesmo antagônicos, recursos que destoam e podem incentivar reações dos usuários). Pode-se escolher também "ambas".
     ordenacao : {"compartimentada","embaralhada","intercalada"}, string
@@ -79,7 +79,6 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
                                   "pontuacao":pontuacao,
                                   "criterio":criterio})
 
-
         if metodo in ("topologico","hibrido"):
             ###
             # textual
@@ -97,12 +96,10 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
             rec.sort(key = lambda x: x[1])
             recomendados=[i[0] for i in rec]
             pontuacao=[1/(i[1]+1) for i in rec]
-            criterio="semelhanca com o vocabulario do participa.br como um todo"
+            criterio="semelhanca com o vocabulario do participa.br como um todo (na frequencia do vocabulario selecionado)"
             recomendacoes.append({"recomendados":recomendados,
                       "pontuacao":pontuacao,
                       "criterio":criterio})
-
-    
         ###
         # hibrido
     if destinatario=="participante":
