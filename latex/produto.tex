@@ -166,9 +166,9 @@ Um uso previso é contemplar recursos de uma biblioteca digital assim como conte
 
 \section{Conclusão}
 \subsection{Comentários, sugestões, recomendações}
-O consultor que haja amadurecimentos em encontros, tanto para melhora deste legado do participa.br, quanto para apreensão dos métodos pela comunidades interessadas. 
+O consultor recomenda que haja amadurecimentos em encontros, tanto para melhora deste legado do participa.br, quanto para apreensão dos métodos pela comunidades interessadas. 
 
-As estruturas básicas para as análises e recomendações, que são as redes (de amizade e de interação) e os histogramas de palavras, poder ser convenientemente incluidos na triplificação dos dados, de forma que as recomendações e análises fiquem mais leves. Por hora, para viabilizar o uso, o sistema de recomendações refaz estas estruturas caso já tenha passado 24h desde a última vez que foram feitas. Estas estruturas são:
+As estruturas básicas para as análises e recomendações, que são as redes (de amizade e de interação) e os histogramas de palavras, podem ser convenientemente incluidos na triplificação dos dados, de forma que as recomendações e análises fiquem mais leves. Por hora, para viabilizar o uso, o sistema de recomendações refaz estas estruturas caso seja visitado o caminho \url{recomenda/atualiza}. Estas estruturas são:
 \begin{itemize}
     \item Rede de amizades.
     \item Rede de interação.
@@ -177,6 +177,11 @@ As estruturas básicas para as análises e recomendações, que são as redes (d
     \item Histograma de palavras de cada usuário.
     \item Contagem das ocorrências das palavras selecionadas para caracterizar o domínio (portal participativo).
 \end{itemize}
+
+Os métodos de recomendação implementados utilizam separadamente critérios linguísticos ou de interação. Os casos e resultados
+já são interessantes e até complexos para uma primeira versão. Há planos para implementações de métodos
+que utilizam ambos recursos linguísticos e de relacionamento (topológicos). Por hora, ambas as características podem ser
+utilizadas operando as pontuações das recomendações com base no texto com pontuações das recomendações com base em relacionamento.
 
 \subsection{Impacto do Produto para a elaboração, gestão e/ou avaliação de políticas públicas de participação social}
 Este trabalho torna disponível uma porção de avaliações automáticas dos processos participativos que ocorreram ou ocorrerem no participa.br. Estas mesmas avaliações podem ser usadas continuamente, facilitando a gestão. A elaboração pode se beneficiar da análise das experiências passadas, facilitada pelos métodos aqui presentes.
