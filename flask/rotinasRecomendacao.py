@@ -1,5 +1,7 @@
 #-*- coding: utf8 -*-
 import __builtin__, networkx as x
+from SPARQLWrapper import SPARQLWrapper, JSON
+from configuracao import *
 # incluir a montagem das redes e o bag of words jah na triplificação
 # TTM por enquanto está na inicialização que faz o __builtin__:
 # 1) fazer cpickle e tb 2) versão que triplifica e acrescenta no jena.
@@ -25,6 +27,16 @@ bows=__builtin__.bows
 eg=g.edges()
 ed=d.edges(data=True)
 ed_=d_.edges(data=True)
+
+PREFIX="""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ops: <http://purl.org/socialparticipation/ops#>
+PREFIX opa: <http://purl.org/socialparticipation/opa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX tsioc: <http://rdfs.org/sioc/types#>
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+PREFIX schema: <http://schema.org/>"""
 
 def NL(narray):
     return narray/narray.sum()
@@ -307,10 +319,36 @@ def recomendaTrilha(destinatario, idd, metodo="hibrido", polaridade="mista"):
     # cujos textos sao proximos aos do participante
     pass
 def recomendaArtigo(destinatario, idd, metodo="hibrido", polaridade="mista"):
-    # que seja de amigo ou de pessoa com quem interagiu
-    # que tenha vocabulario parecido ou proximo
-    # que tenha maior media de ambas
-    pass
+    if destinatario=="participante":
+        uri="http://participa.br/profiles/"+idd
+        if metodo in ("topologico","hibrido"):
+            # que seja de amigo ou de pessoa com quem interagiu
+            if uri in d.nodes():
+                x_n=d_[uri]
+                x_n_=[(i,x_n[i]["weight"]) for i in x_n.keys()]
+                x_n_.sort(key=lambda x: -x[1])
+                # busca artigo destes participantes, recomenda os artigos
+                count=0
+                q=""
+                for participante in x_n_[:5]:
+                    q+="""SELECT ?artigo%i, abody%i
+                        WHERE { 
+                            <%s> ops:performsParticipation ?artigo%i.
+                             ?artigo%i schema:articleBody ?abody%i.
+                            }
+                        """%(count,count,participante[0],count,count,count)
+                    count+=1
+                sparql=SPARQLWrapper(URL_ENDPOINT_)
+                sparql.setQuery(PREFIX+q)
+                sparql.setReturnFormat(JSON)
+                results = sparql.query().convert()
+                # adiciona recomendação
+            if uri in g.nodes():
+                vizinhos=g.degree(g.neighbors(uri))
+                # adiciona recomendação
+        if metodo in ("textual","hibrido"):
+            # que tenha vocabulario parecido ou proximo
+ 
 def recomendaComentario(destinatario, idd, metodo="hibrido", polaridade="mista"):
     # que seja de amigo ou de pessoa com quem interagiu
     # que tenha vocabulario parecido ou proximo
