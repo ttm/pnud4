@@ -57,6 +57,7 @@ Aporte de conhecimentos e tecnologias para especificação de vocabulário e fer
 
 \begin{document}
 
+
 \input{folhaderosto.tex}
 \input{folhadeaprovacao.tex}
 \input{folhadeidentificacao.tex}
@@ -214,7 +215,7 @@ Embora as rotinas no Apêndice~\cite{sec:algs} possam ser adaptados para os mais
     \item Destinatário: para quem está sendo feita a recomendação: participante, comunidade ou linha editorial. Campo auxiliar ``idd'' para id do destinatário (comunidade ou participante).
     \item Método: método para a recomendação: top(ológico), tex(tual) ou hib(rido). Campo auxiliar de polaridade sim(ilar), dis(similar) ou mis(ta).
 \end{itemize} 
-A url formada envia os parâmetros da forma usual:
+A url usada para consulta HTTP incorpora os parâmetros da forma usual:
 \url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=top&polaridade=mis}
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
 \section{Infraestrutura do sistema de recomendações}
