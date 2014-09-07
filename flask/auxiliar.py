@@ -5,16 +5,6 @@ import string, networkx as x, nltk as k
 import __builtin__
 stemmer = k.stem.RSLPStemmer()
 
-PREFIX="""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX ops: <http://purl.org/socialparticipation/ops#>
-PREFIX opa: <http://purl.org/socialparticipation/opa#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX dc: <http://purl.org/dc/terms/>
-PREFIX tsioc: <http://rdfs.org/sioc/types#>
-PREFIX sioc: <http://rdfs.org/sioc/ns#>
-PREFIX schema: <http://schema.org/>"""
-
 def fazRedeAmizades():
     global SPARQLWrapper
     q="""SELECT ?a ?b ?aname ?bname
@@ -76,7 +66,7 @@ def fazBoW():
     palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE)
     #palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE).encode('utf-8')
     palavras_=palavras.split()
-    palavras__=[stemmer(pp) for pp in palavras_ if pp not in STOPWORDS]
+    palavras__=[stemmer.stem(pp) for pp in palavras_ if pp not in STOPWORDS]
     fdist_=k.FreqDist(palavras__)
     # escolhendo as 400 palavras mais incidentes para referência
     palavras_escolhidas=fdist_.keys()[:400]
@@ -123,7 +113,7 @@ def fazBoWs():
         texto=string.join(textos).lower()
         texto_= ''.join(ch for ch in texto if ch not in EXCLUDE).encode('utf-8')
         texto__=texto_.split()
-        texto___=[stemmer(pp) for pp in texto__ if pp not in STOPWORDS]
+        texto___=[stemmer.stem(pp) for pp in texto__ if pp not in STOPWORDS]
         fdist=k.FreqDist(texto___)
         ocorrencias=[fdist[i] for i in palavras_escolhidas]
         bows[participante]=(fdist,ocorrencias)
