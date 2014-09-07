@@ -49,7 +49,7 @@
 \newcommand{\ObjetoContratacao}{
 Aporte de conhecimentos e tecnologias para especificação de vocabulário e ferramentas assistidas que utilizam processamento de linguagem natural e análise de redes complexas para o conteúdo do portal da participação social.
 }
-\newcommand{\DataEntrega}{28 de Agosto de 2014}
+\newcommand{\DataEntrega}{08 de Setembro de 2014}
 \newcommand{\PalavrasChave}{reconhecimento de padrões, redes complexas, processamento de linguagem natural, participação social}
 
 % lista de abreviações
@@ -66,7 +66,7 @@ Aporte de conhecimentos e tecnologias para especificação de vocabulário e fer
 
 
 \begin{abstract}
-Este documento descreve rotinas de priorização de conteúdo e de autorregulação para o portal federal de participação social.\\
+Este documento descreve rotinas de priorização de conteúdo e de autorregulação para o portal federal de participação social. Como parte da exposição e do Produto, foi implementado um sistema de recomendação de participantes para outros participantes e linha editorial do participa.br. Este sistema está online e visa atender a requisitos como os do ActionItem 3234 do Noosfero, que prevê recomendação de participantes, comunidades e empreendimentos. Como generalização da proposta, é delineada  recomendação de recursos como trilhas, artigos, comentários e palavras. O consultor e equipe do participa.br entendem que a disponibilização destes recursos em formato aberto - e com documentações reativas para fácil geração de derivados, críticas e propostas - é instrumental para a democracia participativa e online, promovendo empoderamento e transparência.\\
 
 {\bf Palavras-chave:} \PalavrasChave.
 \end{abstract}
@@ -74,7 +74,7 @@ Este documento descreve rotinas de priorização de conteúdo e de autorregulaç
 
 \section{Introdução}
 \subsection{Contexto e importância da consultoria}
-Em confluência com o portal federal de participação social (Participa.br) e o Plano Nacinal de Participação Social (PNPS), esta consultoria propõe métodos de classificação e priorização de conteúdo e formas de autorregulação para o portal. O presente produto apresenta ``formas de priorização de conteúdo e de autorregulação'' implementadas na forma de um sistema de recomendação de recursos para usuários.
+Em confluência com o portal federal de participação social (Participa.br) e o Plano Nacinal de Participação Social (PNPS), esta consultoria propõe métodos de classificação e priorização de conteúdo e formas de autorregulação para o portal. O presente produto apresenta ``formas de priorização de conteúdo e de autorregulação'' na forma de um sistema de recomendação de recursos para participantes e linha editorial. No começo da seção~\ref{sec:dev} está explicitada a motivação para a implementação e a relação com o cumprimento dos termos deste Produto~\cite{termoReferencia}.
 
 \subsection{Contexto e importância do Produto}
 \subsubsection{Objetivos}
@@ -109,13 +109,13 @@ Há inovação na difusão científica. Dados Linkados, Processamento de Linguag
 
 Os métodos de recomendação em si não foram confrontados exaustivamente com a literatura, mas possivelmente possui também inovações nos procedimentos e certamente no contexto de implementação, tanto de relevância social quanto de aparato tecnológico.
 
-\subsubsection{Aparato em hardware}
+\subsubsection{Aparato em software e hardware}
 
 O sistema de recomendações precisa ser mantido online, e isso implica na manutenção de uma estrutura em hardware e software que extrapola o objeto deste produto. As especificações desta arquitetura de software e hardware estão em um documento escrito pelo consultor a pedido da PR para a SNAS e DITEC~\cite{smDITEC}. Para fins de pesquisa e de entrega deste produto, o esquema da figura~\ref{fig:sm} é realizado em máquinas de pesquisa da USP, concedidas para a pesquisa de doutorado do consultor. Tal configuração é razoável pois a pesquisa conflui e é potencializada por esta consultoria, mas está prevista uma infraestrutura própria da PR para estes serviços. Além disso, os usos atuais ainda são moderados, sem causar sobrecarga ao serviços de computação em nuvem da USP.
 
 [Figura/Diagrama do endpoint+serv flask+frontEnd noosfero]
 
-\section{Desenvolvimento}
+\section{Desenvolvimento}\label{sec:dev}
 O produto é descrito no Termo de Referência desta consultoria assim: ``Documento com proposta de adaptações e incrementos para a interface do portal e suas ferramentas que inclua elementos visuais e de usabilidade para mecanismos de priorização de conteúdos e auto-regulação com base nos metadados gerados nativamente pela plataforma do portal e nas análises de PLN e RC produzidas pelas ferramentas assistidas''.
 
 Dada a dimensão do participa.br, tanto da estrutura em software e das práticas participativas, quanto de mobilização humana, as propostas de adaptações para o portal são muitas e estão em diversos produtos deste e de outros consultores. Uma forma especialmente pertinente de realizar este produto, confluente com o Termo de Referência desta consultoria, com o trabalho dos gestores e comunidade e com os produtos deste e de outros consultores~\cite{prodExtra}, é a entrega de um sistema de recomendação de recursos para o participa.br.
@@ -142,7 +142,7 @@ Em especial, foram lidos todos os produtos entregues pelos consultores, visitado
 Através da escrita deste documento, várias informações foram organizadas e sistematizadas, facilitando compreensão do contexto para especificação da API e entrega do produto.
 \subsubsection{Especificação da API de recomendação}
 Basicamente: quais URLs para recomendar quais recursos para quem, conforme explicitado no Apêndice~\ref{sec:api}.
-\subsubsection{Implementação do serviço para arquisição dos dados, processamento e entrega em JSON}
+\subsubsection{Implementação do serviço para aquisição dos dados, processamento e entrega em JSON}
 Para a API da etapa acima, foi necessário desenvolver um servidor Flask cujas rotinas estão expostas conforme a etapa abaixo.
 \subsubsection{Disponibilização das rotinas no IPython Notebook}
 Para expor os critérios de recomendação, e auxilizar análises e versões diferentes, as rotinas estão em um IPython Notebook. Veja o Apêndice~\ref{sec:algs} para uma exposição e detalhamento destas rotinas.
@@ -218,6 +218,8 @@ Embora as rotinas no Apêndice~\cite{sec:algs} possam ser adaptados para os mais
 A url usada para consulta HTTP incorpora os parâmetros da forma usual:
 \url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=top&polaridade=mis}
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
+\section{Parcela dos participantes que produziram texto ou interação}
+[análise no ipython notebook de quantos dos usuários estão nas rede de interação, amizades ou produziram texto]
 \section{Infraestrutura do sistema de recomendações}
 \section{Instalação e modificação do sistema de recomendações}
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
