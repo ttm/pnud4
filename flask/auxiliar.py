@@ -128,3 +128,17 @@ def fazBoWs():
         ocorrencias=[fdist[i] for i in palavras_escolhidas]
         bows[participante]=(fdist,ocorrencias)
     __builtin__.bows=bows
+
+def fazBoWsC():
+    """Faz Bag of Words de cada comunidade
+
+    Por hora, há duas bag of words para cada comunidade:
+    *) Média das bag of words de cada participante
+    *) Bag of words de todos os textos da comunidade"""
+    if "bows" not in dir(__builtin__):
+        return "execute fazBoWs() primeiro"
+    # puxar participantes de cada comunidade
+    # fazer media dos bows deles
+
+    # puxar texto relacionado a cada comunidade
+    # fazer bow

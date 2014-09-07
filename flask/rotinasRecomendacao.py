@@ -292,23 +292,26 @@ def recomendaComunidade(destinatario, idd, metodo="hibrido",polaridade="ambas"):
 
     # por possuir membros amigos ou que interagiram muito
     # por possuir mais amigos de amigos
+
+    # semelhanca de vocabulario
+
     # mais amigos de pessoas com quem interagiu
     # mais pessoas que iteragiram com seus amigos
     # por media de amigos e vocabulario utilizado
     pass
-def recomendaTrilha(destinatario, idd, metodo="hibrido",polaridade="mista"):
+def recomendaTrilha(destinatario, idd, metodo="hibrido", polaridade="mista"):
     # que prazo final nao tenha passado
     # e prazo inicial esteja proximo
     # que possui amigos que colaboraram
     # que possui amigos e pessoas que interagiram com o destinatario
     # cujos textos sao proximos aos do participante
     pass
-def recomendaArtigo(destinatario, idd, metodo="hibrido",polaridade="mista"):
+def recomendaArtigo(destinatario, idd, metodo="hibrido", polaridade="mista"):
     # que seja de amigo ou de pessoa com quem interagiu
     # que tenha vocabulario parecido ou proximo
     # que tenha maior media de ambas
     pass
-def recomendaComentario(destinatario, idd, metodo="hibrido",polaridade="mista"):
+def recomendaComentario(destinatario, idd, metodo="hibrido", polaridade="mista"):
     # que seja de amigo ou de pessoa com quem interagiu
     # que tenha vocabulario parecido ou proximo
     # que tenha maior media de ambas
