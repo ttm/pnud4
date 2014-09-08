@@ -74,55 +74,61 @@ Este documento descreve rotinas de priorização de conteúdo e de autorregulaç
 
 \section{Introdução}
 \subsection{Contexto e importância da consultoria}
-Em confluência com o portal federal de participação social (Participa.br) e o Plano Nacinal de Participação Social (PNPS), esta consultoria propõe métodos de classificação e priorização de conteúdo e formas de autorregulação para o portal. O presente produto apresenta ``formas de priorização de conteúdo e de autorregulação'' na forma de um sistema de recomendação de recursos para participantes e linha editorial. No começo da seção~\ref{sec:dev} está explicitada a motivação para a implementação e a relação com o cumprimento dos termos deste Produto~\cite{termoReferencia}.
+Em confluência com o portal federal de participação social (Participa.br) e o Plano Nacinal de Participação Social (PNPS), esta consultoria é um aporte de conhecimentos e tecnologias de web semântica, redes complexas e processamento de linguagem natural. O presente produto apresenta ``formas de priorização de conteúdo e de autorregulação'' na forma de um sistema de recomendação de recursos para participantes e linha editorial. No começo da seção~\ref{sec:dev} está explicitada a motivação para a implementação e a relação com o cumprimento dos termos deste Produto~\cite{termoReferencia}.
 
 \subsection{Contexto e importância do Produto}
 \subsubsection{Objetivos}
-Este produto tem por objetivo principal a disponibilização de um sistema de recomendação de recursos do participa.br para usuários, tanto via critérios personalizados quanto considerando comunidades e linha editorial. Através deste sistema de recomendação, ficam facilitados, até mesmo prontamente disponíveis, diversos processos de autorregulação, de geração de resumos, de geração de relatórios e análises informativas. Objetivos secundários são:
+Este produto tem por objetivo principal a disponibilização de um sistema de recomendação de recursos do participa.br para usuários, tanto via critérios personalizados quanto considerando comunidades e linha editorial. Através deste sistema de recomendação, ficam facilitados, até mesmo prontamente disponíveis, diversos processos de autorregulação, de geração de resumos, de geração de relatórios e de análises informativas. Objetivos secundários são:
 \begin{itemize}
     \item Disponibilização de uma API HTTP, para uso no participa.br, conforme requisitado pela equipe do Participa.br em diversos itens dos produtos~\cite{prodExtra}.
-    \item A exposição destes algoritmos de recomendação aos visitantes em páginas HTML comuns, para edição execução dos trechos de código utilizados pela plataforma federal de participação social. Feito no IPython Notebook levantado para este trabalho~\cite{iNotebook}.
-    \item Aproveitamento do endpoint SparQL com os dados do participa.br, fortalecendo as tecnologias de dados linkados e web 3.0.
-    \item Em reunião com a consultora Daniela Feitosa, foi delineada a pertinência de um sistema de recomendação de perfis para um ActionIntem em andamento para o participa.br~\cite{AIFeitosa}. Este produto visa suprir esta necessidade através da API disponibilizada.
-    \item A entrega das tecnologias livres com simplicidade e boa documentação, favorecendo ao máximo o aproveitamento deste trabalho para melhoras, geração de derivados e novas e independentes tecnologias. Isso pode ser observado no repositório git público deste produto~\cite{pnud4}.
-    \item Compatibilizar ao máximo a entrega deste produto às demandas da equipe do participa.br.
-    \item Cumprir de forma precisa e pertinente a descrição deste quarto produto no Termo de Referência.
+    \item A exposição destes algoritmos de recomendação aos visitantes web via uso de browsers comuns, para edição e execução dos trechos de código utilizados pela plataforma federal de participação social. Este objetivo foi satisfeito usando o IPython Notebook levantado para este trabalho~\cite{iNotebook}.
+    \item Aproveitamento do endpoint SparQL com os dados do participa.br, fortalecendo as tecnologias de dados linkados e web 3.0~\cite{endpoint}.
+    \item Em reunião com a consultora Daniela Feitosa, foi delineada a pertinência de um sistema de recomendação de perfis para um ActionIntem em andamento para o participa.br~\cite{actionItem}. Este produto visa suprir esta necessidade através da API disponibilizada para recomendações.
+    \item A entrega das tecnologias livres com simplicidade e boa documentação, favorecendo o aproveitamento deste trabalho para melhoras, geração de derivados e novas e independentes tecnologias. Isso pode ser observado no repositório git público deste produto~\cite{repoProd4}.
+    \item Compatibilizar ao máximo a entrega deste produto às demandas da equipe do participa.br~\cite{prodExtra}.
+    \item Realizar de forma precisa e pertinente a especificação deste quarto produto no Termo de Referência~\cite{termoReferencia}.
 \end{itemize}
-\subsubsection{Resultados esperados}
-Em um aspecto mais amplo, o resultado do produto é iniciar um processo aberto de apropriação das análises e mecanismos de autorregulação para o portal federal de participação social.
 
-Como resultados diretos destes resultados, constam:
+\subsubsection{Resultados esperados}
+De imediato e mais central, o resultado do produto é iniciar um processo aberto de desenvolvimento e apropriação de análises e mecanismos de autorregulação para o portal federal de participação social.
+
+Como resultados diretos deste Produto, constam:
 \begin{itemize}
-    \item a habilitação para uso da API HTTP para recomendação de recursos do participa.br.
-    \item A interface para apreensão e inovação dos algoritmos, não somente exemplificada ou projetada, mas operante e disponível.
-    \item Um plano de implementação para o participa.br, que utiliza a API de recomendação para priorização de conteúdo e autorregulação.
-    \item Transparência absoluta no trabalho, com toda a documentação e código computacional online em um repositório git que contem o histórico de implementação.
-    \item Algoritmos implementados em código de simples leitura, para facilitar a implementação em Ruby ou Javascript, quando houverem recursos maduros para estas linguagens. (No momento, Python possui mais recursos e mais maduros tanto para redes complexas quanto para processamento de linguagem natural, o que justifica o servidor.)
-    \item Habilitação de implementações em andamento, como o plugin de recomendação de perfis~\cite{AIFeitosa}, para recomendar amigos para visitantes ou participantes. 
+    \item a habilitação para uso da API HTTP para recomendação de recursos do participa.br. Veja Apêndice~\ref{sec:api},~\ref{sec:infra} e~\ref{sec:inst}.
+    \item A interface para apreensão e inovação dos algoritmos, não somente exemplificada ou projetada, mas operante e disponível. Veja Apêndice~\ref{sec:algs}.
+    \item Um plano de implementação para o participa.br, que utiliza a API de recomendação para priorização de conteúdo e autorregulação. Veja Apêndice~\ref{sec:acr}.
+    \item Transparência absoluta no trabalho, com toda a documentação e código computacional online em um repositório git que contem o histórico de implementação~\cite{repoProd4}.
+    \item Algoritmos implementados em código de simples leitura, para facilitar a implementação em outras linguagens como Ruby ou Javascript, quando houverem recursos mais maduros para estas linguagens ou por necessidade. No momento, Python possui mais e mais maduros recursos tanto para redes complexas quanto para processamento de linguagem natural.
+    \item Habilitação de implementações em andamento, como o plugin de recomendação de perfis~\cite{actionItem}, para recomendar amigos para participantes. 
 \end{itemize}
 \subsubsection{Caráter inovador}
-Centralmente, este trabalho é inovador na aplicação de recursos de análise de redes sociais de forma comunitária, entregando as tecnologias e priorizando a reutilização. Este recurso é de vital interesse para a democracia participativa no contexto atual, com as revoluções da internet e redes sociais. Permite, em última instância, que haja uma inteligência para aproveitamento das estruturas sociais, e que esta inteligência seja pública, transparente, minimizando vetores vigilantistas ou turvos.
+Centralmente, este trabalho é inovador na aplicação de recursos de análise de redes sociais para empoderamento da sociedade civil, entregando as tecnologias e priorizando a reutilização. Este recurso é de vital interesse para a democracia participativa no contexto atual, com as revoluções da internet e das redes sociais. Permite, em última instância, que haja uma inteligência para aproveitamento das estruturas sociais, e que esta inteligência seja pública, transparente, minimizando vetores vigilantistas ou turvos.
 
-Há a inovação na arquitetura em software, apresentando traços de web 3.0 como os dados linkados como base de conhecimento e os múltiplos recursos online acessados no funcionamento usual (ao menos endpoint sparql para acesso aos dados, API HTTP Flask para tratar os dados e gerar estatísticas e estruturas de interesse, participa.br para interface e contexto pertinente).
+Há a inovação na arquitetura em software, apresentando traços de web 3.0 como os dados linkados como base de conhecimento e os múltiplos recursos online acessados no funcionamento usual (ao menos Endpoint SparQL para acesso aos dados, API HTTP Flask para tratar os dados e gerar estatísticas e estruturas de interesse, Participa.br para interface e contexto pertinente).
 
-Há inovação na difusão científica. Dados Linkados, Processamento de Linguagem Natural (PLN) e Redes Complexas (RC) são três termos empregados em textos científicos, consistindo de áreas que recebem pesquisas, revistas dedicadas e até carreiras científicas inteiras. Neste trabalho este conteúdo está em português e se presta a orientar contribuições de outras partes interessadas e de curiosos.
+Há inovação na difusão científica. Além dos métodos e tecnologias disponibilizadas, por exemplo, os termos Web Semântica, Processamento de Linguagem Natural e Redes Complexas são empregados em textos científicos e consistem em áreas que recebem pesquisas, revistas e até carreiras científicas inteiras. Neste Produto, este conteúdo está apresentado em português e se presta a facilitar contribuições de outras partes interessadas.
 
-Os métodos de recomendação em si não foram confrontados exaustivamente com a literatura, mas possivelmente possui também inovações nos procedimentos e certamente no contexto de implementação, tanto de relevância social quanto de aparato tecnológico.
+Os métodos de recomendação em si não foram confrontados exaustivamente com a literatura, mas possivelmente possuem também inovações nos procedimentos. Certamente há inovação no contexto de implementação, tanto de relevância social (portal federal de participação social) quanto de aparato tecnológico (web 3.0, métodos da física e de mineração de dados).
 
 \subsubsection{Aparato em software e hardware}
 
-O sistema de recomendações precisa ser mantido online, e isso implica na manutenção de uma estrutura em hardware e software que extrapola o objeto deste produto. As especificações desta arquitetura de software e hardware estão em um documento escrito pelo consultor a pedido da PR para a SNAS e DITEC~\cite{smDITEC}. Para fins de pesquisa e de entrega deste produto, o esquema da figura~\ref{fig:sm} é realizado em máquinas de pesquisa da USP, concedidas para a pesquisa de doutorado do consultor. Tal configuração é razoável pois a pesquisa conflui e é potencializada por esta consultoria, mas está prevista uma infraestrutura própria da PR para estes serviços. Além disso, os usos atuais ainda são moderados, sem causar sobrecarga ao serviços de computação em nuvem da USP.
 
-[Figura/Diagrama do endpoint+serv flask+frontEnd noosfero]
+O sistema de recomendação precisa ser mantido online, e isso implica na manutenção de uma estrutura em hardware e software que extrapola o objeto deste produto. As especificações desta arquitetura de software e hardware estão em um documento escrito pelo consultor a pedido da PR para a SNAS e DITEC~\cite{smDITEC}. Para fins de pesquisa e de entrega deste produto, o esquema da Figura~\ref{fig:sr} é realizado em máquinas de pesquisa da USP, concedidas para a pesquisa de doutorado do consultor. Tal configuração é razoável pois a pesquisa conflui e é potencializada por esta consultoria, mas está prevista uma infraestrutura própria da PR para estes serviços. Além disso, os usos atuais ainda são moderados, sem causar sobrecarga ao serviços de computação em nuvem da USP.
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{sr}
+  \caption{O sistema de recomendação e relações principais: com o frontend Participa.br e com a base de dados enriquecidos semanticamente.}\label{fig:sr}
+\end{figure}
 
 \section{Desenvolvimento}\label{sec:dev}
 O produto é descrito no Termo de Referência desta consultoria assim: ``Documento com proposta de adaptações e incrementos para a interface do portal e suas ferramentas que inclua elementos visuais e de usabilidade para mecanismos de priorização de conteúdos e auto-regulação com base nos metadados gerados nativamente pela plataforma do portal e nas análises de PLN e RC produzidas pelas ferramentas assistidas''.
 
 Dada a dimensão do participa.br, tanto da estrutura em software e das práticas participativas, quanto de mobilização humana, as propostas de adaptações para o portal são muitas e estão em diversos produtos deste e de outros consultores. Uma forma especialmente pertinente de realizar este produto, confluente com o Termo de Referência desta consultoria, com o trabalho dos gestores e comunidade e com os produtos deste e de outros consultores~\cite{prodExtra}, é a entrega de um sistema de recomendação de recursos para o participa.br.
 
-Conforme discutido em reunião com gestores e comunidade do participa.br~\cite{padProd4}, em termos de priorização de conteúdo, quase todos os casos de interesse para o atual participa.br podem ser considerados sistemas de recomendação. Além disso, os mecanismos de autorregulação são convenientemente calcados na adição de conteúdo e na espontaneidade dos participantes, o que pode novamente ser considerado através de sistemas de recomendação.
+Conforme discutido em reunião com gestores e comunidade do participa.br~\cite{padProd4}, em termos de \emph{priorização de conteúdo}, quase todos os casos de interesse para o atual participa.br podem ser considerados rotinas de recomendação. Além disso, dadas as práticas atuais de redes sociais, os mecanismos de autorregulação do participa.br são e serão baseados na adição de conteúdo por espontaneidade dos participantes. Esta dinâmica de adição espontânea de conteúdo pelos participantes conflui com sistemas de recomendação de recursos, pois estes podem catalizar sem coerção os processos participativos.
 
-Desta forma, foi idealizada a entrega de um sistema de recomendação de recursos do participa.br para seus usuários, comunidades e linha editorial. A subseção a seguir detalha componentes da versão operante deste sistema de recomendação de recursos. A seção~\ref{sec:uso} compreende previsões e propostas de integração com o participa.br.
+Desta forma, foi idealizada a entrega de um sistema de recomendação de recursos do participa.br para seus usuários, comunidades e linha editorial. As subseções a seguir apontam etapas na construção do sistema de recomendação. Os Apêndices~\ref{sec:api} e~\ref{sec:algs} concentram aspectos de operação do sistema. Os Apêndices~\ref{sec:infra} e~\ref{sec:inst} são voltados para os componentes e a instalação da versão operante deste sistema de recomendação de recursos. A seção~\ref{sec:uso} e o Apêndice~\ref{sec:acr} apreendem previsões e propostas de integração com o participa.br.
 
 \subsection{Etapas de desenvolvimento anteriores a este produto}
 \subsubsection{Sistematização ontológica da participação online}
@@ -220,7 +226,7 @@ A url usada para consulta HTTP incorpora os parâmetros da forma usual:
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
 \section{Parcela dos participantes que produziram texto ou interação}
 [análise no ipython notebook de quantos dos usuários estão nas rede de interação, amizades ou produziram texto]
-\section{Infraestrutura do sistema de recomendações}
-\section{Instalação e modificação do sistema de recomendações}
+\section{Infraestrutura do sistema de recomendações}\label{sec:infra}
+\section{Instalação e modificação do sistema de recomendações}\label{sec:inst}
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
 \end{document}
