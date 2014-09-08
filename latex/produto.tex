@@ -132,75 +132,77 @@ Desta forma, foi idealizada a entrega de um sistema de recomendação de recurso
 
 \subsection{Etapas de desenvolvimento anteriores a este produto}
 \subsubsection{Sistematização ontológica da participação online}
-Através de estudos e reuniões presenciais e online, Ontologia de Participação Social (OPS) foi revisada~\cite{OPS} e a Ontologia do Participa.br (OPA) foi feita~\cite{OPA}.
+Através de estudos e reuniões presenciais e online, a Ontologia de Participação Social (OPS) foi revisada~\cite{OPS} e a Ontologia do Participa.br (OPA) foi feita~\cite{OPA}.
 \subsubsection{Triplificação dos dados do participa.br}
-Feito um script para triplificar os dados do Participa.br, ou seja, enriquecimento semântico e escrita em RDF dos dados em Postgresql da instância Noosfero do Participa.br~\cite{triplifica}.
+Feito um script para triplificar os dados do Participa.br, ou seja, para o enriquecimento semântico e escrita em RDF dos dados em Postgresql da instância Noosfero do Participa.br~\cite{triplifica}.
 \subsubsection{Levantamento do endpoint SparQL}
-Para uso dos dados triplificados, pode-se recorrer a diversos métodos de leitura e disponibilização. Um método-chave é a disponibilização dos dados rdf (\emph{triple store}) em um \emph{endpoint sparql}. Para os fins de testes e usos leves (avisar consultor), está disponibilizado um endpoint SparQL em servidores da USP para pesquisa do consultor~\cite{endpoint}.
+Para uso dos dados triplificados, pode-se recorrer a diversos métodos de leitura e disponibilização. Um método-chave é a disponibilização dos dados rdf (\emph{triple store}) em um \emph{endpoint sparql}. Para os fins de testes, pesquisa e usos leves, está disponibilizado um endpoint SparQL em servidores da USP~\cite{endpoint}.
 \subsubsection{Análises iniciais, modelos}
 Análises dos dados do participa.br foram abertas no IPython Notebook, com ênfase no texto produzido e nas redes formadas~\cite{repoProd3}.
 \subsection{Etapas de desenvolvimento deste produto}
 \subsubsection{Reuniões com equipe do participa.br}
 Especial agradecimentos ao Ricardo Poppi, Ronald Costa, Enaile Ladanza, Joênio Costa, Daniela Feitosa e Fernando Cruz.
 \subsubsection{Estudos de aprofundamento e amadurecimento}
-Em especial, foram lidos todos os produtos entregues pelos consultores, visitados cursos no coursera e literatura científica~\cite{pnudExtra}.
+Em especial, foram lidos todos os produtos entregues pelos consultores, (re)visitados cursos no coursera e literatura científica~\cite{prodExtra}.
 \subsubsection{Escrita deste documento}
-Através da escrita deste documento, várias informações foram organizadas e sistematizadas, facilitando compreensão do contexto para especificação da API e entrega do produto.
+Através da escrita deste documento, várias informações foram organizadas e sistematizadas, facilitando compreensão do contexto para especificação da API de recomendação e entrega do produto.
 \subsubsection{Especificação da API de recomendação}
-Basicamente: quais URLs para recomendar quais recursos para quem, conforme explicitado no Apêndice~\ref{sec:api}.
+Basicamente, é convencionado um padrão na montagem das URLs para recomendar recursos de tipos especificados, para destinatários e por métodos também especificados. O Apêndice~\ref{sec:api} é dedicado a expor a convenção inicial entre URLs formadas e as recomendações que retornam.
 \subsubsection{Implementação do serviço para aquisição dos dados, processamento e entrega em JSON}
-Para a API da etapa acima, foi necessário desenvolver um servidor Flask cujas rotinas estão expostas conforme a etapa abaixo.
+Para a API da etapa acima, foi necessário desenvolver um servidor HTTP simples (em Flask). Veja pasta flask/ de~\cite{repoProd4}. 
 \subsubsection{Disponibilização das rotinas no IPython Notebook}
-Para expor os critérios de recomendação, e auxilizar análises e versões diferentes, as rotinas estão em um IPython Notebook. Veja o Apêndice~\ref{sec:algs} para uma exposição e detalhamento destas rotinas.
+Para expor os critérios de recomendação, disponibilizar análises e facilitar novas versões para as recomendações, as rotinas estão em um IPython Notebook. Veja o Apêndice~\ref{sec:algs} para uma exposição e detalhamento destas rotinas.
 \subsubsection{Proposta de implementações no portal federal de participação social}
 Com base no sistema de recomendações, nas demandas levantadas em reuniões e nos produtos já feitos por este e outros consultores, foi sistematizado um conjunto de propostas de acréscimos para o portal federal, detalhado no Apêndice~\ref{sec:acr}.
 \subsection{Justificativa do método}
-São usados diversos métodos neste produto. As justificativas se concentram nas tecnologias de web 3.0, de dados linkados, e nas demandas da equipe do participa.br, detectadas em reuniões e documentações produzidas~\cite{pnudExtra}.
+São usados diversos métodos neste produto. As justificativas se concentram nas tecnologias de web 3.0 (dados linkados e computação em nuvem), nas técnicas mais fundamentais/básicas/simples e nas demandas da equipe do participa.br, observadas através de reuniões e documentações produzidas recentemente pela equipe~\cite{prodExtra}.
 \subsection{Justificativa das fontes}
-A equipe do participa.br é a equipe da Presidência da República voltada para participação social. As fontes externas utilizadas, como artigos, livros e videos, são parte da pesquisa acadêmica do consultor, que possui produção bibliográfica própria.
+A equipe do participa.br é uma equipe estratégica da Presidência da República voltada para participação social. As fontes externas utilizadas, como artigos, livros e videos, são garimpadas como atual pesquisa acadêmica principal do consultor.
 \subsection{Confronto entre os resultados esperados e os alcançados}
-No Termo de Referência desta consultoria, este produto é descrito como ``Documento com proposta de adaptações e incrementos para a interface do portal''. Este produto entrega estas propostas na forma de modificações a serem implementadas no portal federal de participação social. Além disso, para facilitar estas implementações e fazer a conexão com os desenvolvimentos ontológicos e de dados linkados, foi implementado e disponibilizado um sistema de recomendação de recursos para o participa.br. Um terceiro expoente deste terceiro produto é a visita aos produtos dos outros consultores que, aliada às reuniões e pesquisas do consultor, fortalece a integração e pertinência do produto.
+No Termo de Referência desta consultoria, este produto é descrito como ``Documento com proposta de adaptações e incrementos para a interface do portal''. Este produto entrega estas propostas a serem implementadas no portal federal de participação social. Além disso, para facilitar estas implementações e fazer a conexão com os desenvolvimentos ontológicos e de dados linkados, foi implementado e disponibilizado um sistema de recomendação de recursos para o participa.br. Um outro resultado para além do esperado, é a consideração cuidadosa da comunidade de democracia participativa, com a disponibilização das rotinas de recomendação no IPython Notebook~\cite{iNotebook} e uma visita aos produtos dos outros consultores~\cite{prodExtra}.
+
 \section{Usos dos resultados}\label{sec:uso}
-Há usos previstos do sistema de recomendação, pois são demandas da equipe. Em especial, há o uso para habilitar o plugin de recomendação de perfis em desenvolvimento (ActionItem~\cite{actionItem}).
+Há usos previstos do sistema de recomendação, pois são demandas da equipe que motivaram o seu desenvolvimento. Em especial, há o uso previsto no plugin de recomendação de perfis (ActionItem~\cite{actionItem}).
 
 Há usos próprios dos participantes, como consultas aos recursos recomendados para si e para outros, e usos para a linha editorial do portal. Estes usos podem ser feitos no próprio servidor que disponibiliza o serviço de recomendação. Podem ser adaptados para a interface do participa.br, com plugins ou temas apropriados. Algumas sugestões de implementações estão no Apêndice~\ref{sec:acr}.
 
-Outro uso previsto, e que idealmente contará com incentivos da comunidade, é a evolução destes métodos de recomendação de perfis para melhor atender aos usos do portal e das comunidades. O consultor sugere que as comunidades sejam convidadas a apresentar uma ou mais pessoas com conhecimentos ou diposição para algoritmos e sistematizações. Esta pessoa passaria por uma reunião para apreensão dos métodos de recomendação e análise, com vistas a proposição de melhoras e ampliação das funcionalidades.
+Outro uso previsto, e que idealmente contará com incentivos da comunidade, é a evolução destes métodos de recomendação de perfis para melhor atender aos usos do portal e das comunidades. O consultor sugere que as comunidades sejam convidadas a apresentar uma ou mais pessoas com conhecimentos ou diposição para algoritmos e sistematizações. Esta pessoa poderia passar, por exemplo, por uma reunião para apreensão dos métodos de recomendação e análise, com vistas a proposição de melhoras e ampliação das funcionalidades.
 
-As rotinas de recomendação estarão disponíveis online, e editáveis e executáveis no browser no IPython Notebook, o que deve facilitar dinâmicas de compartilhamento e amadurecumento destes processos. Este uso dos resultados deste produto é ainda mais precioso do que a API em si ou o uso dela dentro do participa.br. Mesmo assim, dada a complexidade das técnicas usadas, das tecnologias envolvidas e dos propósitos, o uso da API dentro do participa.br trará menos desafios que a apreensão, aproveitamento e melhora destes métodos pela comunidade de democracia participativa.
+As rotinas de recomendação estarão disponíveis online, e editáveis e executáveis no browser via IPython Notebook, o que deve facilitar dinâmicas de compartilhamento e amadurecumento destes processos. Este uso dos resultados deste produto é ainda mais central do que a API em si ou o uso dela dentro do participa.br. Mesmo assim, dada a complexidade das técnicas usadas, das tecnologias envolvidas e dos propósitos, o uso da API dentro do participa.br trará menos desafios que a apreensão, aproveitamento e melhora destes métodos pela comunidade de democracia participativa. Por isso, fica reforçada a pertinência da atenção da comunidade. 
 
-Um uso previso é contemplar recursos de uma biblioteca digital assim como conteplar buscas e itens da biblioteca digital do participa.br como referência para indicar recursos ao participante. Análises dos dados do participa.br podem ser feitas diariamente e constar como documentos da biblioteca digital. Outras análises especiais podem entrar como itens na biblioteca digital, facilitadas com as rotinas já disponibilizadas, e facilitando outras, pois não exige instalação alguma, apenas visitas para páginas html via browsers usuais.
+Um uso previso é a potencialização de uma biblioteca digital, incluindo buscas e recomendações no participa.br. Também sobre biblioteca digital, mas agora na alimentação dela, análises dos dados do participa.br podem ser feitas diariamente e constar como documentos da biblioteca digital. Outras análises especiais podem entrar como itens na biblioteca digital, facilitadas com as rotinas já disponibilizadas, e facilitando posteriores.
 
 \section{Conclusão}
 \subsection{Comentários, sugestões, recomendações}
-O consultor recomenda que haja amadurecimentos em encontros, tanto para melhora deste legado do participa.br, quanto para apreensão dos métodos pela comunidades interessadas. 
+O consultor recomenda que haja amadurecimentos em encontros, tanto para melhora deste legado do participa.br, quanto para apreensão dos métodos pelas comunidades interessadas. 
 
 As estruturas básicas para as análises e recomendações, que são as redes (de amizade e de interação) e os histogramas de palavras, podem ser convenientemente incluidos na triplificação dos dados, de forma que as recomendações e análises fiquem mais leves. Por hora, para viabilizar o uso, o sistema de recomendações refaz estas estruturas caso seja visitado o caminho \url{recomenda/atualiza}. Estas estruturas são:
 \begin{itemize}
     \item Rede de amizades.
     \item Rede de interação.
-    \item Histograma de palavras de todos os textos e comentários do participa.br.
-    \item Seleção das X (200-400) palavras mais ocorrentes para caracterizar o domínio).
-    \item Histograma de palavras de cada usuário.
-    \item Contagem das ocorrências das palavras selecionadas para caracterizar o domínio (portal participativo).
+    \item Histograma de radicais das palavras de todos os textos (artigos e comentários) do participa.br.
+    \item Seleção dos 400 radicais mais ocorrentes para caracterizar o domínio.
+    \item Histograma de radicais de cada usuário e contagem das ocorrências das palavras selecionadas para caracterizar o domínio.
 \end{itemize}
 
-Os métodos de recomendação implementados utilizam separadamente critérios linguísticos ou de interação. Os casos e resultados
-já são interessantes e até complexos para uma primeira versão. Há planos para implementações de métodos
+Os métodos de recomendação implementados utilizam separadamente critérios linguísticos ou de interação/relacionamento. Os casos e resultados
+já são interessantes e até complexos para uma primeira versão. Há implementações delineadas 
 que utilizam ambos recursos linguísticos e de relacionamento (topológicos). Por hora, ambas as características podem ser
-utilizadas operando as pontuações das recomendações com base no texto com pontuações das recomendações com base em relacionamento.
+utilizadas operando as pontuações das recomendações com base no texto com pontuações das recomendações com base em interação/relacionamento.
 
 \subsection{Impacto do Produto para a elaboração, gestão e/ou avaliação de políticas públicas de participação social}
 Este trabalho torna disponível uma porção de avaliações automáticas dos processos participativos que ocorreram ou ocorrerem no participa.br. Estas mesmas avaliações podem ser usadas continuamente, facilitando a gestão. A elaboração pode se beneficiar da análise das experiências passadas, facilitada pelos métodos aqui presentes.
 
 Outro impacto pra a elaboração e gestão é basear o método de participação na utilização de métodos de recomendação de recursos. Por exemplo: pode-se recomendar que participantes com características X faça provocações. Estas provocações são enviadas para outros participantes como recomendações. Ainda a outros participantes pode ser recomendada a sistematização destes resultados. Um exemplo mais próximo da democracia participativa atual é uma etapa em que os participantes escrevem para recomendados participantes para fazer contato e iniciar discussões.
 
+Para a gestão, pode ficar facilitado o fomento e a qualificação da participação. Por exemplo, o plugin de recomendação de amigos~\cite{actionItem} deixa o portal mais interessante para o participante, pois apreende melhor seus relacionamentos e expõe os critérios de busca como instrumentos para sua participação. 
+
 \subsection{Como o Produto deverá impactar o público-alvo das políticas públicas a que se refere}
 As comunidades afeitas à participação social poderão aproveitar estas análises para melhor assimilação dos processos participativos, para relatórios, para gerar novos métodos de recomendação que melhor atendam aos interesses específicos das comunidades ou aos interesses da democracia participativa.
 
-Um impacto imediato é a transparência reforçada dos processos participativos, pois não somente os dados, mas as análises e as recomendações dos recursos do participa.br estão online e publicamente disponíveis.
+Um impacto imediato é a transparência reforçada dos processos participativos, pois não somente os dados, mas as análises e as recomendações dos recursos do participa.br estão online e publicamente disponíveis para geração de derivados.
 
-Outro impacto imediato é a valorização da participação. Sempre que um participante, por exemplo, fizer uma amizade ou comentar uma postagem ou outro comentário, ele estará constando nas redes envolvidas, modificará as análises atuais, e poderá ver seu nome e de outros em ranqueamentos diversos.
+Outro impacto imediato é a valorização da participação. Sempre que um participante, por exemplo, fizer uma amizade ou comentar uma postagem ou outro comentário, ele estará constando nas redes envolvidas, modificará as análises atuais, e poderá ver seu nome e de outros em relações diversas.
 
 \section{Agradecimentos}
 O consultor Renato Fabbri agradece ao Joenio Costa pelo template em \LaTeX para os produtos. Agradece à Daniela Feitosa pela reunião para demanda de recomendação de perfis. Agradece aos supervisores do trabalho realizado em torno do participa.br: Ricardo Poppi e Ronald Costa. Agradece ao labMacambira.sf.net e todas as comunidades de software e cultura livre que compõe esta contribuição.
@@ -215,18 +217,19 @@ O consultor Renato Fabbri agradece ao Joenio Costa pelo template em \LaTeX para 
 %\input{listadeanexos.tex}
 \appendix
 \section{Especificação da API de recomendação de recursos do participa.br}\label{sec:api}
-Embora as rotinas no Apêndice~\cite{sec:algs} possam ser adaptados para os mais diversos fins, na API disponibilizada há três campos principais e dois auxiliares:
+As rotinas no Apêndice~\ref{sec:algs} possam ser adaptados para os mais diversos fins. Na API disponibilizada há quatro campos principais e dois auxiliares:
 \begin{itemize}
     \item Recurso: o recurso a ser recomendado: participantes, comunidades, trilhas, artigos ou comentários.
     \item Destinatário: para quem está sendo feita a recomendação: participante, comunidade ou linha editorial. Campo auxiliar ``idd'' para id do destinatário (comunidade ou participante).
-    \item Método: método para a recomendação: top(ológico), tex(tual) ou hib(rido). Campo auxiliar de polaridade sim(ilar), dis(similar) ou mis(ta).
+    \item Método: método para a recomendação: ``topologico'', ``textual'' ou ``hibrido''. Campo auxiliar de polaridade similar, dissimilar ou mista.
 \end{itemize} 
 A url usada para consulta HTTP incorpora os parâmetros da forma usual:
-\url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=top&polaridade=mis}
+\url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=linha_editorial&metodo=top&polaridade=mis}
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
 \section{Parcela dos participantes que produziram texto ou interação}
 [análise no ipython notebook de quantos dos usuários estão nas rede de interação, amizades ou produziram texto]
 \section{Infraestrutura do sistema de recomendações}\label{sec:infra}
 \section{Instalação e modificação do sistema de recomendações}\label{sec:inst}
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
+Apontar dev do meteor+d3 p dev, processamento e alocação distribuída, além de streaming.
 \end{document}
