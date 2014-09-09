@@ -110,7 +110,7 @@ Há inovação na difusão científica. Além dos métodos e tecnologias disponi
 
 Os métodos de recomendação em si não foram confrontados exaustivamente com a literatura, mas possivelmente possuem também inovações nos procedimentos. Certamente há inovação no contexto de implementação, tanto de relevância social (portal federal de participação social) quanto de aparato tecnológico (web 3.0, métodos da física e de mineração de dados).
 
-\subsubsection{Aparato em software e hardware}
+\subsubsection{Aparato em software e hardware}\label{subsec:hs}
 
 
 O sistema de recomendação precisa ser mantido online, e isso implica na manutenção de uma estrutura em hardware e software que extrapola o objeto deste produto. As especificações desta arquitetura de software e hardware estão em um documento escrito pelo consultor a pedido da PR para a SNAS e DITEC~\cite{smDITEC}. Para fins de pesquisa e de entrega deste produto, o esquema da Figura~\ref{fig:sr} é realizado em máquinas de pesquisa da USP, concedidas para a pesquisa de doutorado do consultor. Tal configuração é razoável pois a pesquisa conflui e é potencializada por esta consultoria, mas está prevista uma infraestrutura própria da PR para estes serviços. Além disso, os usos atuais ainda são moderados, sem causar sobrecarga ao serviços de computação em nuvem da USP.
@@ -173,7 +173,7 @@ As rotinas de recomendação estarão disponíveis online, e editáveis e execut
 Um uso previso é a potencialização de uma biblioteca digital, incluindo buscas e recomendações no participa.br. Também sobre biblioteca digital, mas agora na alimentação dela, análises dos dados do participa.br podem ser feitas diariamente e constar como documentos da biblioteca digital. Outras análises especiais podem entrar como itens na biblioteca digital, facilitadas com as rotinas já disponibilizadas, e facilitando posteriores.
 
 \section{Conclusão}
-\subsection{Comentários, sugestões, recomendações}
+\subsection{Comentários, sugestões, recomendações}\label{subsec:com}
 O consultor recomenda que haja amadurecimentos em encontros, tanto para melhora deste legado do participa.br, quanto para apreensão dos métodos pelas comunidades interessadas. 
 
 As estruturas básicas para as análises e recomendações, que são as redes (de amizade e de interação) e os histogramas de palavras, podem ser convenientemente incluidos na triplificação dos dados, de forma que as recomendações e análises fiquem mais leves. Por hora, para viabilizar o uso, o sistema de recomendações refaz estas estruturas caso seja visitado o caminho \url{recomenda/atualiza}. Estas estruturas são:
@@ -233,7 +233,35 @@ A url usada para consulta HTTP incorpora os parâmetros da forma usual:
 \section{Parcela dos participantes que produziram texto ou interação}
 \includepdf[pages=-]{anexos/pnud4-ap.pdf}
 \section{Infraestrutura do sistema de recomendações}\label{sec:infra}
-[descricao das partes (recapitulacao da figura 1) e dos arquivos, mas sem incluir código]
+A estrutura geral em software e hardware está delineada na subseção~\ref{subsec:hs}
+e é tema de todo este documento. Este apêndice descreve os scripts
+do sistema de recomendação.
+
+O sistema usufrui do endpoint SparQL para adquirir os dados. O usuário/cliente
+do sistema de recomendação acessa URLs via HTTP e recebe JSON, da forma usual.
+As rotinas de recomendação em si estão no Apêndice~\ref{sec:algs}. Dada a maturidade
+das bibliotecas em Python, a facilidade de desenvolvimento e a capacidade
+da comunidade em aproveitar scripts simples na linguagem, todo o sistema de recomendação
+está em Python. O servidor HTTP feito em Flask, o acesso ao endpoint SparQL (jena) pelo
+SPARQLWrapper, o processamento de linguagem natural em NLTK, os aproveitamentos
+das redes complexas em NetworkX. Bibliotecas padrão da linguagem (\emph{builtin} na \emph{Python Standard Library}),
+e que estão em uso no sistema de recomendação,
+são: json, cPickle, string, random, \_\_builtin\_\_.
+
+O sistema está na pasta flask/ do repositório público~\cite{repoProd4}.
+As bibliotecas podem todas serem instaladas via pip e para iniciar o sistema,
+basta chamar \texttt{\$ python recomenda.py} ou apontar o apache para a pasta via WSGI.
+O sistema levará até 30 minutos para iniciar, pois é necessária a criação das estruturas auxiliares
+descritas na seção~\ref{subsec:com}. Este tempo de espera para processar é um dos principais motivadores para incluir estas estruturas nos dados triplificados, disponíveis no endpoint SparQL.
+
+Pode-se considerar os arquivos do sistema de recomendação, disponíveis na pasta flask/, assim:
+\begin{itemize}
+    \item \texttt{configuracao.py}: variáveis de configuração utilizadas em mais de um arquivo, como a URL do endpoint SparQL, as stopwords consideradas, os caracteres desconsiderados e os prefixos (namespaces) usados para as consultas SparQL. Atualmente \href{https://github.com/ttm/pnud4/blob/master/flask/configuracao.py}{o script} possui menos de 20 linhas de código.
+    \item \texttt{auxiliar.py}: rotinas de criação das estruturas auxiliares. Por hora são quatro: 1) redes de amizade e 2) de interação. 3) Histograma de palavras usadas em todo participa.br e 4) por cada usuário. Atualmente \href{https://github.com/ttm/pnud4/blob/master/flask/auxiliar.py}{o script} possui $\approx 150$ linhas de código.
+    \item \texttt{rotinasRecomendacao.py}: as rotinas de recomendação de recursos propriamente ditas. Utilizam as estruturas auxiliares e opções dadas pelo usuário/cliente. Retorna recomendações. Atualmente, \href{https://github.com/ttm/pnud4/blob/master/flask/rotinasRecomendacao.py}{o script} possui mais de 350 linhas de código.
+    \item \texttt{recomenda.py}: este arquivo levanta o servidor Flask e repassa as opções escritas na URL (método GET) para as rotinas em \texttt{rotinasRecomendacao.py}. Atualmente, \href{https://github.com/ttm/pnud4/blob/master/flask/recomenda.py}{o script} possui menos de 100 linhas de código.
+\end{itemize}
+
 \section{Instalação e modificação do sistema de recomendações}\label{sec:inst}
 [descrever instalação e possibilidades no heroku. Também do uso do ipython notebook para fomentar inovação]
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}

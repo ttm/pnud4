@@ -28,6 +28,19 @@ def foo():
 def foo2():
     return "bar"
 
+@app.route("/atualiza/")
+def atualiza():
+    atime=T.time()
+    foo=""
+    fazRedeAmizades()
+    foo+=str(T.time()-atime)
+    fazRedeInteracao()
+    foo+="<br />"+str(T.time()-atime)
+    fazBoW()
+    foo+="<br />"+str(T.time()-atime)
+    fazBoWs()
+    foo+="<br />"+str(T.time()-atime)
+    return "atualizado!"+foo
 @app.route("/tudo")
 def tudo():
     return "tudo"+request.args.get("coisa")+request.args["aquela"]
