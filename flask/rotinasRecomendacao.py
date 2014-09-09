@@ -10,6 +10,13 @@ from configuracao import *
 g=__builtin__.g
 # tb com rede direcionada, de interação
 d=__builtin__.d
+# histograma de palavras e as palavras mais usadas:
+bow=__builtin__.bow
+radicais_escolhidos=__builtin__.radicais_escolhidos
+# histograma de cada participante:
+bows=__builtin__.bows
+
+### derivados:
 d_=x.Graph()
 efoo=d.edges(data=True)
 for e in efoo:
@@ -17,31 +24,14 @@ for e in efoo:
         d_[e[0]][e[1]]["weight"]+=e[2]["weight"]
     else:
         d_.add_edge(e[0],e[1],weight=e[2]["weight"])
-# histograma de palavras e as palavras mais usadas:
-h=__builtin__.fdist_
-palavras_escolhidas=__builtin__.palavras_escolhidas
-# histograma de cada participante:
-bows=__builtin__.bows
-
-### derivados:
 eg=g.edges()
 ed=d.edges(data=True)
 ed_=d_.edges(data=True)
 
-PREFIX="""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX ops: <http://purl.org/socialparticipation/ops#>
-PREFIX opa: <http://purl.org/socialparticipation/opa#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX dc: <http://purl.org/dc/terms/>
-PREFIX tsioc: <http://rdfs.org/sioc/types#>
-PREFIX sioc: <http://rdfs.org/sioc/ns#>
-PREFIX schema: <http://schema.org/>"""
-
 def NL(narray):
     return narray/narray.sum()
 
-def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="ambas",ordenacao="compartimentada"):
+def recomendaParticipante(destinatario, idd="foo", metodo="topologico",polaridade="ambas",ordenacao="compartimentada"):
     u"""Sistema de recomendação de usuários para outros usuários e comunidades
 
     Parâmetros
@@ -59,10 +49,10 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
     """
     recomendacoes=[]
     if destinatario=="linha_editorial":
-        ###
-        # topologico
-        # puxa a rede em si, retorna geral
         if metodo in ("topologico","hibrido"):
+            ###
+            # topologico
+            # puxa a rede em si, retorna geral
             wd=d.degree(weight="weight")
             wd_=[(i,wd[i]) for i in wd.keys()]
             wd_.sort(key=lambda x: -x[1])
@@ -96,7 +86,7 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
             # textual
             # usa BoW para comparar os usuarios com a media geral,
             # retorna dos mais típicos e os outliers
-            ocorrencias=[h[i] for i in palavras_escolhidas]
+            ocorrencias=[bow[i] for i in radicais_escolhidos]
             bow=n.array(ocorrencias,dtype=float)
             bowNL=NL(bow)
             rec=[]
@@ -114,143 +104,143 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
                       "criterio":criterio})
         ###
         # hibrido
-    if destinatario=="participante":
-        uri="http://participa.br/profiles/"+idd
-        if metodo in ("topologico","hibrido"):
-            ###
-            # todos os participantes x_n com que interagiu,
-            # na ordem decrescente de interação:
-            # {d_i}_0^n, I[x_n]>=I[x_(n-1)],
-            # com I a intensidade interacao, o número de mensagens trocadas
-            if uri in d_.nodes():
-                x_n=d_[uri]
-                x_n_=[(i,x_n[i]["weight"]) for i in x_n.keys()]
-                x_n_.sort(key=lambda x: -x[1])
-        
-                # é feita sugestão dos participantes que não são amigos:
-                # x_n!=g_n, g_n um amigo
-                if uri in g.nodes():
-                    viz=g.neighbors(uri)
-                    x_n_=[i for i in x_n_ if i[0] not in viz]
-            recomendados=[i[0] for i in x_n_]
-            pontuacao=[i[1] for i in x_n_]
-            criterio="numero de interacoes"
-            recomendacoes.append({"recomendados":recomendados,
-                                  "pontuacao":pontuacao,
-                                  "criterio":criterio})
-            ###
-            # avançado e talvez desnecessário: recomenda usuários
-            # com quem os amigos mais interagiram 
-            # e q jah n sao amigos do participante que recebe a recomendação
-            # pode ficar pesado quando o usuário tiver muitos amigos
-
-            ###
-            # achar amigo de amigo, excluir amigos e recomendar
+if destinatario=="participante":
+    uri="http://participa.br/profiles/"+idd
+    if metodo in ("topologico","hibrido"):
+        ###
+        # todos os participantes x_n com que interagiu,
+        # na ordem decrescente de interação:
+        # {d_i}_0^n, I[x_n]>=I[x_(n-1)],
+        # com I a intensidade interacao, o número de mensagens trocadas
+        if uri in d_.nodes():
+            x_n=d_[uri]
+            x_n_=[(i,x_n[i]["weight"]) for i in x_n.keys()]
+            x_n_.sort(key=lambda x: -x[1])
+    
+            # é feita sugestão dos participantes que não são amigos:
+            # x_n!=g_n, g_n um amigo
             if uri in g.nodes():
-                vizs=g.neighbors(uri)
-                vizs_=set(vizs)
-                vv=[]
-                for viz in vizs:
-                    vv+=g.neighbors(viz)
-                vv_=list(set(vv))
-                candidatos=[(i,vv.count(i)) for i in vv_ if i not in vizs_]
-                candidatos.sort(key=lambda x: -x[1])
+                viz=g.neighbors(uri)
+                x_n_=[i for i in x_n_ if i[0] not in viz]
+        recomendados=[i[0] for i in x_n_]
+        pontuacao=[i[1] for i in x_n_]
+        criterio="numero de interacoes"
+        recomendacoes.append({"recomendados":recomendados,
+                              "pontuacao":pontuacao,
+                              "criterio":criterio})
+        ###
+        # avançado e talvez desnecessário: recomenda usuários
+        # com quem os amigos mais interagiram 
+        # e q jah n sao amigos do participante que recebe a recomendação
+        # pode ficar pesado quando o usuário tiver muitos amigos
 
-            recomendados=[i[0] for i in candidatos]
-            pontuacao=[i[1] for i in candidatos]
-            criterio="mais amigos em comum"
-            recomendacoes.append({"recomendados":recomendados,
-                                  "pontuacao":pontuacao,
-                                  "criterio":criterio})
-            ###
-            if polaridade in ("dissimilar","ambas"):
-                recomendacoesD=[] # para recomendacoes com polaridade dissimilar
-                ### maiores geodesicas partindo do destinatario. 
-                if uri in g.nodes():
-                    caminhos=x.shortest_paths.single_source_shortest_path(g,uri)
-                    caminhos_=[caminhos[i] for i in caminhos.keys()]
-                    caminhos_.sort(key=lambda x : -len(x))
-                    #distantes=[(i[-1],len(i)) for i in caminhos_]
-                    recomendados=[i[-1] for i in caminhos_ if len(i)>2]
-                    pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
-                    criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de amizades que os separam"
-                    recomendacoesD.append({"recomendados": recomendados,
+        ###
+        # achar amigo de amigo, excluir amigos e recomendar
+        if uri in g.nodes():
+            vizs=g.neighbors(uri)
+            vizs_=set(vizs)
+            vv=[]
+            for viz in vizs:
+                vv+=g.neighbors(viz)
+            vv_=list(set(vv))
+            candidatos=[(i,vv.count(i)) for i in vv_ if i not in vizs_]
+            candidatos.sort(key=lambda x: -x[1])
+
+        recomendados=[i[0] for i in candidatos]
+        pontuacao=[i[1] for i in candidatos]
+        criterio="mais amigos em comum"
+        recomendacoes.append({"recomendados":recomendados,
+                              "pontuacao":pontuacao,
+                              "criterio":criterio})
+        ###
+        if polaridade in ("dissimilar","ambas"):
+            recomendacoesD=[] # para recomendacoes com polaridade dissimilar
+            ### maiores geodesicas partindo do destinatario. 
+            if uri in g.nodes():
+                caminhos=x.shortest_paths.single_source_shortest_path(g,uri)
+                caminhos_=[caminhos[i] for i in caminhos.keys()]
+                caminhos_.sort(key=lambda x : -len(x))
+                #distantes=[(i[-1],len(i)) for i in caminhos_]
+                recomendados=[i[-1] for i in caminhos_ if len(i)>2]
+                pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
+                criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de amizades que os separam"
+                recomendacoesD.append({"recomendados": recomendados,
+                                "pontuacao":pontuacao,
+                                "criterio":criterio})
+            # feito para amigos, agora com a rede de interacao
+            if uri in d.nodes():
+                caminhos=x.shortest_paths.single_source_shortest_path(d,uri)
+                caminhos_=[caminhos[i] for i in caminhos.keys()]
+                caminhos_.sort(key=lambda x : -len(x))
+                recomendados=[i[-1] for i in caminhos_ if len(i)>2]
+                pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
+                criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de interacoes que os separam"
+                recomendacoesD.append({"recomendados":recomendados,
                                     "pontuacao":pontuacao,
                                     "criterio":criterio})
-                # feito para amigos, agora com a rede de interacao
-                if uri in d.nodes():
-                    caminhos=x.shortest_paths.single_source_shortest_path(d,uri)
-                    caminhos_=[caminhos[i] for i in caminhos.keys()]
-                    caminhos_.sort(key=lambda x : -len(x))
-                    recomendados=[i[-1] for i in caminhos_ if len(i)>2]
-                    pontuacao=  [len(i) for i in caminhos_ if len(i)>2]
-                    criterio="participantes na mesma rede de amizades, mas mais distantes entre si em numero de interacoes que os separam"
-                    recomendacoesD.append({"recomendados":recomendados,
-                                        "pontuacao":pontuacao,
-                                        "criterio":criterio})
-                # participantes de outras componentes conexas com relacao ao destinatario
-                if uri in g.nodes():
-                    comps=x.connected_components(g)
-                    # caso haja duas componentes conexas
-                    if len(comps)>1:
-                        recomendados=[]
-                        # caso sejam exatamente duas componentes:
-                        if len(comps)==2:
-                           for comp in comps:
-                                if uri not in comp:
-                                    # recomenda a componente toda
-                                    recomendados+=[(i,1) for i in comp]
-                                    criterio="participantes da unica componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao dummy"
-                        # caso sejam mais de duas componentes:
-                        else:
-                            for comp in comps:
-                                if uri not in comp:
-                                    # escolhe participante da componente
-                                    recomendados.append((random.sample(comp,1),len(comp)))
-                                    criterio="participante de componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao eh o numero de participantes da componente"
-                        recomendados_=[i[0] for i in recomendados]
-                        pontuacao=[i[1] for i in recomendados]
-                        recomendacoesD.append({"recomendados": recomendados_,
-                                        "pontuacao":pontuacao,
-                                        "criterio":criterio})
-        if metodo in ("textual","hibrido"):
-            # acha amigos
+            # participantes de outras componentes conexas com relacao ao destinatario
             if uri in g.nodes():
-                amigos=g.neighbors(uri)
-            else:
-                amigos=[]
-            # verifica se bow eh vazia
-            # listar pelos que tem vocabulário mais semelhante
-            # segundo critério de menor distancia euclidiana
-            bow=bows[uri]
-            if bow[0].N() == 0:
-                # bow do destinatario vazia, usando media geral:
-                ocorrencias=[h[i] for i in palavras_escolhidas]
-                bow=n.array(ocorrencias,dtype=float)
-            else:
-                bow=n.array(bow[1],dtype=float)
-            uris=bows.keys()
-            rec=[]
-            for uri_ in uris:
-                if uri_ != uri and uri_ not in amigos:
-                    bow_=n.array(bows[uri_][1],dtype=n.float)
-                    distancia=n.sum((NL(bow)-NL(bow_))**2
-                    rec.append((uri_,distancia))
-            rec.sort(key = lambda x: x[1])
-            if len(rec)>0:
-                recomendados=[i[0] for i in rec]
-                pontuacao=[1/(i[1]+1) for i in rec]
-                criterio="semelhanca dentre vocabularios E (0,1]. Calculo: semelhanca = 1/(1+distancia^2 das bags of words dos participantes, do vocabulario selecionado)"
-                recomendacoes.append({"recomendados":recomendados,
-                          "pontuacao":pontuacao,
-                          "criterio":criterio})
-        if metodo=="hibrido":
-            # fazer medida composta de vocabulario e proximidade na rede de interação
-            # fazer medida composta de vocabulario e proximidade na rede de amizades
-            # pega amigo de amigo, rankeia por media de amigos em comum e vocabulario em comum
-        ## polaridade negativa:
-            # pega amigo de amigo, rankeia por inverso da media de amigos em comum e vocabulario diferente
-            pass
+                comps=x.connected_components(g)
+                # caso haja duas componentes conexas
+                if len(comps)>1:
+                    recomendados=[]
+                    # caso sejam exatamente duas componentes:
+                    if len(comps)==2:
+                       for comp in comps:
+                            if uri not in comp:
+                                # recomenda a componente toda
+                                recomendados+=[(i,1) for i in comp]
+                                criterio="participantes da unica componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao dummy"
+                    # caso sejam mais de duas componentes:
+                    else:
+                        for comp in comps:
+                            if uri not in comp:
+                                # escolhe participante da componente
+                                recomendados.append((random.sample(comp,1),len(comp)))
+                                criterio="participante de componente de amizade disconexa com a do beneficiario que recebe a recomendacao, pontuacao eh o numero de participantes da componente"
+                    recomendados_=[i[0] for i in recomendados]
+                    pontuacao=[i[1] for i in recomendados]
+                    recomendacoesD.append({"recomendados": recomendados_,
+                                    "pontuacao":pontuacao,
+                                    "criterio":criterio})
+    if metodo in ("textual","hibrido"):
+        # acha amigos
+        if uri in g.nodes():
+            amigos=g.neighbors(uri)
+        else:
+            amigos=[]
+        # verifica se bow eh vazia
+        # listar pelos que tem vocabulário mais semelhante
+        # segundo critério de menor distancia euclidiana
+        bow=bows[uri]
+        if bow[0].N() == 0:
+            # bow do destinatario vazia, usando media geral:
+            ocorrencias=[bow[i] for i in radicais_escolhidos]
+            bow=n.array(ocorrencias,dtype=float)
+        else:
+            bow=n.array(bow[1],dtype=float)
+        uris=bows.keys()
+        rec=[]
+        for uri_ in uris:
+            if uri_ != uri and uri_ not in amigos:
+                bow_=n.array(bows[uri_][1],dtype=n.float)
+                distancia=n.sum(NL(bow)-NL(bow_))**2
+                rec.append((uri_,distancia))
+        rec.sort(key = lambda x: x[1])
+        if len(rec)>0:
+            recomendados=[i[0] for i in rec]
+            pontuacao=[1/(i[1]+1) for i in rec]
+            criterio="semelhanca dentre vocabularios E (0,1]. Calculo: semelhanca = 1/(1+distancia^2 das bags of words dos participantes, do vocabulario selecionado)"
+            recomendacoes.append({"recomendados":recomendados,
+                      "pontuacao":pontuacao,
+                      "criterio":criterio})
+    if metodo=="hibrido":
+        # fazer medida composta de vocabulario e proximidade na rede de interação
+        # fazer medida composta de vocabulario e proximidade na rede de amizades
+        # pega amigo de amigo, rankeia por media de amigos em comum e vocabulario em comum
+    ## polaridade negativa:
+        # pega amigo de amigo, rankeia por inverso da media de amigos em comum e vocabulario diferente
+        pass
     #####
     # a ordenacao eh por padrao compartimentada e por semelhança
     # primeiro inverter se for dissemelhante ou ambas as polaridades
@@ -273,7 +263,10 @@ def recomendaParticipante(destinatario, idd, metodo="topologico",polaridade="amb
     if ordenacao=="embaralhada":
         recs=[]
         for i in xrange(len(recomendacoes)):
-            for j in xrange(len(recomendacoes[i]["recomendados"])):
+            tanto=int(len(recomendacoes[i]["recomendados"])*0.1)
+            if tanto < 2:
+                tanto=min(5,len(recomendacoes[i]["recomendados"]))
+            for j in xrange(tanto):
                 recomendado=recomendacoes[i]["recomendados"][j]
                 pontuacao=recomendacoes[i]["pontuacao"][j]
                 criterio=recomendacoes[i]["criterio"]
@@ -354,4 +347,5 @@ def recomendaComentario(destinatario, idd, metodo="hibrido", polaridade="mista")
     # que tenha vocabulario parecido ou proximo
     # que tenha maior media de ambas
     pass
-def recomendaPalavra(destinatario, odd, metodo="hibrido", polaridade="mista")
+def recomendaPalavra(destinatario, odd, metodo="hibrido", polaridade="mista"):
+    pass

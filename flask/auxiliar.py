@@ -48,11 +48,12 @@ def fazRedeInteracao():
     __builtin__.d=d
 
 def fazBoW():
-    """Faz Bag of Words de todos os comentários do site"""
-    q="SELECT ?comentario ?titulo ?texto WHERE \
-               {?comentario dc:type tsioc:Comment.\
-              OPTIONAL {?comentario dc:title ?titulo . }\
-               OPTIONAL {?comentario schema:text ?texto .}}"
+    """Faz Bag of Words de todos os comentários e artigos do site"""
+    q="SELECT ?cbody ?titulo ?abody WHERE \
+               {?foo ops:performsParticipation ?participacao.\
+              OPTIONAL { ?participacao schema:articleBody ?abody. }\
+              OPTIONAL {?participacao dc:title ?titulo . }\
+               OPTIONAL {?participacao schema:text ?cbody .}}"
     sparql=SPARQLWrapper(URL_ENDPOINT_)
     sparql.setQuery(PREFIX+q)
     sparql.setReturnFormat(JSON)
@@ -60,18 +61,22 @@ def fazBoW():
     msgs_=results["results"]["bindings"]
     msgs=[mm for mm in msgs_ if ("titulo" not in mm.keys()) or
           (("teste de stress" not in mm["titulo"]["value"].lower())
-          and ("comunidade de desenvolvedores e nesse caso, quanto mais"
-               not in mm["texto"]["value"].lower()))]
-    palavras=string.join([i["texto"]["value"].lower() for i in msgs])
-    palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE)
-    #palavras = ''.join(ch for ch in palavras if ch not in EXCLUDE).encode('utf-8')
-    palavras_=palavras.split()
-    palavras__=[stemmer.stem(pp) for pp in palavras_ if pp not in STOPWORDS]
-    fdist_=k.FreqDist(palavras__)
-    # escolhendo as 400 palavras mais incidentes para referência
-    palavras_escolhidas=fdist_.keys()[:400]
-    __builtin__.palavras_escolhidas=palavras_escolhidas
-    __builtin__.fdist_=fdist_
+          or ("cbody" not in mm.keys() or ("comunidade de desenvolvedores e nesse caso, quanto mais"
+               not in mm["cbody"]["value"].lower())))]
+    textos1=[i["cbody"]["value"] for i in msgs if "cbody" in i.keys()]
+    textos2=[i["abody"]["value"] for i in msgs if "abody" in i.keys()]
+    textos=textos1+textos2
+    # faz BoW e guarda num dict
+    texto=string.join(textos).lower()
+    texto_= ''.join(ch for ch in texto if ch not in EXCLUDE)
+
+    texto__=texto_.split()
+    #texto___=[stemmer.stem(pp) for pp in texto__]
+    texto___=[stemmer.stem(pp) for pp in texto__ if (pp not in STOPWORDS) and (not pp.isdigit())]
+    fdist=k.FreqDist(texto___)
+    radicais_escolhidos=fdist.keys()[:400]
+    __builtin__.radicais_escolhidos=radicais_escolhidos
+    __builtin__.bow=fdist
 
 def fazBoWs():
     """Faz Bag of Words de cada usuário"""
@@ -87,10 +92,10 @@ def fazBoWs():
     participantes_=results["results"]["bindings"]
     participantes=[i["participante"]["value"] for i in participantes_]
     # inicia loop
-    if "palavras_escolhidas" not in dir(__builtin__):
+    if "radicais_escolhidos" not in dir(__builtin__):
         print(u"rode BoW antes, para saber do vocabulário geral do portal")
     else:
-        palavras_escolhidas=__builtin__.palavras_escolhidas
+        radicais_escolhidos=__builtin__.radicais_escolhidos
     bows={}
     for participante in participantes:
         # puxa todos os comentarios de cada usuario
@@ -100,22 +105,28 @@ def fazBoWs():
                <%s> ops:performsParticipation ?participacao.
                  OPTIONAL { ?participacao schema:articleBody ?abody. }
                  OPTIONAL { ?participacao schema:text ?cbody. }
+                 OPTIONAL {?comentario dc:title ?titulo . }
              }"""%(participante,)
         sparql = SPARQLWrapper("http://localhost:82/participabr/query")
         sparql.setQuery(PREFIX+q)
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()
         results_=results["results"]["bindings"]
-        textos1=[i["cbody"]["value"] for i in results_ if "cbody" in i.keys()]
-        textos2=[i["abody"]["value"] for i in results_ if "abody" in i.keys()]
+        results__=[mm for mm in results_ if ("titulo" not in mm.keys()) or
+          (("teste de stress" not in mm["titulo"]["value"].lower())
+          or ("cbody" not in mm.keys() or ("comunidade de desenvolvedores e nesse caso, quanto mais"
+               not in mm["cbody"]["value"].lower())))]
+
+        textos1=[i["cbody"]["value"] for i in results__ if "cbody" in i.keys()]
+        textos2=[i["abody"]["value"] for i in results__ if "abody" in i.keys()]
         textos=textos1+textos2
         # faz BoW e guarda num dict
         texto=string.join(textos).lower()
-        texto_= ''.join(ch for ch in texto if ch not in EXCLUDE).encode('utf-8')
+        texto_= ''.join(ch for ch in texto if ch not in EXCLUDE)
         texto__=texto_.split()
         texto___=[stemmer.stem(pp) for pp in texto__ if pp not in STOPWORDS]
         fdist=k.FreqDist(texto___)
-        ocorrencias=[fdist[i] for i in palavras_escolhidas]
+        ocorrencias=[fdist[i] for i in radicais_escolhidos]
         bows[participante]=(fdist,ocorrencias)
     __builtin__.bows=bows
 

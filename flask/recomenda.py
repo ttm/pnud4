@@ -50,6 +50,7 @@ def recomenda():
     idd=         request.args.get("idd")
     metodo=      request.args.get("metodo")
     polaridade=  request.args.get("polaridade")
+    ordenacao=  request.args.get("ordenacao")
     if recurso=="participante":
         rec=rotinasRecomendacao.recomendaParticipante(destinatario,idd,metodo,polaridade)
     if recurso=="comunidade":
@@ -61,10 +62,6 @@ def recomenda():
     if recurso=="comentario":
         rec=rotinasRecomendacao.recomendaComentario(destinatario,idd,metodo,polaridade)
     return json.dumps(rec)
-
-    
-    
-    return "tudo"+request.args.get("coisa")+request.args["aquela"]
 if __name__ == "__main__":
     app.debug = True
     print T.time()-atime

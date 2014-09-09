@@ -224,8 +224,12 @@ As rotinas no Apêndice~\ref{sec:algs} possam ser adaptados para os mais diverso
     \item Método: método para a recomendação: ``topologico'', ``textual'' ou ``hibrido''. Campo auxiliar de polaridade similar, dissimilar ou mista.
 \end{itemize} 
 A url usada para consulta HTTP incorpora os parâmetros da forma usual:
-\url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=linha_editorial&metodo=top&polaridade=mis}
+\url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=linha_editorial&metodo=topologico&polaridade=mis&ordenacao=embaralhada}
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
+\subsection{Estruturas auxiliares}
+\includepdf[pages=-]{anexos/pnud4aux.pdf}
+\subsection{Rotinas para recomendação de recursos}
+\includepdf[pages=-]{anexos/pnud4rr.pdf}
 \section{Parcela dos participantes que produziram texto ou interação}
 [análise no ipython notebook de quantos dos usuários estão nas rede de interação, amizades ou produziram texto]
 \section{Infraestrutura do sistema de recomendações}\label{sec:infra}
