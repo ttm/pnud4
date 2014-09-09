@@ -263,7 +263,23 @@ Pode-se considerar os arquivos do sistema de recomendação, disponíveis na pas
 \end{itemize}
 
 \section{Instalação e modificação do sistema de recomendações}\label{sec:inst}
-[descrever instalação e possibilidades no heroku. Também do uso do ipython notebook para fomentar inovação]
+O sistema de recomendação pode ser instalado em poucos passos. Por exemplo, em um sistema Ubuntu, os seguintes passos são suficientes:
+\begin{enumerate}
+    \item Clone do repositório: \texttt{\$ git clone http://github.com/ttm/pnud4}.
+    \item Na pasta flask/, inicia serviço com \texttt{\$ python recomenda.py} (ou aponta apache para a pasta com wsgi).
+    \item Caso necessário, arrumar configurações de acesso ao endpoint SparQL no arquivo \texttt{configuração.py}.
+\end{enumerate}
+
+Para fins de uso do sistema de recomendações dentro do Participa.br, é apropriado o uso de infraestrutura dedicada e que assegure a disponibilidade do serviço. Idealmente, este sistema deve estar junto and endpoint SparQL com os dados do participa.br. Para usos em frontends próprios, este mesmo sistema pode ser instalado em servidos de computação em nuvem gratuítos, como o heroku. Este uso de tecnologias leves e bastante difundidas visa facilitar a geração de materiais derivados. O IPython Notebook também se presta a este fim, com as rotinas expostas para execução e modificaçã pelo visitante que as acesso por browsers usuais (firefox, chrome)~\cite{iNotebook}.
+
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
 Apontar dev do meteor+d3 p dev, processamento e alocação distribuída, além de streaming.
+
+Apontar ActionItem.
+
+Visitar instancia online do participa.br para apontar na interface possibilidades de implementação de outras recomendações e análises.
+
+Apontar da criação de análises periódicas diárias, semanais, mensais, etc.
+
+Apontar o uso do sistema de recomendações para recursos da biblioteca digital e para integrar o portal como um todo.
 \end{document}
