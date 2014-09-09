@@ -273,13 +273,38 @@ O sistema de recomendação pode ser instalado em poucos passos. Por exemplo, em
 Para fins de uso do sistema de recomendações dentro do Participa.br, é apropriado o uso de infraestrutura dedicada e que assegure a disponibilidade do serviço. Idealmente, este sistema deve estar junto and endpoint SparQL com os dados do participa.br. Para usos em frontends próprios, este mesmo sistema pode ser instalado em servidos de computação em nuvem gratuítos, como o heroku. Este uso de tecnologias leves e bastante difundidas visa facilitar a geração de materiais derivados. O IPython Notebook também se presta a este fim, com as rotinas expostas para execução e modificaçã pelo visitante que as acesso por browsers usuais (firefox, chrome)~\cite{iNotebook}.
 
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
-Apontar dev do meteor+d3 p dev, processamento e alocação distribuída, além de streaming.
+Há implementações previstas e implementações propostas para funcionamento interno ao portal federal de participação social (participa.br). Há também implementações em andamento e confluentes com o participa.br, mas para funcionamento externo ao site, com maior autonomia das bases de dados e frontends.
+\subsection{Implementação prevista no participa.br}
+O ActionItem~\cite{actionItem}, prevê uma página em que são recomendados
+participantes e comunidades para o usuário logado. Os métodos de recomendação apresentados neste Produto são mais formais e aprofundados (e numerosos) do que os requisitados pelo ActionItem. Por outro lado, não estão triplificadas as relações de pertencimento a comunidade, assim como não estão as tags associadas aos usuários e comunidades.
 
-Apontar ActionItem.
-
+\subsection{Implementações propostas para o participa.br}
 Visitar instancia online do participa.br para apontar na interface possibilidades de implementação de outras recomendações e análises.
+
+Visitar pnudExtra e epad da reunião.
 
 Apontar da criação de análises periódicas diárias, semanais, mensais, etc.
 
 Apontar o uso do sistema de recomendações para recursos da biblioteca digital e para integrar o portal como um todo.
+
+\subsection{Implementações confluentes com o participa.br}
+Potencializada pela web de dados (web 3.0, web semântica, dados linkados),
+é pertinente o desenvolvimento rápido e distribuído de utilidades e análises. Neste contexto, além do arcabouço já exposto (endpoint SparQL, servidor Flask, Noosfero/participa.br), cabe a concepção de frontends com desenvolvimento facilitado, de baixo custo e potentes para visualização e construção coletiva de estruturas via streaming. No âmbito desta consultoria, foram feitos diversos aplicativos voltados para streaming de estruturas sociais e visualização. As possibilidades convergiram empiricamente para o uso do Meteor como framework para desenvolvimento em Node.js, D3.js para visualização. Para observar outras redes sociais (e.g. Twitter, Facebook), ambos Python e Node.js mostraram soluções operantes, porém em Python está mais sólida a comunicação com as APIs, além da pronta disponibilidade de ferramentas de ponta para as análises de redes e de linguagem. Como o D3.js é leve e baseado no padrão SVG, e o Meteor é reativo às mudanças no banco de dados, a solução é apropriada para usos coletivos e simultâneos, assim como para streaming de estruturas sociais~\cite{teloes,oscs,mm,mmissa}.
+
+Outra implementação recomendada pelo consultor é a triplificação dos dados de outras instâncias (como da Cidade Democrática ou da Autorregulação Algorítmica). Deve-se pensar cuidadosamente em como integrar este legado na biblioteca de participação social em concepção pelo SNAS/SGPR, tanto na confluência das catalogações e da produção de conteúdo (análises), quanto na consideração da biblioteca digital para as análises e para a recomendação de recursos.
+
+\subsection{Implementações previstas com o próximo produto do consultor}
+Há diversas formas de realizar o quinto produto desta consultoria. Portanto, abaixo estão apontadas possibilidades decantadas, não metas já estabelecidas:
+\begin{itemize}
+    \item Completar triplificação dos dados do participa.br com ao menos: 1) relações de ser membro de comunidade, 2) tags relacionadas às comunidades e aos usuários, 3) dados suplementares do campo composto na decupagem do banco de dados.
+    \item Levantamento de um vocabulário de participação social. Considerados os vocabulário enviados pelo IPEA, o Decreto 8243/14 (PNPS), Ontologias de Participação Social e do Participa.br (OPS e OPA), e o vocabulário incidente no Participa.br. Disponibilização em SKOS e/ou para D-Space.
+    \item Integração deste arcabouço semântico com a biblioteca digital de participação social sendo erigida pela SNAS/SGPR.
+    \item Completar recomendações para os outros recursos. Implementar métodos apontados pela equipe ou literatura ou elaborados para este caso do participa.br.
+    \item Scripts que, para análise dos dados, use dados de instâncias diferentes através do endpoint sparql que serve os dados do participa.br. Scripts que acessem diferentes endpoints para as análises (eg. dbpedia). Instâncias de integração dos dados do participa.br com outras instâncias (e.g. frontends).
+    \item Triplificação dos dados do Cidade Democrática para disponibilização junto aos do participa.br via endpoint SparQL.
+    \item Triplificação dos dados da Autorregulação Algorítmica para disponibilização junto ao participa.br via endpoint SparQL.
+    \item Estabelecimento de equivalências entre usuários e informação de alias.
+    \item Encaixe dos perfis do participa.br nos padrões vCard e FOAF.
+    \item Para cumprimento do próximo produto, como descrito no termo de referência, entregar também uma página estática expondo os produtos deste consultor e como usar essa inteligência tecnológica disponibilizada pelo participa.br.
+\end{itemize}
 \end{document}
