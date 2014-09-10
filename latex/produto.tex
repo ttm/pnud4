@@ -294,7 +294,22 @@ Para o uso destes critérios para etapas e trilhas participativas, o grupo preci
 
 O consultor recomenda a criação de dashboards para diferentes recursos do participa.br: usuários, comunidades, trilhas, comentários, palavras, etc. Estes dashboards podem ser externos ao participa.br, disponibilizados juntos do sistema de recomendação (em flask) ou em meteor. Caso seja pertinente, estas dashboards podem ter ID liberada pelo sistema do Noosfero para iframes, de forma que interfaces para estatísticas dos recursos estejam prontamente acessíveis, por exemplo, via lightboxes (como um babylon ou um mapas de vista).
 
-Visitar instancia online do participa.br para apontar na interface possibilidades de implementação de outras recomendações e análises.
+O consultor considera importante alguma vibilidade nos dados que estão sendo doados e os usos que estão sendo feito, isso para o visitante e para o participante. Talvez através destes dashboards seja alcançada este aproveitamento mais generalizada destes conhecimentos.
+
+Ao visitar instancia online do participa.br para apontar na interface possibilidades de implementação de outras recomendações e análises, as possibilidades destacadas pelo consultor são:
+\begin{itemize}
+    \item Ao clicar na barra verde do rodapé, com número de usuários, tags, comentários e acessos, pode ser aberto um dashboard com uma análise geral do participa, como as recomendações da linha editorial deste Produto, ou análises como as contidas no produto anterior desta consultoria~\cite{repoProd3}.
+    \item Junto aos três pilares Participe!, Proponha! e Mobilize!, pode estar Analise!
+    \item Na comunidade de ajuda, item Participe!, como estímulo, podem estar apontados dashboards do participa.br como um todo ou da própria comunidade.
+    \item Na comunidade de ajuda, item Mobilize!, podem ser disponibilizadas receitas para difusão de informação, como o movimento em direção aos centrais, o uso de centralidades excludentes ou de técnicas de controle de Baràbasi. Estas receitas apontam participantes para serem acionados pelo participante interessado na mobilização, com base nas redes do participa.br, como de comunidades relacionadas.
+    \item Todo artigo, comentário, palavra, além de acesso a um dashboard que analisa aquela instância do recurso, deve poder também ser usado para recomendação de recursos do próprio participa.br.
+    \item Na página inicial, logo abaixo do campo reservado para trilhas, pode haver um campo para recomendação de recursos, com as opções do sistema de recomendação de recursos, com os critérios expostos e recomendação de aproveitamento.
+    \item Na página inicial, nos campos de comunidades e de pessoas, acrescentar ao lightbox de opções dados sobre a pessoa ou ao menos um dashboard. Enriquecer as lightboxes dos recursos da página com dados dos ranqueamentos e dashboard.
+    \item Na página inicial, observar recomendações atuais dos recursos e aproveitar este novo sistema de recomendações para auxiliar linha editorial (que escolhe o conteúdo de capa do participa.br).
+    \item Nas páginas com postagem de blog, disponibilizar uma análise das palavras e radicais mais incidentes e quais estão sendo usadas para classificação (que estão dentre as 400 mais frequentes que são escolhidas).
+\end{itemize}
+
+
 
 Visitar pnudExtra e epad da reunião.
 
@@ -311,15 +326,17 @@ Outra implementação recomendada pelo consultor é a triplificação dos dados 
 \subsection{Implementações previstas com o próximo produto do consultor}
 Há diversas formas de realizar o quinto produto desta consultoria. Portanto, abaixo estão apontadas possibilidades decantadas, não metas já estabelecidas:
 \begin{itemize}
-    \item Completar triplificação dos dados do participa.br com ao menos: 1) relações de ser membro de comunidade, 2) tags relacionadas às comunidades e aos usuários, 3) dados suplementares do campo composto na decupagem do banco de dados.
+    \item Ampliar triplificação dos dados do participa.br com ao menos: 1) relações de ser membro de comunidade, 2) tags relacionadas às comunidades e aos usuários, 3) dados suplementares do campo composto na decupagem do banco de dados.
     \item Levantamento de um vocabulário de participação social. Considerados os vocabulário enviados pelo IPEA, o Decreto 8243/14 (PNPS), Ontologias de Participação Social e do Participa.br (OPS e OPA), e o vocabulário incidente no Participa.br. Disponibilização em SKOS e/ou para D-Space.
     \item Integração deste arcabouço semântico com a biblioteca digital de participação social sendo erigida pela SNAS/SGPR.
-    \item Completar recomendações para os outros recursos. Implementar métodos apontados pela equipe ou literatura ou elaborados para este caso do participa.br.
+    \item Ampliar recomendações para os outros recursos. Implementar métodos apontados pela equipe ou literatura ou elaborados para este caso do participa.br.
+    \item Aprofundamento do tratamento linguístico, e.g. com lematização e classes morfossintáticas.
     \item Scripts que, para análise dos dados, use dados de instâncias diferentes através do endpoint sparql que serve os dados do participa.br. Scripts que acessem diferentes endpoints para as análises (eg. dbpedia). Instâncias de integração dos dados do participa.br com outras instâncias (e.g. frontends).
     \item Triplificação dos dados do Cidade Democrática para disponibilização junto aos do participa.br via endpoint SparQL.
     \item Triplificação dos dados da Autorregulação Algorítmica para disponibilização junto ao participa.br via endpoint SparQL.
     \item Estabelecimento de equivalências entre usuários e informação de alias.
     \item Encaixe dos perfis do participa.br nos padrões vCard e FOAF.
+    \item Estudo do pwiki e aproveitamento para o sistema de recomendação ou dashboards.
     \item Para cumprimento do próximo produto, como descrito no termo de referência, entregar também uma página estática expondo os produtos deste consultor e como usar essa inteligência tecnológica disponibilizada pelo participa.br.
 \end{itemize}
 \end{document}
