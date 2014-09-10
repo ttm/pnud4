@@ -56,7 +56,7 @@ def recomenda():
 
     Exemplo:
     =======
-    http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=top&polaridade=mis"""
+    http://<urlDoServidor>/recomenda?recurso=participante&destinatario=comunidade&idd=mirosc&metodo=topologico&polaridade=mis&ordenacao=intercalada"""
     # recomendar perfil para perfil
     recurso=     request.args.get("recurso")
     destinatario=request.args.get("destinatario")

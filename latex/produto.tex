@@ -217,7 +217,7 @@ O consultor Renato Fabbri agradece ao Joenio Costa pelo template em \LaTeX para 
 %\input{listadeanexos.tex}
 \appendix
 \section{Especificação da API de recomendação de recursos do participa.br}\label{sec:api}
-As rotinas no Apêndice~\ref{sec:algs} possam ser adaptados para os mais diversos fins. Na API disponibilizada há quatro campos principais e dois auxiliares:
+As rotinas no Apêndice~\ref{sec:algs} podem ser adaptadas para os mais diversos fins. No sistema de recomendação disponibilizado há quatro campos principais e dois auxiliares:
 \begin{itemize}
     \item Recurso: o recurso a ser recomendado: participantes, comunidades, trilhas, artigos ou comentários.
     \item Destinatário: para quem está sendo feita a recomendação: participante, comunidade ou linha editorial. Campo auxiliar ``idd'' para id do destinatário (comunidade ou participante).
@@ -225,6 +225,57 @@ As rotinas no Apêndice~\ref{sec:algs} possam ser adaptados para os mais diverso
 \end{itemize} 
 A url usada para consulta HTTP incorpora os parâmetros da forma usual:
 \url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=linha_editorial&metodo=topologico&polaridade=mis&ordenacao=embaralhada}
+\subsection{Instância online e especificações}
+Para fins de pesquisa, testes e usos leves, o consultor subiu uma instância deste sistema de recomendações em:
+\url{http://200.144.255.210:8081/recomenda}. 
+\subsection{Aspectos operantes}
+No momento de entrega deste produto, estão implementadas recomendações para os casos apontados na Tabela~\ref{tab:srCampos}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|p{10cm}|}\hline
+\textbf{campo} & \textbf{opções} & \textbf{comentários} \\\hline\hline
+\texttt{recurso}       & \texttt{participante} & recomenda participante que são potenciais amigos ou apropriadas para interação \\\hline
+\texttt{destinatario}  & \texttt{participante} & o recurso é recomendado para o participante                  \\
+                       & \texttt{linha\_editorial} & o recurso é recomendado para a linha editorial do site ou visitante sem registro no participa.br              \\\hline
+\texttt{idd}           & \texttt{<id do destinatário>} & {\raggedright id do destinatário caso o destinatário seja um participante. Este id é conforme o campo ``identifier'' da tabela ``profiles'' do Noosfero/Participa.br}           \\\hline
+\texttt{metodo}        & \texttt{topologico}  & usar redes de amizades ou interação para fazer as recomendações                   \\
+                       & \texttt{textual}    &  usar critérios textuais para fazer as recomendações                   \\
+                       & \texttt{hibrido}    &  {\raggedright usar ambos os critérios (topológico e textual) para fazer as recomendações. Por hora retorna ambas as recomendações feitas com base no critérios topológicos e textuais independentemente.} \\\hline
+\texttt{polaridade}    & \texttt{simililar}  & retornar recomendações que visam similaridade entre os recursos (potenciais amigos, textos sobre tópicos relacionados, etc)                    \\
+                       & \texttt{dissimilar}    & retornar recomendações que visam dissimilaridade entre os recursos (participantes de setores diferentes da rede, vocabulário díspar).                 \\
+                       & \texttt{ambas}    & retornar ambas as recomendações similares e dissimilares                      \\\hline
+\texttt{ordenacao}     & \texttt{compartimentada} & retorna recomendações agrupadas por critério, na ordem das medições relativas aos critérios, em uma lista de critérios, cada um com um ranqueamento dos recursos e um valor medido. \\
+                       & \texttt{embaralhada}    & retorna recomendações embaralhadas, em uma lista de tuplas com três campos: [(recurso, medição, critério),(..),]                \\
+                       & \texttt{intercalada}    & {\raggedright retorna recomendações intercaladas, cada uma com um critério diferente, também uma lista de tuplas com três campos:  [(recurso, medição, critério),(..),]       }        \\\hline
+\end{tabular}
+\caption[Table caption text]{Opções implementadas no atual sistema de recomendação. Por hora, recomenda para participantes e para linha editorial (ou visitantes), via critérios textuais ou topológicos, outros participantes para se articularem, sejam potenciais amigos, parceiros ou oponentes, dependendo dos critérios adotados para a recomendação.}
+\label{tab:srCampos}
+\end{center}
+\end{table}
+
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|p{8cm}|}\hline
+\textbf{campo} & \textbf{opções} & \textbf{comentários} \\\hline\hline
+\texttt{recurso}       & \texttt{comunidade} & recomenda comunidades de especial interesse para o destinatário \\
+                       & \texttt{artigo} & recomenda artigo de especial interesse para o destinatário               \\
+                       & \texttt{comentario} & recomenda comentario de especial interesse para o destinatário               \\
+                       & \texttt{palavra} & recomenda palavra de especial interesse para o destinatário               \\
+                       & \texttt{trilha} & recomenda trilha participativa de especial interesse para o destinatário               \\
+                       & \texttt{etapa} & recomenda etapa participativa de especial interesse para o destinatário               \\\hline
+\texttt{destinatario}  & \emph{mesmas opções que o campo recursos} & ------    \\\hline
+\end{tabular}
+\caption[Table caption text]{Opções a serem implementadas no atual sistema de recomendação. O destinatário, de início os participantes e a linha editorial, idealmente é qualquer recurso, a que se destina relacionar as recomendações.
+Veja Tabela~\ref{tab:srCampos} para critérios já implementados no momento de entrega deste produto.}
+\label{tab:srCampos2}
+\end{center}
+\end{table}
+
+\subsection{Aspectos planejados}\label{sec:plan}
+A Tabela~\ref{tab:srCampos2} relaciona os recursos a serem implementados para o Participa.br.
+
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
 \subsection{Estruturas auxiliares}
 \includepdf[pages=-]{anexos/pnud4aux.pdf}
@@ -281,7 +332,7 @@ participantes e comunidades para o usuário logado. Os métodos de recomendaçã
 
 Há também a previsão de ampliar o conjunto dos dados triplificados, incluindo assim as tags e o pertencimento às comunidades, dentre outras informações.
 
-\subsection{Implementações propostas para o participa.br}
+\subsection{Implementações propostas para o participa.br}\label{sec:props}
 
 Como recomendação geral, o consultor propõe que o participa.br tenha seus processos participativos catalizados com recomendações. Os instrumentos para
 esta catálise devem ser apresentados ao participante para que ele aproveite o legado para propósitos próprios, como o encontro de parceiros ou grupo ao qual quer se opor, ou mesmo a busca por diversidade de pessoas e ideias.
@@ -322,8 +373,9 @@ Pode-se resumir os desenvolvimentos propostos em 3 itens:
 \begin{itemize}
     \item Dashboards para cada recurso, com as análises entregues via JSON para o participa mediante requisições HTTP.
     \item Uso de qualquer dos recursos para recomendação de outros recursos.
-    \item Exposição de roteiros de aproveitamento da rede social do participante e do participa para processos participativos, geralmente envolvendo difusão e coleta de informação. Por exemplo: um participante pode acionar pessoas periféricas da sua rede para iniciar um processo amplo de difusão de informação.
+    \item Exposição de roteiros de aproveitamento da rede social do participante e do participa.br para processos participativos, geralmente envolvendo difusão e coleta de informação. Por exemplo: um participante pode acionar pessoas periféricas da sua rede para iniciar um processo amplo de difusão de informação.
 \end{itemize}
+
 
 Para documentação automática da atividade no participa.br, fortalecendo a transparência e a apropriação da democracia participativa, é útil a criação de análises periódicas diárias, semanais, mensais, semestrais, etc. Estas análises podem ser incorporadas na biblioteca digital de participação social.
 
@@ -331,7 +383,7 @@ Assim que a biblioteca digital estiver acessível, o sistema de recomendação p
 
 \subsection{Implementações confluentes com o participa.br}
 Potencializada pela web de dados (web 3.0, web semântica, dados linkados),
-é pertinente o desenvolvimento rápido e distribuído de utilidades e análises. Neste contexto, além do arcabouço já exposto (endpoint SparQL, servidor Flask, Noosfero/participa.br), cabe a concepção de frontends com desenvolvimento facilitado, de baixo custo e potentes para visualização e construção coletiva de estruturas via streaming. No âmbito desta consultoria, foram feitos diversos aplicativos voltados para streaming de estruturas sociais e visualização. As possibilidades convergiram empiricamente para o uso do Meteor como framework para desenvolvimento em Node.js, D3.js para visualização. Para observar outras redes sociais (e.g. Twitter, Facebook), ambos Python e Node.js mostraram soluções operantes, porém em Python está mais sólida a comunicação com as APIs, além da pronta disponibilidade de ferramentas de ponta para as análises de redes e de linguagem. Como o D3.js é leve e baseado no padrão SVG, e o Meteor é reativo às mudanças no banco de dados, a solução é apropriada para usos coletivos e simultâneos, assim como para streaming de estruturas sociais~\cite{teloes,oscs,mm,mmissa}.
+é pertinente o desenvolvimento rápido e distribuído de utilidades e análises. Neste contexto, além do arcabouço já exposto (endpoint SparQL, servidor Flask, Noosfero/participa.br), cabe a concepção de frontends com desenvolvimento facilitado, de baixo custo e potentes para visualização e construção coletiva de estruturas via streaming. No âmbito desta consultoria, foram feitos diversos aplicativos voltados para streaming de estruturas sociais e visualização. As possibilidades convergiram empiricamente para o uso do Meteor como framework para desenvolvimento em Node.js, D3.js para visualização. Para observar outras redes sociais (e.g. Twitter, Facebook), ambos Python e Node.js mostraram soluções operantes, porém em Python está mais sólida a comunicação com as APIs, além da pronta disponibilidade de ferramentas de ponta para as análises de redes e de linguagem. Como o D3.js é leve e baseado no padrão SVG, e o Meteor é reativo às mudanças no banco de dados, a solução é apropriada para usos coletivos e simultâneos, assim como para streaming de estruturas sociais~\cite{teloes,oscs,mm,mmissa,mynsa}.
 
 Outra implementação recomendada pelo consultor é a triplificação dos dados de outras instâncias (como da Cidade Democrática ou da Autorregulação Algorítmica). Deve-se pensar cuidadosamente em como integrar este legado na biblioteca de participação social em concepção pelo SNAS/SGPR, tanto na confluência das catalogações e da produção de conteúdo (análises), quanto na consideração da biblioteca digital para as análises e para a recomendação de recursos.
 
@@ -348,7 +400,11 @@ Há diversas formas de realizar o quinto produto desta consultoria. Portanto, ab
     \item Triplificação dos dados da Autorregulação Algorítmica para disponibilização junto ao participa.br via endpoint SparQL.
     \item Estabelecimento de equivalências entre usuários e informação de alias.
     \item Encaixe dos perfis do participa.br nos padrões vCard e FOAF.
+    \item Triplificação dos dados do AllOurIdeas usado pelo Participa.br, o que inclui as consultas públicas.
     \item Estudo do pwiki e aproveitamento para o sistema de recomendação ou dashboards.
+    \item Conjunto de perguntas simples respondidas com consultas ao endpoint SparQL.
+    \item Implementação total ou parcial das opções para recomendação relacionadas na Tabela~\ref{tab:srCampos2}, seção~\ref{sec:plan}.
+    \item Implementação dos sitema de dashboards, recomendações e receitas de uso, descrito na seção~\ref{sec:props}.
     \item Para cumprimento do próximo produto, como descrito no termo de referência, entregar também uma página estática expondo os produtos deste consultor e como usar essa inteligência tecnológica disponibilizada pelo participa.br.
 \end{itemize}
 \end{document}

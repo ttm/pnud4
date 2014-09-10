@@ -259,6 +259,7 @@ if destinatario=="participante":
             recomendacoes=recomendacoes+recomendacoesD
         else:
             recomendacoes=recomendacoesD
+    # por padrao a recomendacao é compartimentada
     # o embaralhamento e intercalação são cortezias da api
     if ordenacao=="embaralhada":
         recs=[]
