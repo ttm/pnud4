@@ -3,30 +3,38 @@ from flask import Flask, render_template, make_response, session, redirect, url_
 import __builtin__, datetime
 from dateutil import parser
 import time as T, networkx as x, json # json.dumps
-import cPickle, string
+import cPickle as pickle, string
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 atime=T.time()
 from configuracao import *
 from auxiliar import *
-fazRedeAmizades()
-print(T.time()-atime)
-fazRedeInteracao()
-print(T.time()-atime)
-fazBoW()
-print(T.time()-atime)
-fazBoWs()
-print(T.time()-atime)
+try:
+    __builtin__.g=pickle.load( open( "pickledir/g.p", "rb" ) )
+    __builtin__.d=pickle.load( open( "pickledir/d.p", "rb" ) )
+    __builtin__.bow=pickle.load( open( "pickledir/bow.p", "rb" ) )
+    __builtin__.radicais_escolhidos=pickle.load( open( "pickledir/radicais_escolhidos.p", "rb" ) )
+    __builtin__.bows=pickle.load( open( "pickledir/bows.p", "rb" ) )
+    print(T.time()-atime)
+except:
+    fazRedeAmizades()
+    print(T.time()-atime)
+    fazRedeInteracao()
+    print(T.time()-atime)
+    fazBoW()
+    print(T.time()-atime)
+    fazBoWs()
+    print(T.time()-atime)
 
 import rotinasRecomendacao
 app = Flask(__name__)
 
 @app.route("/hello2/")
 def foo():
-    return "bar"
+    return "bar3"
 @app.route("/hello5/")
 def foo2():
-    return "bar"
+    return "bar5"
 
 @app.route("/atualiza/")
 def atualiza():
