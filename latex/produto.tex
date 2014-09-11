@@ -226,8 +226,6 @@ As rotinas no Apêndice~\ref{sec:algs} podem ser adaptadas para os mais diversos
 A url usada para consulta HTTP incorpora os parâmetros da forma usual:
 \url{http://<urlDoServidor>/recomenda?recurso=participante&destinatario=linha_editorial&metodo=topologico&polaridade=mis&ordenacao=embaralhada}
 \subsection{Instância online e especificações}
-Para fins de pesquisa, testes e usos leves, o consultor subiu uma instância deste sistema de recomendações em:
-\url{http://200.144.255.210:8081/recomenda}. 
 \subsection{Aspectos operantes}
 No momento de entrega deste produto, estão implementadas recomendações para os casos apontados na Tabela~\ref{tab:srCampos}
 
@@ -276,13 +274,21 @@ Veja Tabela~\ref{tab:srCampos} para critérios já implementados no momento de e
 \subsection{Aspectos planejados}\label{sec:plan}
 A Tabela~\ref{tab:srCampos2} relaciona os recursos a serem implementados para o Participa.br.
 
-\subsection{Exemplos de uso}
-Note que a recomendação varia de acordo com o propósito.
+\subsection{Instância online e exemplos de uso}
+Está online uma instância do sistema de recomendação no endereço:
+\url{http://200.144.255.210:8081/sr}. Para atualizar estruturas auxiliares (pode demorar mais de 30 minutos de processamento), basta visitar o endereço: \url{http://200.144.255.210:8081/sr/atualiza}. Para realizar consultas, visite \url{http://200.144.255.210:8081/sr/recomenda?<opções via método GET>}.
 
-A URL \url{} retorna 3 grupos de participantes recomendados para a linha editorial, por critérios topológicos.
+Exemplos:
 
-A URL \url{} retorna x grupos de participantes recomendados para o participante
+A URL \url{http://200.144.255.210:8081/sr/recomenda?recurso=participante&destinatario=linha_editorial&metodo=hibrido&polaridade=ambas&ordenacao=compartimentada} retorna JSON com diversos grupos de participantes recomendados para a linha editorial, por critérios topológicos e textuais.
 
+A URL \url{http://200.144.255.210:8081/sr/recomenda?recurso=participante&destinatario=participante&idd=marcelobranco&metodo=hibrido&polaridade=ambas&ordenacao=compartimentada} retorna JSON com diversos grupos de participantes recomendados para o participante cujo identifier na tabela profiles é marcelobranco.
+
+Embora o sistema deva funcionar normalmente e com os critérios aplicados corretamente, verificações e melhoras devem vir com o uso. Aliás, o consultor está à disposição caso desenvolvedores do Noosfero/Participa.br queiram requisitar dados ou recomendações em formatos que lhes sejam convenientes.
+
+\subsection{Atualização e manutenção}
+A URL \url{http://200.144.255.210:8081/sr/atualiza} atualiza as estruturas auxiliares de acordo com os dados disponiveis no endpoint SparQL. O processamento pode levar mais de 30 minutos, de forma que não se deve visitar o link a menos que haja razão para isso. Estas estruturas devem idealmente serem disponibilizadas no endpoint SparQL, junto aos dados do participa.br.
+A estrutura pronta pode ser adicionada à \emph{triple store} através do endpoint Jena/Fuseki posteriormente à triplificação dos dados do participa.br. Caso não signifique sobrecarga para a instância do Noosfero/Participa.br, a criação destas estruturas devem ser incluídas no RDF pelo plugin que triplifica os dados do portal, feito por Daniela Feitosa.
 \section{Rotinas de acesso e processamento de dados do participa.br para as recomendações}\label{sec:algs}
 \subsection{Estruturas auxiliares}
 \includepdf[pages=-]{anexos/pnud4aux.pdf}
@@ -307,10 +313,10 @@ e que estão em uso no sistema de recomendação,
 são: json, cPickle, string, random, \_\_builtin\_\_.
 
 O sistema está na pasta flask/ do repositório público~\cite{repoProd4}.
-As bibliotecas podem todas serem instaladas via pip e para iniciar o sistema,
+As bibliotecas podem todas serem instaladas via pip e, para iniciar o sistema,
 basta chamar \texttt{\$ python recomenda.py} ou apontar o apache para a pasta via WSGI.
-O sistema levará até 30 minutos para iniciar, pois é necessária a criação das estruturas auxiliares
-descritas na seção~\ref{subsec:com}. Este tempo de espera para processar é um dos principais motivadores para incluir estas estruturas nos dados triplificados, disponíveis no endpoint SparQL.
+O sistema aproveita os binários inclusos ou levará até 30 minutos para iniciar com dados mais recentes, pois é necessária a criação das estruturas auxiliares
+descritas na seção~\ref{subsec:com}. Este tempo de processamento é um dos principais motivadores para incluir estas estruturas nos dados triplificados, disponíveis no endpoint SparQL.
 
 Pode-se considerar os arquivos do sistema de recomendação, disponíveis na pasta flask/, assim:
 \begin{itemize}
@@ -328,7 +334,7 @@ O sistema de recomendação pode ser instalado em poucos passos. Por exemplo, em
     \item Caso necessário, arrumar configurações de acesso ao endpoint SparQL no arquivo \texttt{configuração.py}.
 \end{enumerate}
 
-Para fins de uso do sistema de recomendações dentro do Participa.br, é apropriado o uso de infraestrutura dedicada e que assegure a disponibilidade do serviço. Idealmente, este sistema deve estar junto and endpoint SparQL com os dados do participa.br. Para usos em frontends próprios, este mesmo sistema pode ser instalado em servidos de computação em nuvem gratuítos, como o heroku. Este uso de tecnologias leves e bastante difundidas visa facilitar a geração de materiais derivados. O IPython Notebook também se presta a este fim, com as rotinas expostas para execução e modificaçã pelo visitante que as acesso por browsers usuais (firefox, chrome)~\cite{iNotebook}.
+Para fins de uso do sistema de recomendações dentro do Participa.br, é apropriado o uso de infraestrutura dedicada e que assegure a disponibilidade do serviço. Idealmente, este sistema deve estar junto and endpoint SparQL com os dados do participa.br. Para usos em frontends próprios, este mesmo sistema pode ser instalado em servidos de computação em nuvem gratuítos, como o heroku. Este uso de tecnologias leves e bastante difundidas visa facilitar a geração de materiais derivados. O IPython Notebook também se presta a este fim, com as rotinas expostas para execução e modificação pelo visitante que as acessam por browsers usuais (firefox, chromeum)~\cite{iNotebook}.
 
 \section{Propostas de implementações na interface do portal federal de participação social}\label{sec:acr}
 Há implementações previstas e implementações propostas para funcionamento interno ao portal federal de participação social (participa.br). Há também implementações em andamento e confluentes com o participa.br, mas para funcionamento externo à instância Noosfero/Participa.br, com autonomia das bases de dados e frontends. Parte destas implementações estão sendo estudadas para o próximo produto desta consultoria.
@@ -337,46 +343,48 @@ Há implementações previstas e implementações propostas para funcionamento i
 O ActionItem~\cite{actionItem}, prevê uma página em que são recomendados
 participantes e comunidades para o usuário logado. Os métodos de recomendação apresentados neste Produto são mais formais e aprofundados (e numerosos) do que os requisitados pelo ActionItem. Por outro lado, não estão triplificadas as relações de pertencimento a comunidade, assim como não estão as tags associadas aos usuários e comunidades. Assim, fica prevista a implementação do plugin do participa.pr que disponibiliza uma página com usuários recomendados. Pode haver adaptação do plugin para melhor atender à profundidade e abrangência do sistema de recomendação feito, como para compatibilizar com limitações como a atual ausência de recomendação de comunidades.
 
-Há também a previsão de ampliar o conjunto dos dados triplificados, incluindo assim as tags e o pertencimento às comunidades, dentre outras informações.
+Há também a previsão de ampliar o conjunto dos dados triplificados, incluindo tags e o pertencimento às comunidades e permitindo ao atual sistema recomendar comundidades e considerar as tags.
 
 \subsection{Implementações propostas para o participa.br}\label{sec:props}
 
 Como recomendação geral, o consultor propõe que o participa.br tenha seus processos participativos catalizados com recomendações. Os instrumentos para
-esta catálise devem ser apresentados ao participante para que ele aproveite o legado para propósitos próprios, como o encontro de parceiros ou grupo ao qual quer se opor, ou mesmo a busca por diversidade de pessoas e ideias.
+esta catálise devem ser apresentados ao participante para que ele aproveite o legado para propósitos próprios, como o encontro de parceiros ou grupo que se opõe, ou participantes com propostas e bagagens diferentes.
 
-Os critérios das recomendações são sempre enviados junto às recomendações em si, na ordem e com pontuação. É solicitado ao exibir ao menos o critério de recomendação e opção para mais recomendações sob aquele e outros critério. O IPython Notebook foi levantado para convidar visitantes à proposição de novas formas de recomendação.
+No sistema de recomendação entregue junto a este Produto, os critérios das recomendações são sempre enviados junto às recomendações em si, na ordem e com pontuação. É solicitado ao exibir o critério de recomendação e opção para mais recomendações sob aquele e outros critérios. O IPython Notebook foi levantado para convidar visitantes à proposição de novas formas de recomendação.
 
-Estes métodos de recomendação são \emph{em geral} ranqueamentos. Estes ranqueamentos podem orientar análises e escolha de participantes para papéis especiais. Em reuniões da equipe do participa.br foram por vezes sugeridas que trilhas participativas tenham etapas com base nestas atribuições fruto de tecnologias e métodos livres, abertos e formais. Por exemplo: conforme~\cite{fabbri2}, os periféricos produzem mais substantivos e podem ficar responsáveis por uma primera etapa de levantamento de tópicos de interesse, como substantivos e termos. Em um segundo momento, os hubs, que produzem mais adjetivos (também segundo~\cite{fabbri2}), podem qualificar estes assuntos de interesse. Construção de textos a partir destes assuntos e qualificações podem ser feitas pelos intermediários, por suas características também diferenciadas. Estes textos, talvez selecionados, podem ser colocados em consulta pública de comentário por parágrafo, como já utilizado no participa.br.
+Estes métodos de recomendação são \emph{em geral} ranqueamentos. Estes ranqueamentos podem orientar análises e escolha de participantes para papéis especiais. Em reuniões da equipe do participa.br foram por vezes sugeridas que trilhas participativas tenham etapas com base nestas atribuições fruto de tecnologias e métodos livres, abertos e formais. Por exemplo: conforme~\cite{fabbri2}, os periféricos produzem mais substantivos e podem ficar responsáveis por uma primera etapa de levantamento de tópicos de interesse, como substantivos e termos. Em um segundo momento, os hubs, que produzem mais adjetivos (também segundo~\cite{fabbri2}), podem qualificar estes assuntos de interesse. A construção de textos a partir destes assuntos e qualificações podem ser feitas pelos intermediários, por suas características também diferenciadas, por exemplo por não serem externos na rede como os periféricos mas e tampouco viscerais como os hubs. Estes textos, talvez selecionados, podem ser colocados em consulta pública de comentário por parágrafo, como já utilizado no participa.br.
 
-Para o uso destes critérios para etapas e trilhas participativas, o grupo precisa já possuir atividade/rastro no participa.br (ou instâncias com dados também triplificados), de preferência no próprio grupo. Caso contrário não há como aplicar os critérios pois não há estrutura para ser analisada. Dentre os que já possuem rastro digital (preferencialmente no participa.br, mas podem ser também páginas do facebook ou registros de tweets), o consultor recomenda que estas trilhas sejam concebidas com a comunidade, junto a algum especialista em redes ou participação social. O consultor responsável por este produto se disponibiliza para auxiliar essa interface com a comunidade na criação da trilha e suas etapas, por entender a pertinência do processo, embora esteja bastante além da consultoria em si.
+Para o uso destes critérios para etapas e trilhas participativas, o grupo precisa já possuir atividade/rastro no participa.br (ou instâncias com dados também triplificados), de preferência no próprio grupo. Caso contrário não há como aplicar os critérios pois não há estrutura para ser analisada. Dentre os que já possuem rastro digital (preferencialmente no participa.br, mas podem ser também páginas do facebook ou registros de tweets), o consultor recomenda que estas trilhas sejam concebidas com a comunidade, junto a algum especialista em redes ou participação social. O consultor responsável por este produto se disponibiliza para auxiliar essa interface com a comunidade na criação da trilha e suas etapas, por entender a pertinência do processo, embora esteja além da consultoria em si.
 
-O consultor recomenda a criação de dashboards para diferentes recursos do participa.br: usuários, comunidades, trilhas, comentários, palavras, etc. Estes dashboards podem ser externos ao participa.br, disponibilizados juntos do sistema de recomendação (em flask) ou em meteor. Caso seja pertinente, estas dashboards podem ter ID liberada pelo sistema do Noosfero para iframes, de forma que interfaces para estatísticas dos recursos estejam prontamente acessíveis, por exemplo, via lightboxes (como um babylon ou um mapas de vista).
+Para grupos sem rastros digitais prévios, pode-se usar estratégias, como a expectativa de que $\approx 5\%$ vai realmente se engajar, pois é a parcela típica de hubs. De forma semelhante, pode-se observar outros grupos do participa e aproveitar abertamente e em comunidade as propriedades.
 
-O consultor considera importante alguma vibilidade nos dados que estão sendo doados e os usos que estão sendo feito, isso para o visitante e para o participante. Talvez através destes dashboards seja alcançada este aproveitamento mais generalizada destes conhecimentos.
+O consultor recomenda a criação de dashboards para diferentes recursos do participa.br: usuários, comunidades, trilhas, comentários, palavras, etc. Estes dashboards podem ser externos ao participa.br, disponibilizados juntos do sistema de recomendação (em flask) ou em meteor. Caso seja pertinente, estas dashboards podem ter ID liberada pelo sistema do Noosfero para iframes, de forma que interfaces para estatísticas dos recursos estejam prontamente acessíveis, por exemplo, via lightboxes (balões) nas páginas do participa.br.
 
-Ao visitar instancia online do participa.br para apontar na interface possibilidades de implementação de outras recomendações e análises, as possibilidades destacadas pelo consultor são:
+O consultor considera importante que seja dada alguma visibilidade aos dados que estão sendo doados e aos usos que estão sendo feito, isso para o visitante e para o participante. Talvez através destes dashboards, dos diferentes recursos do Participa.br, seja alcançado um aproveitamento mais generalizado destes bens que são os dados e tecnologias participativos.
+
+Ao visitar a instancia online do participa.br para conceber possibilidades de implementação/aproveitamento de outras recomendações e análises, as possibilidades destacadas pelo consultor são:
 \begin{itemize}
     \item Ao clicar na barra verde do rodapé, com número de usuários, tags, comentários e acessos, pode ser aberto um dashboard com uma análise geral do participa, como as recomendações da linha editorial deste Produto, ou análises como as contidas no produto anterior desta consultoria~\cite{repoProd3}.
     \item Junto aos três pilares Participe!, Proponha! e Mobilize!, pode estar Analise!
     \item Na comunidade de ajuda, item Participe!, como estímulo, podem estar apontados dashboards do participa.br como um todo ou da própria comunidade.
-    \item Na comunidade de ajuda, item Mobilize!, podem ser disponibilizadas receitas para difusão de informação, como o movimento em direção aos centrais, o uso de centralidades excludentes ou de técnicas de controle de Baràbasi. Estas receitas apontam participantes para serem acionados pelo participante interessado na mobilização, com base nas redes do participa.br, como de comunidades relacionadas.
-    \item Todo artigo, comentário, palavra, além de acesso a um dashboard que analisa aquela instância do recurso, deve poder também ser usado para recomendação de recursos do próprio participa.br.
+    \item Na comunidade de ajuda, item Mobilize!, podem ser disponibilizadas receitas para difusão de informação, como o movimento em direção aos centrais, o uso de centralidades excludentes ou de técnicas de controle de Baràbasi. Estas receitas apontam participantes para serem acionados pelo participante interessado na mobilização, com base nas redes do participa.br ou outras redes doadas ou apontadas por participantes.
+    \item Todo artigo, comentário, palavra, além de acesso a um dashboard que analisa aquela instância do recurso, deve poder também ser usado para recomendação de recursos do próprio participa.br. Caso seja pertinente , o consultor poderá auxiliar a implementação destas recomendações a partir de recursos, e os dashboards de cada recurso.
     \item Na página inicial, logo abaixo do campo reservado para trilhas, pode haver um campo para recomendação de recursos, com as opções do sistema de recomendação de recursos, com os critérios expostos e recomendação de aproveitamento.
-    \item Na página inicial, nos campos de comunidades e de pessoas, acrescentar ao lightbox de opções dados sobre a pessoa ou ao menos um dashboard. Enriquecer as lightboxes dos recursos da página com dados dos ranqueamentos e dashboard.
+    \item Na página inicial, nos campos de comunidades e de pessoas, acrescentar, ao lightbox de opções, dados sobre a pessoa ou ao menos um link para o dashboard. Enriquecer as lightboxes dos recursos da página com dados dos ranqueamentos e dashboard.
     \item Na página inicial, observar recomendações atuais dos recursos e aproveitar este novo sistema de recomendações para auxiliar linha editorial (que escolhe o conteúdo de capa do participa.br).
-    \item Nas páginas com postagem de blog, disponibilizar uma análise das palavras e radicais mais incidentes e quais estão sendo usadas para classificação (que estão dentre as 400 mais frequentes que são escolhidas).
+    \item Nas páginas com postagem de blog, disponibilizar uma análise das palavras e radicais mais incidentes e quais estão sendo usadas para classificação (que estão dentre as 400 mais frequentes que são escolhidas). Junto a esta análise, recursos recomendados a partir da postagem e os critérios usados.
 \end{itemize}
 
 Duas implementações sugeridas, menos focadas no portal e mais na funcionalidade, são:
 \begin{itemize}
     \item Habilitar plugin para etiquetação desenvolvido pela Daniela Feitosa para o Noosfero/Participa.br. Este plugin permitirá a etiquetação de recursos por participantes do participa.br. Essa etiquetação é essencial para a classificação automática e enriquecimento das análises já existentes para o participa.br. A etiquetação por vários participantes pode melhorar em muito a qualidade dos dados etiquetados, representando amostras maiores e mais diversas.
-    \item Fomentar algum mecanismo de doação de dados (tweets, redes do facebook, dados inseridos por formulário, outras redes, etc). Junto a este mecanismo de doação, abrir acesso público aos dados doados. Interfaces como scrapperWiki e IPython Notebook podem facilitar derivação das análises destes dados doados. No fim das contas, esta demanda aponta para um sistema de monitoramendo.
+    \item Fomentar mecanismo de doação de dados (tweets, redes do facebook, dados inseridos por formulário, outras redes, etc). Junto a este mecanismo de doação, abrir acesso público aos dados doados. Interfaces como scrapperWiki e IPython Notebook podem facilitar derivação das análises destes dados doados. No fim das contas, esta demanda aponta para um sistema de monitoramendo aberto.
 \end{itemize}
 
 Os produtos dos outros consultores também apontam direções valiosas para desenvolvimento. Em especial:
     confluir plugin para personalização de bloco de estatísticas (da página inicial) com as análises propostas neste produto e no produto anterior do consultor.
 
-Pode-se resumir os desenvolvimentos propostos em 3 itens:
+Há três vetores nos desenvolvimentos propostos:
 \begin{itemize}
     \item Dashboards para cada recurso, com as análises entregues via JSON para o participa mediante requisições HTTP.
     \item Uso de qualquer dos recursos para recomendação de outros recursos.
@@ -390,15 +398,15 @@ Assim que a biblioteca digital estiver acessível, o sistema de recomendação p
 
 \subsection{Implementações confluentes com o participa.br}
 Potencializada pela web de dados (web 3.0, web semântica, dados linkados),
-é pertinente o desenvolvimento rápido e distribuído de utilidades e análises. Neste contexto, além do arcabouço já exposto (endpoint SparQL, servidor Flask, Noosfero/participa.br), cabe a concepção de frontends com desenvolvimento facilitado, de baixo custo e potentes para visualização e construção coletiva de estruturas via streaming. No âmbito desta consultoria, foram feitos diversos aplicativos voltados para streaming de estruturas sociais e visualização. As possibilidades convergiram empiricamente para o uso do Meteor como framework para desenvolvimento em Node.js, D3.js para visualização. Para observar outras redes sociais (e.g. Twitter, Facebook), ambos Python e Node.js mostraram soluções operantes, porém em Python está mais sólida a comunicação com as APIs, além da pronta disponibilidade de ferramentas de ponta para as análises de redes e de linguagem. Como o D3.js é leve e baseado no padrão SVG, e o Meteor é reativo às mudanças no banco de dados, a solução é apropriada para usos coletivos e simultâneos, assim como para streaming de estruturas sociais~\cite{teloes,oscs,mm,mmissa,mynsa}.
+é pertinente o desenvolvimento rápido e distribuído de utilidades e análises. Neste contexto, além do arcabouço já exposto (endpoint SparQL, servidor Flask, Noosfero/participa.br), cabe a concepção de frontends com desenvolvimento facilitado, de baixo custo e potentes para visualização e construção coletiva de estruturas via streaming. No âmbito desta consultoria, foram feitos diversos aplicativos voltados para streaming de estruturas sociais e visualização. As possibilidades convergiram empiricamente para o uso do Meteor como framework para desenvolvimento em Node.js e D3.js para visualização. Para observar outras redes sociais (e.g. Twitter, Facebook), ambos Python e Node.js mostraram soluções operantes, porém em Python está mais sólida a comunicação com as APIs, além da pronta disponibilidade de ferramentas de ponta para as análises de redes e de linguagem. Como o D3.js é leve e baseado no padrão SVG, e o Meteor é reativo às mudanças no banco de dados, a solução é apropriada para usos coletivos e simultâneos, assim como para streaming de estruturas sociais~\cite{teloes,oscs,mm,mmissa,mynsa}.
 
-Outra implementação recomendada pelo consultor é a triplificação dos dados de outras instâncias (como da Cidade Democrática ou da Autorregulação Algorítmica). Deve-se pensar cuidadosamente em como integrar este legado na biblioteca de participação social em concepção pelo SNAS/SGPR, tanto na confluência das catalogações e da produção de conteúdo (análises), quanto na consideração da biblioteca digital para as análises e para a recomendação de recursos.
+Outra implementação recomendada pelo consultor é a triplificação dos dados de outras instâncias (como do portal Cidade Democrática ou do sistema Autorregulação Algorítmica). Deve-se pensar cuidadosamente em como integrar este legado na biblioteca de participação social em concepção pelo SNAS/SGPR, tanto na confluência das catalogações e da produção de conteúdo (análises), quanto na consideração da biblioteca digital para as análises e para a recomendação de recursos.
 
-\subsection{Implementações previstas com o próximo produto do consultor}
-Há diversas formas de realizar o quinto produto desta consultoria. Portanto, abaixo estão apontadas possibilidades decantadas, não metas já estabelecidas:
+\subsection{Implementações previstas e o próximo produto da consultoria}
+Há diversas formas de realizar o quinto produto desta consultoria. Portanto, abaixo estão apontadas possibilidades decantadas, não metas estabelecidas, passíveis de serem realizadas por diversas partes interessadas na democracia participativa:
 \begin{itemize}
-    \item Ampliar triplificação dos dados do participa.br com ao menos: 1) relações de ser membro de comunidade, 2) tags relacionadas às comunidades e aos usuários, 3) dados suplementares do campo composto na decupagem do banco de dados.
-    \item Levantamento de um vocabulário de participação social. Considerados os vocabulário enviados pelo IPEA, o Decreto 8243/14 (PNPS), Ontologias de Participação Social e do Participa.br (OPS e OPA), e o vocabulário incidente no Participa.br. Disponibilização em SKOS e/ou para D-Space.
+    \item Ampliar triplificação dos dados do participa.br com ao menos: 1) relações de ser membro de comunidade, 2) tags relacionadas às comunidades e aos usuários, 3) dados suplementares do campo 11 da tabela profiles (composto)~\cite{bd}.
+    \item Levantamento de um vocabulário de participação social. Considerados os vocabulário enviados pelo IPEA, o Decreto 8243/14 (PNPS), Ontologias de Participação Social e do Participa.br (OPS e OPA), e o vocabulário incidente no Participa.br. Disponibilização em SKOS e/ou para D-Space. Epad em~\cite{padVoc}.
     \item Integração deste arcabouço semântico com a biblioteca digital de participação social sendo erigida pela SNAS/SGPR.
     \item Ampliar recomendações para os outros recursos. Implementar métodos apontados pela equipe ou literatura ou elaborados para este caso do participa.br.
     \item Aprofundamento do tratamento linguístico, e.g. com lematização e classes morfossintáticas.
@@ -407,11 +415,12 @@ Há diversas formas de realizar o quinto produto desta consultoria. Portanto, ab
     \item Triplificação dos dados da Autorregulação Algorítmica para disponibilização junto ao participa.br via endpoint SparQL.
     \item Estabelecimento de equivalências entre usuários e informação de alias.
     \item Encaixe dos perfis do participa.br nos padrões vCard e FOAF.
+    \item Organização da OPA e da OPS com relação à triplificação dos dados.
     \item Triplificação dos dados do AllOurIdeas usado pelo Participa.br, o que inclui as consultas públicas.
     \item Estudo do pwiki e aproveitamento para o sistema de recomendação ou dashboards.
     \item Conjunto de perguntas simples respondidas com consultas ao endpoint SparQL.
+    \item Uma página estática com instruções sobre como usar essa inteligência tecnológica disponibilizada pelo participa.br.
     \item Implementação total ou parcial das opções para recomendação relacionadas na Tabela~\ref{tab:srCampos2}, seção~\ref{sec:plan}.
     \item Implementação dos sitema de dashboards, recomendações e receitas de uso, descrito na seção~\ref{sec:props}.
-    \item Para cumprimento do próximo produto, como descrito no termo de referência, entregar também uma página estática expondo os produtos deste consultor e como usar essa inteligência tecnológica disponibilizada pelo participa.br.
 \end{itemize}
 \end{document}
