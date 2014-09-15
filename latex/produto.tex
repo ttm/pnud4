@@ -429,7 +429,7 @@ Para facilitar apreensão do conteúdo aqui exposto, este apêndice aponta eleme
 \subsection{Elementos de interface}
 São apresentados, a seguir, imagens de interfaces entregues junto a este produto, ou importantes para as recomendações aqui encontradas. 
 \subsubsection{Endpoint SparQL}
-Ponto de acesso aos dados semanticamente enriquecidos do Participa.br. Seções deste documento que tratam desta interface são~\ref{sec:sfoo} e o Apêndice~\ref{sec:inb}. A Figura~\ref{fig:sparql} é um screenshot da interface gráfica do endpoint sparql em uso, com a resposta típica como na Figura~\ref{fig:sparqlResp}. O endpoint também é acessado por scripts e interfaces como as apresentadas nas seções~\ref{sec:inb} e ~\ref{sec:api}.
+Ponto de acesso aos dados semanticamente enriquecidos do Participa.br. Seções deste documento que tratam desta interface são~\ref{sec:sfoo} e o Apêndice~\ref{sec:inb}. A Figura~\ref{fig:sparql} é um screenshot da interface gráfica do endpoint sparql em uso, com a resposta típica como na Figura~\ref{fig:sparqlResp}. O endpoint também é acessado por scripts e interfaces como as apresentadas nos Apêndices~\ref{sec:api} e~\ref{sec:inb}.
 
 \begin{figure}[h!]
   \centering
@@ -445,7 +445,7 @@ Ponto de acesso aos dados semanticamente enriquecidos do Participa.br. Seções 
 \end{figure}
 
 \subsubsection{IPython Notebook}\label{sec:inb}
-Para expor as rotinas de análise e de recomendação dos dados do participa.br, e para facilitar o estudo e a geração de rotinas derivadas, foi disponibilizada uma interface gráfica dedicada: o IPython Notebook. Esta interface possui uma listagem das páginas de anotação disponibilizadas (veja a Figura~\ref{fig:inb1}) e a página de anotação propriamente dita, onde estão as rotinas em Python, resultados e anotações (veja Figura~\ref{fig:inb2}. A seção~\ref{sec:inb5} e o Apêndice~\ref{sec:inb} deste documento tratam desta interface explicitamente.
+Para expor as rotinas de análise e de recomendação dos dados do participa.br, e para facilitar o estudo e a geração de rotinas derivadas, foi disponibilizada uma interface gráfica dedicada: o IPython Notebook. Esta interface possui uma listagem das páginas de anotação disponibilizadas (veja a Figura~\ref{fig:inb1}) e páginas de anotação propriamente dita, onde estão as rotinas em Python, resultados e anotações editáveis e executáveis online pelo visitante (veja Figura~\ref{fig:inb2}). A seção~\ref{sec:inb5} e o Apêndice~\ref{sec:inb} deste documento tratam desta interface explicitamente.
 
 \begin{figure}[h!]
   \centering
@@ -486,10 +486,10 @@ Há diversos elementos visuais do participa.br que são diretamente relacionados
 
 
 \subsection{Cronograma de alterações}\label{sec:cron}
-O desenvolvimento do Participa.br conta com equipes de desenvolvimento. Trata-se do desenvolvimento da plataforma Noosfero, com tecnologias específicas, como RoR, e convenções da plataforma, que é um CMS de considerãvel complexidade.
+O desenvolvimento do Participa.br conta com equipes de desenvolvimento. Trata-se do desenvolvimento da plataforma Noosfero, com tecnologias específicas, como RoR, e convenções da plataforma, que é um CMS de considerável complexidade, com a particularidade de possuir capacidades de redes sociais.
 
-Este produto consiste, segundo o TR, em uma ``proposta de adaptações e incrementos para a interface do portal'', o que consta de forma condensada no Apêndice~\ref{sec:acr} e permeia todo este presente documento. Um passo a passo da implementação no Noosfero em Ruby é objeto de interesse das equipes de desenvolvimento que estão nisso e, segundo entendimento deste consultor e da equipe do Participa.br, foge ao escopo desta consultoria. Por outro lado, uma organização de implementações pode ser delineada pelo consultor, como contribuição inicial para um planejamento de implementação. Esta organização está na Tabela~\ref{crono}.
-\begin{table}
+Este produto consiste, segundo o TR, em uma ``proposta de adaptações e incrementos para a interface do portal'', o que consta de forma condensada no Apêndice~\ref{sec:acr} e permeia todo este presente documento. Um passo a passo da implementação no Noosfero em Ruby é objeto de interesse das equipes de desenvolvimento que estão focadas nisso e, segundo entendimento deste consultor e da equipe do Participa.br, foge ao escopo desta consultoria. Por outro lado, uma organização de implementações pode ser delineada pelo consultor, como contribuição inicial para um planejamento de implementação. Esta organização está na Tabela~\ref{crono}.
+\begin{table}[h]
 \centering
 \begin{tabular}{ | c || c | c | c | c | c |}\hline
 etapa & set & out & nov & dez & jan-jun \\\hline\hline
@@ -507,17 +507,17 @@ etapa & set & out & nov & dez & jan-jun \\\hline\hline
 
 Etapas:
 \begin{enumerate}
-    \item Adianto das estruturas auxiliares e algoritmos básicos para a busca dos dados, analise dos recursos e recomendações.
+    \item Acabamento nas estruturas auxiliares e algoritmos básicos para a busca dos dados, análise dos recursos e recomendações.
     \item Ativação do plugin para triplificação dos dados na instância do participa.br (plugin já feito, agradecimento à Daniela Feitosa).
     \item Reuniões e amadurecimentos com desenvolvedores ou chefes de equipe para delinear implementações com base na pertinência e possibilidade.
-    \item Desenvolvimento de aproveitamentos na interface do Participa.br, como das Figuras~\ref{fig:elp1},~\ref{fig:elp2}. (ao menos das estatísticas ao final e dos dropdown dos participantes).
+    \item Desenvolvimento de aproveitamentos na interface do Participa.br, como descrito nas Figuras~\ref{fig:elp1},~\ref{fig:elp2}. (ao menos das estatísticas ao final e dos dropdown dos participantes).
     \item Término da implementação do plugin de recomendação de perfis do participa.br.
     \item Ativação do plugin na instância atual do Participa.br.
-    \item Desenvolvimento do sistema de navegação dos recursos, com dashboards (paineis), métodos de recomendação, registro de potenciais utilidades dos recursos e recomendações, assim como possibilidade de anotação pelos usuários.
+    \item Desenvolvimento da interface do sistema de navegação dos recursos, com dashboards (paineis), métodos de recomendação, registro de potenciais utilidades dos recursos e recomendações, assim como possibilidade de anotação pelos usuários.
 \end{enumerate}
 
-As análises (e outras rotinas de processamento de dados) estão em grande parte prontas nos algorítmos apresentados neste produto e no produto anterior. O consultor planeja entregar uma implementação da estrutura de dados completa do sistema de navegação, realizada a partir dos dados enriquecidos semanticamente (etapa 2). Também planeja uma interface (frontend) dedicada, independente do Participa.br, para facilitar testes e usos.
+As análises (e outras rotinas de processamento de dados para estes paineis e recomendações) estão em grande parte prontas nos algorítmos apresentados neste produto e no produto anterior. O consultor planeja entregar uma implementação da estrutura de dados completa do sistema de navegação, realizada a partir dos dados enriquecidos semanticamente (etapa 2). Também planeja uma interface (frontend) dedicada, independente do Participa.br, para facilitar testes e usos. Havendo interesse da equipe, estas entregas de implementações devem vir junto com o quinto produto.
 
-O consultor pode entrar no desenvolvimento do Noosfero/Participa.br, em RoR, e talvez o faça neste produto. Por hora, as equipes de desenvolvimento e a coordenação do participa.br tem afirmado serem mais úteis os esforços do consultor na linha dos dados e análises, por exigirem habilidade e conhecimentos em fronteiras afins com interesses do consultor.
+O consultor pode entrar no desenvolvimento do Noosfero/Participa.br, em RoR, e talvez o faça neste próximo produto (quinto). Por hora, as equipes de desenvolvimento e a coordenação do participa.br tem afirmado serem mais úteis os esforços do consultor na linha dos dados e análises, por exigirem habilidade e conhecimentos em fronteiras afins com interesses do consultor.
 
 \end{document}
