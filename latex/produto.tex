@@ -32,7 +32,7 @@
 % definições sobre o autor e o produto
 \newcommand{\MyName}{Renato Fabbri}
 \newcommand{\MySurnameForename}{Fabbri, Renato}
-\newcommand{\SupervisorName}{Gabriella Vieira Oliveira Gonçalves}
+\newcommand{\SupervisorName}{Ricardo Poppi}
 \newcommand{\MyEmail}{renato.fabbri@gmail.com}
 \newcommand{\ContractNumber}{2013/000566}
 \newcommand{\ContractYear}{2014}
@@ -94,7 +94,7 @@ De imediato e mais central, o resultado do produto é iniciar um processo aberto
 
 Como resultados diretos deste Produto, constam:
 \begin{itemize}
-    \item a habilitação para uso da API HTTP para recomendação de recursos do participa.br. Veja Apêndice~\ref{sec:api},~\ref{sec:infra} e~\ref{sec:inst}.
+    \item a habilitação para uso da API HTTP para recomendação de recursos do participa.br. Veja Apêndice~\ref{sec:api2},~\ref{sec:infra} e~\ref{sec:inst}.
     \item A interface para apreensão e inovação dos algoritmos, não somente exemplificada ou projetada, mas operante e disponível. Veja Apêndice~\ref{sec:algs}.
     \item Um plano de implementação para o participa.br, que utiliza a API de recomendação para priorização de conteúdo e autorregulação. Veja Apêndice~\ref{sec:acr}.
     \item Transparência absoluta no trabalho, com toda a documentação e código computacional online em um repositório git que contem o histórico de implementação~\cite{repoProd4}.
@@ -135,7 +135,7 @@ Desta forma, foi idealizada a entrega de um sistema de recomendação de recurso
 Através de estudos e reuniões presenciais e online, a Ontologia de Participação Social (OPS) foi revisada~\cite{OPS} e a Ontologia do Participa.br (OPA) foi feita~\cite{OPA}.
 \subsubsection{Triplificação dos dados do participa.br}
 Feito um script para triplificar os dados do Participa.br, ou seja, para o enriquecimento semântico e escrita em RDF dos dados em Postgresql da instância Noosfero do Participa.br~\cite{triplifica}.
-\subsubsection{Levantamento do endpoint SparQL}
+\subsubsection{Levantamento do endpoint SparQL}\label{sec:sfoo}
 Para uso dos dados triplificados, pode-se recorrer a diversos métodos de leitura e disponibilização. Um método-chave é a disponibilização dos dados rdf (\emph{triple store}) em um \emph{endpoint sparql}. Para os fins de testes, pesquisa e usos leves, está disponibilizado um endpoint SparQL em servidores da USP~\cite{endpoint}.
 \subsubsection{Análises iniciais, modelos}
 Análises dos dados do participa.br foram abertas no IPython Notebook, com ênfase no texto produzido e nas redes formadas~\cite{repoProd3}.
@@ -146,11 +146,11 @@ Especial agradecimentos ao Ricardo Poppi, Ronald Costa, Enaile Ladanza, Joênio 
 Em especial, foram lidos todos os produtos entregues pelos consultores, (re)visitados cursos no coursera e literatura científica~\cite{prodExtra}.
 \subsubsection{Escrita deste documento}
 Através da escrita deste documento, várias informações foram organizadas e sistematizadas, facilitando compreensão do contexto para especificação da API de recomendação e entrega do produto.
-\subsubsection{Especificação da API de recomendação}
+\subsubsection{Especificação da API de recomendação}\label{sec:api3}
 Basicamente, é convencionado um padrão na montagem das URLs para recomendar recursos de tipos especificados, para destinatários e por métodos também especificados. O Apêndice~\ref{sec:api} é dedicado a expor a convenção inicial entre URLs formadas e as recomendações que retornam.
 \subsubsection{Implementação do serviço para aquisição dos dados, processamento e entrega em JSON}
 Para a API da etapa acima, foi necessário desenvolver um servidor HTTP simples (em Flask). Veja pasta flask/ de~\cite{repoProd4}. 
-\subsubsection{Disponibilização das rotinas no IPython Notebook}
+\subsubsection{Disponibilização das rotinas no IPython Notebook}\label{sec:inb5}
 Para expor os critérios de recomendação, disponibilizar análises e facilitar novas versões para as recomendações, as rotinas estão em um IPython Notebook. Veja o Apêndice~\ref{sec:algs} para uma exposição e detalhamento destas rotinas.
 \subsubsection{Proposta de implementações no portal federal de participação social}
 Com base no sistema de recomendações, nas demandas levantadas em reuniões e nos produtos já feitos por este e outros consultores, foi sistematizado um conjunto de propostas de acréscimos para o portal federal, detalhado no Apêndice~\ref{sec:acr}.
@@ -423,4 +423,101 @@ Há diversas formas de realizar o quinto produto desta consultoria. Portanto, ab
     \item Implementação total ou parcial das opções para recomendação relacionadas na Tabela~\ref{tab:srCampos2}, seção~\ref{sec:plan}.
     \item Implementação dos sitema de dashboards, recomendações e receitas de uso, descrito na seção~\ref{sec:props}.
 \end{itemize}
+
+\section{Elementos de interface e cronograma de alterações}
+Para facilitar apreensão do conteúdo aqui exposto, este apêndice aponta elementos de interface de forma mais visual e com linguagem menos técnica. Também é apresentado um cronograma para adaptações e incrementos para a interface do portal.
+\subsection{Elementos de interface}
+São apresentados, a seguir, imagens de interfaces entregues junto a este produto, ou importantes para as recomendações aqui encontradas. 
+\subsubsection{Endpoint SparQL}
+Ponto de acesso aos dados semanticamente enriquecidos do Participa.br. Seções deste documento que tratam desta interface são~\ref{sec:sfoo} e o Apêndice~\ref{sec:inb}. A Figura~\ref{fig:sparql} é um screenshot da interface gráfica do endpoint sparql em uso, com a resposta típica como na Figura~\ref{fig:sparqlResp}. O endpoint também é acessado por scripts e interfaces como as apresentadas nas seções~\ref{sec:inb} e ~\ref{sec:api}.
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{screenshots/sparql}
+  \caption{Interface (Fuseki/Jena) para acesso aos dados enriquecidos semanticamente do participa.br via buscas SparQL. A resposta para esta query é apresentada na Figura~\ref{fig:sparqlResp}}\label{fig:sparql}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{screenshots/sparqlResp}
+  \caption{Resposta em JSON típica em buscas SparQL. Esta imagem reproduz a tela com a resposta à busca da Figura~\ref{fig:sparql}}\label{fig:sparqlResp}
+\end{figure}
+
+\subsubsection{IPython Notebook}\label{sec:inb}
+Para expor as rotinas de análise e de recomendação dos dados do participa.br, e para facilitar o estudo e a geração de rotinas derivadas, foi disponibilizada uma interface gráfica dedicada: o IPython Notebook. Esta interface possui uma listagem das páginas de anotação disponibilizadas (veja a Figura~\ref{fig:inb1}) e a página de anotação propriamente dita, onde estão as rotinas em Python, resultados e anotações (veja Figura~\ref{fig:inb2}. A seção~\ref{sec:inb5} e o Apêndice~\ref{sec:inb} deste documento tratam desta interface explicitamente.
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{screenshots/inb1}
+  \caption{Página com o índice das anotações da interface para disponibilização online e reativa das rotinas computacionais para tratamento, análise e recomendação de recursos do participa.br. A Figura~\ref{fig:inb2} mostra uma das telas de anotação, em que o visitante pode observar as rotinas, executá-las e até alterá-las para fins de estudo ou proposição de rotinas derivadas.}\label{fig:inb1}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{screenshots/inb2}
+  \caption{Página com rotinas reativas e online, uma parte de uma das instâncias listadas no índice da Figura~\ref{fig:inb1}}\label{fig:inb2}
+\end{figure}
+
+\subsubsection{API HTTP}\label{sec:api2}
+A interface HTTP para recomendações de recursos do participa.br não é uma interface gráfica e ainda não possui um frontend gráfico. Mesmo assim, é uma interface e salienta elementos de usabilidade. A Figura~\ref{fig:api} exibe a interface em funcionamento. A seção~\ref{sec:api3} e o Apêndice~\ref{sec:api} tratam em maiores detalhes esta interface.
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{screenshots/api}
+  \caption{Interface HTTP para os sistema de recomendações do participa.br: a consulta é feita pela parametrização da URL acessada (``parâmetros GET''), a resposta é JSON usual.}\label{fig:api}
+\end{figure}
+
+\subsubsection{Screenshots de elementos relevantes do Participa.br}
+Há diversos elementos visuais do participa.br que são diretamente relacionados às recomendações aqui apresentadas. Isso é esperado, já que está sendo proposto um sistema de recomendação de recursos genérica do participa.br. Bons exemplos de elementos visuais do participa.br estão nas Figuras~\ref{fig:elp1} e~\ref{fig:elp2}, em que maiores detalhes podem ser incluídos na própria interface (ou por redirecionamento) e recursos podem ser recomendados, via métodos diversos, com base no participante escolhido. Estes elementos são considerados com mais especificidade no Apêndice~\ref{sec:acr} e usados no cronograma do Apêndice~\ref{sec:cron}.
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.8\textwidth]{screenshots/elp1}
+  \caption{Barra de estatísicas do participa.br. Esta barra pode exibir mais dados por padrão, via menu dropdown, via informações transitórias que surgem quando o mouse está encima do elemento, ou via link para página externa (para um painel/dashboard do participa.br).}\label{fig:elp1}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.4\textwidth]{screenshots/elp2}
+  \caption{Usuário do participa.br e o menu para mais informações ou navegação com base no usuário. Pode-se incluir informações adicionais neste menu, recomendações ou link para interface/página dedicada à análise e navegação pautada pela atuação do usuário escolhido.}\label{fig:elp2}
+\end{figure}
+
+
+
+\subsection{Cronograma de alterações}\label{sec:cron}
+O desenvolvimento do Participa.br conta com equipes de desenvolvimento. Trata-se do desenvolvimento da plataforma Noosfero, com tecnologias específicas, como RoR, e convenções da plataforma, que é um CMS de considerãvel complexidade.
+
+Este produto consiste, segundo o TR, em uma ``proposta de adaptações e incrementos para a interface do portal'', o que consta de forma condensada no Apêndice~\ref{sec:acr} e permeia todo este presente documento. Um passo a passo da implementação no Noosfero em Ruby é objeto de interesse das equipes de desenvolvimento que estão nisso e, segundo entendimento deste consultor e da equipe do Participa.br, foge ao escopo desta consultoria. Por outro lado, uma organização de implementações pode ser delineada pelo consultor, como contribuição inicial para um planejamento de implementação. Esta organização está na Tabela~\ref{crono}.
+\begin{table}
+\centering
+\begin{tabular}{ | c || c | c | c | c | c |}\hline
+etapa & set & out & nov & dez & jan-jun \\\hline\hline
+1 & $\bullet$ & $\bullet$ & & & \\\hline
+2 & $\bullet$ & $\bullet$ & & & \\\hline
+3 & & $\bullet$ & & & \\\hline
+4 & & & $\bullet$ & & \\\hline
+5 & & & $\bullet$ & & \\\hline
+6 & & & & $\bullet$ & \\\hline
+7 & & & & $\bullet$ & $\bullet$ \\\hline
+\end{tabular}
+\caption{Contribuição inicial para um cronograma de implementação das recomendações apontadas neste documento. As etapas estão explicitadas na seção~\ref{sec:cron}}
+\label{crono}
+\end{table}
+
+Etapas:
+\begin{enumerate}
+    \item Adianto das estruturas auxiliares e algoritmos básicos para a busca dos dados, analise dos recursos e recomendações.
+    \item Ativação do plugin para triplificação dos dados na instância do participa.br (plugin já feito, agradecimento à Daniela Feitosa).
+    \item Reuniões e amadurecimentos com desenvolvedores ou chefes de equipe para delinear implementações com base na pertinência e possibilidade.
+    \item Desenvolvimento de aproveitamentos na interface do Participa.br, como das Figuras~\ref{fig:elp1},~\ref{fig:elp2}. (ao menos das estatísticas ao final e dos dropdown dos participantes).
+    \item Término da implementação do plugin de recomendação de perfis do participa.br.
+    \item Ativação do plugin na instância atual do Participa.br.
+    \item Desenvolvimento do sistema de navegação dos recursos, com dashboards (paineis), métodos de recomendação, registro de potenciais utilidades dos recursos e recomendações, assim como possibilidade de anotação pelos usuários.
+\end{enumerate}
+
+As análises (e outras rotinas de processamento de dados) estão em grande parte prontas nos algorítmos apresentados neste produto e no produto anterior. O consultor planeja entregar uma implementação da estrutura de dados completa do sistema de navegação, realizada a partir dos dados enriquecidos semanticamente (etapa 2). Também planeja uma interface (frontend) dedicada, independente do Participa.br, para facilitar testes e usos.
+
+O consultor pode entrar no desenvolvimento do Noosfero/Participa.br, em RoR, e talvez o faça neste produto. Por hora, as equipes de desenvolvimento e a coordenação do participa.br tem afirmado serem mais úteis os esforços do consultor na linha dos dados e análises, por exigirem habilidade e conhecimentos em fronteiras afins com interesses do consultor.
+
 \end{document}
